@@ -1,0 +1,30 @@
+# Missions
+- 01-premiere-photo
+- 02-une-voie-pour-l-ia
+- 03-deux-assistants
+- 04-relire-avant-d-accepter
+- 05-partager-avec-l-equipe
+- 06-relire-une-mr
+- 06b-deux-facons
+- 07-une-histoire-lisible
+
+# Puzzles
+- 01-ranger-un-fichier
+- 02-enregistrer-la-photo
+- 03-ouvrir-une-voie
+- 04-trois-wip-en-un
+- 05-rapatrier-une-voie
+- 06-annuler-sans-reecrire
+- 07-reculer-sa-branche
+- 08-un-seul-commit
+- 09-mettre-de-cote
+- 10-un-dossier-pour-l-ia
+- 11-quel-diff
+- 12-relire-sans-deranger
+
+# Sandbox
+- vide
+- solo
+- deux-ia
+- equipe
+- conflit

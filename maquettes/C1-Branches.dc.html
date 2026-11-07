@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Comegitmix — Variantes de branches</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,500;1,300;1,500&family=DM+Sans:wght@400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+button{font-family:'DM Sans',sans-serif;cursor:pointer}
+.abs{position:absolute}
+.panel{position:absolute;left:40px;width:1360px;height:262px;box-sizing:border-box;background:rgba(255,255,255,.75);border:1px solid rgba(40,32,28,.12);border-radius:22px;box-shadow:0 1px 0 rgba(40,32,28,.05),0 12px 28px -12px rgba(40,32,28,.18)}
+.tx{position:absolute;left:28px;top:22px;width:290px;display:flex;flex-direction:column;gap:8px}
+.tx h3{margin:0;font-family:'Cormorant Garamond',serif;font-weight:300;font-size:30px;line-height:1.05}
+.tx p{margin:0;font-size:14px;line-height:1.5}
+.tx .pro,.tx .con{font-size:13px;line-height:1.4;color:#3f352f}
+.tag{align-self:flex-start;font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.1em;text-transform:uppercase;padding:3px 10px;border-radius:999px;background:#DFE2C5;color:#28201c}
+svg text{font-family:'DM Mono',monospace}
+</style>
+</helmet>
+
+<div style="position:relative;width:1440px;height:1000px;background:#f7ede1;color:#28201c;font-family:'DM Sans',sans-serif;overflow:hidden">
+<div class="abs" style="left:900px;top:-80px;width:620px;height:420px;border-radius:58% 42% 51% 49% / 46% 57% 43% 54%;background:radial-gradient(closest-side,#DFE2C5 0%,rgba(223,226,197,0) 100%)"></div>
+
+<div class="abs" style="left:40px;top:28px;right:40px;display:flex;justify-content:space-between;align-items:flex-start">
+  <div>
+    <div style="font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#5f544c;font-weight:500">★ {{t.eyebrow}}</div>
+    <h1 style="margin:6px 0 0;font-family:'Cormorant Garamond',serif;font-weight:300;font-size:44px;line-height:1">{{t.title1}} <em style="font-weight:500;color:#E9722D">{{t.title2}}</em></h1>
+  </div>
+  <div style="display:flex;border:1.5px solid #28201c;border-radius:999px;overflow:hidden">
+    <sc-if value="{{isFr}}" hint-placeholder-val="{{true}}">
+      <button onClick="{{setFr}}" aria-label="Français" style="border:0;padding:6px 14px;font-size:13px;font-weight:700;background:#28201c;color:#f7ede1">FR</button>
+      <button onClick="{{setEn}}" aria-label="English" style="border:0;padding:6px 14px;font-size:13px;font-weight:500;background:transparent;color:#28201c">EN</button>
+    </sc-if>
+    <sc-if value="{{isEn}}" hint-placeholder-val="{{false}}">
+      <button onClick="{{setFr}}" aria-label="Français" style="border:0;padding:6px 14px;font-size:13px;font-weight:500;background:transparent;color:#28201c">FR</button>
+      <button onClick="{{setEn}}" aria-label="English" style="border:0;padding:6px 14px;font-size:13px;font-weight:700;background:#28201c;color:#f7ede1">EN</button>
+    </sc-if>
+  </div>
+</div>
+
+<!-- Variante 1 : voies parallèles -->
+<div class="panel" style="top:112px">
+  <div class="tx"><span class="tag">{{t.tag1}}</span><h3>{{t.v1}}</h3><p>{{t.v1d}}</p><div class="pro">+ {{t.v1p}}</div><div class="con">− {{t.v1c}}</div></div>
+  <svg class="abs" style="left:330px;top:6px" width="1020" height="250" viewBox="0 0 1020 250" role="img" aria-label="Voies parallèles">
+    <path d="M10 200 H1010" stroke="#28201c" stroke-width="12" stroke-linecap="round" fill="none"/>
+    <path d="M180 200 C215 200 215 130 250 130 H520 C555 130 555 200 590 200" stroke="#E9722D" stroke-width="12" stroke-linecap="round" fill="none"/>
+    <path d="M120 200 C150 200 150 60 180 60 H690 C720 60 720 200 750 200" stroke="#4aadcc" stroke-width="12" stroke-linecap="round" fill="none"/>
+    <circle cx="60" cy="200" r="11" fill="#fff" stroke="#28201c" stroke-width="4"/>
+    <circle cx="120" cy="200" r="11" fill="#fff" stroke="#28201c" stroke-width="4"/>
+    <circle cx="180" cy="200" r="11" fill="#fff" stroke="#28201c" stroke-width="4"/>
+    <circle cx="300" cy="130" r="11" fill="#fff" stroke="#28201c" stroke-width="4"/>
+    <circle cx="410" cy="130" r="11" fill="#fff" stroke="#28201c" stroke-width="4"/>
+    <circle cx="500" cy="130" r="11" fill="#fff" stroke="#28201c" stroke-width="4"/>
+    <circle cx="240" cy="60" r="11" fill="#fff" stroke="#28201c" stroke-width="4"/>
+    <circle cx="400" cy="60" r="11" fill="#fff" stroke="#28201c" stroke-width="4"/>
+    <circle cx="560" cy="60" r="11" fill="#fff" stroke="#28201c" stroke-width="4"/>
+    <circle cx="660" cy="60" r="11" fill="#fff" stroke="#28201c" stroke-width="4"/>
+    <circle cx="590" cy="200" r="15" fill="#28201c" stroke="#fff" stroke-width="3"/>
+    <circle cx="750" cy="200" r="15" fill="#28201c" stroke="#fff" stroke-width="3"/>
+    <circle cx="900" cy="200" r="11" fill="#fff" stroke="#28201c" stroke-width="4"/>
+    <text x="14" y="236" font-size="13" fill="#28201c">main</text>
+    <text x="268" y="112" font-size="13" fill="#28201c">ia/resume</text>
+    <text x="200" y="40" font-size="13" fill="#28201c">ia/chiffres</text>
+    <text x="520" y="236" font-size="12" fill="#5f544c">merge</text>
+    <text x="684" y="236" font-size="12" fill="#5f544c">merge</text>
+  </svg>
+</div>
+
+<!-- Variante 2 : rail d'outil -->
+<div class="panel" style="top:394px">
+  <div class="tx"><span class="tag">{{t.tag2}}</span><h3>{{t.v2}}</h3><p>{{t.v2d}}</p><div class="pro">+ {{t.v2p}}</div><div class="con">− {{t.v2c}}</div></div>
+  <svg class="abs" style="left:330px;top:6px" width="1020" height="250" viewBox="0 0 1020 250" role="img" aria-label="Rail d'outil">
+    <rect x="0" y="20" width="1020" height="64" rx="8" fill="rgba(40,32,28,.05)"/>
+    <rect x="0" y="148" width="1020" height="64" rx="8" fill="rgba(40,32,28,.05)"/>
+    <path d="M150 180 H1010" stroke="#28201c" stroke-width="6" stroke-linecap="round" fill="none"/>
+    <path d="M230 180 L295 115 H520 L585 180" stroke="#E9722D" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    <path d="M180 180 L310 50 H690 L820 180" stroke="#4aadcc" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    <circle cx="180" cy="180" r="8" fill="#f7ede1" stroke="#28201c" stroke-width="3.5"/>
+    <circle cx="230" cy="180" r="8" fill="#f7ede1" stroke="#28201c" stroke-width="3.5"/>
+    <circle cx="585" cy="180" r="8" fill="#28201c" stroke="#28201c" stroke-width="3.5"/>
+    <circle cx="820" cy="180" r="8" fill="#28201c" stroke="#28201c" stroke-width="3.5"/>
+    <circle cx="900" cy="180" r="8" fill="#f7ede1" stroke="#28201c" stroke-width="3.5"/>
+    <circle cx="340" cy="115" r="8" fill="#f7ede1" stroke="#E9722D" stroke-width="3.5"/>
+    <circle cx="430" cy="115" r="8" fill="#f7ede1" stroke="#E9722D" stroke-width="3.5"/>
+    <circle cx="510" cy="115" r="8" fill="#f7ede1" stroke="#E9722D" stroke-width="3.5"/>
+    <circle cx="370" cy="50" r="8" fill="#f7ede1" stroke="#4aadcc" stroke-width="3.5"/>
+    <circle cx="500" cy="50" r="8" fill="#f7ede1" stroke="#4aadcc" stroke-width="3.5"/>
+    <circle cx="640" cy="50" r="8" fill="#f7ede1" stroke="#4aadcc" stroke-width="3.5"/>
+    <text x="12" y="184" font-size="13" fill="#28201c">main</text>
+    <text x="12" y="119" font-size="13" fill="#28201c">ia/resume</text>
+    <text x="12" y="54" font-size="13" fill="#28201c">ia/chiffres</text>
+    <text x="165" y="206" font-size="11" fill="#5f544c">a1c04e2</text>
+    <text x="215" y="206" font-size="11" fill="#5f544c">b7d19f0</text>
+    <text x="325" y="141" font-size="11" fill="#5f544c">d02b7c1</text>
+    <text x="415" y="141" font-size="11" fill="#5f544c">e41f8d6</text>
+    <text x="355" y="76" font-size="11" fill="#5f544c">3c7a9e1</text>
+    <text x="485" y="76" font-size="11" fill="#5f544c">8d20f4b</text>
+    <text x="560" y="206" font-size="11" fill="#5f544c">merge</text>
+    <text x="795" y="206" font-size="11" fill="#5f544c">merge</text>
+    <rect x="940" y="34" width="62" height="22" rx="11" fill="#28201c"/><text x="971" y="49" font-size="11" fill="#f7ede1" text-anchor="middle">IA</text>
+    <rect x="940" y="99" width="62" height="22" rx="11" fill="#28201c"/><text x="971" y="114" font-size="11" fill="#f7ede1" text-anchor="middle">IA</text>
+    <rect x="940" y="164" width="62" height="22" rx="11" fill="none" stroke="#28201c" stroke-width="1.5"/><text x="971" y="179" font-size="11" fill="#28201c" text-anchor="middle">{{t.human}}</text>
+  </svg>
+</div>
+
+<!-- Variante 3 : rivière -->
+<div class="panel" style="top:676px">
+  <div class="tx"><span class="tag">{{t.tag3}}</span><h3>{{t.v3}}</h3><p>{{t.v3d}}</p><div class="pro">+ {{t.v3p}}</div><div class="con">− {{t.v3c}}</div></div>
+  <svg class="abs" style="left:330px;top:6px" width="1020" height="250" viewBox="0 0 1020 250" role="img" aria-label="Rivière">
+    <path d="M10 125 H220" stroke="#28201c" stroke-width="46" fill="none"/>
+    <path d="M800 125 H1010" stroke="#28201c" stroke-width="46" fill="none"/>
+    <path d="M220 125 C290 125 290 45 360 45 H650 C720 45 720 125 800 125" stroke="#4aadcc" stroke-width="20" fill="none" opacity=".92"/>
+    <path d="M220 125 H800" stroke="#28201c" stroke-width="20" fill="none" opacity=".92"/>
+    <path d="M220 125 C290 125 290 205 360 205 H520 C590 205 590 125 660 125" stroke="#E9722D" stroke-width="20" fill="none" opacity=".92"/>
+    <circle cx="70" cy="125" r="8" fill="#f7ede1" stroke="#28201c" stroke-width="3"/>
+    <circle cx="150" cy="125" r="8" fill="#f7ede1" stroke="#f7ede1" stroke-width="3"/>
+    <circle cx="420" cy="45" r="8" fill="#f7ede1" stroke="#28201c" stroke-width="3"/>
+    <circle cx="520" cy="45" r="8" fill="#f7ede1" stroke="#28201c" stroke-width="3"/>
+    <circle cx="590" cy="45" r="8" fill="#f7ede1" stroke="#28201c" stroke-width="3"/>
+    <circle cx="420" cy="205" r="8" fill="#f7ede1" stroke="#28201c" stroke-width="3"/>
+    <circle cx="480" cy="205" r="8" fill="#f7ede1" stroke="#28201c" stroke-width="3"/>
+    <circle cx="450" cy="125" r="8" fill="#f7ede1" stroke="#f7ede1" stroke-width="3"/>
+    <circle cx="900" cy="125" r="8" fill="#f7ede1" stroke="#f7ede1" stroke-width="3"/>
+    <text x="14" y="168" font-size="13" fill="#28201c">main</text>
+    <text x="368" y="22" font-size="13" fill="#28201c">ia/chiffres</text>
+    <text x="368" y="238" font-size="13" fill="#28201c">ia/resume</text>
+    <text x="720" y="168" font-size="12" fill="#5f544c">merge</text>
+  </svg>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"lang":{"editor":"enum","options":["fr","en"],"default":"fr","section":"Langue"},"$preview":{"width":1440,"height":1000}}'>
+class Component extends DCLogic {
+  dict() {
+    return {
+      fr: {
+        eyebrow: 'Zone du milieu', title1: 'Trois façons de dessiner', title2: 'les branches',
+        tag1: 'Pour la mission et le puzzle', tag2: 'Pour le bac à sable', tag3: 'Pour les débutants',
+        v1: '1 · Voies parallèles', v1d: 'Une voie par branche. Les courbes montrent les départs et les retours (merge). La lecture la plus classique.',
+        v1p: 'Familier, chaleureux, fidèle à l’univers de la marque.', v1c: 'Peu de place pour les détails de chaque commit.',
+        v2: '2 · Rail d’outil', v2d: 'Traits fins à 45°, hash et auteur lisibles, comme l’extension Git Graph de VS Code, mais à l’horizontale.',
+        v2p: 'Précis, utile pour comprendre ce que dit vraiment Git.', v2c: 'Plus dense, moins accueillant pour un public non technique.',
+        v3: '3 · Rivière', v3d: 'Un tronc qui se divise en bras puis se rejoint. L’épaisseur raconte la quantité de travail.',
+        v3p: 'Très parlant pour des non-développeurs.', v3c: 'Moins fidèle aux vrais graphes ; rebase et squash restent à inventer.',
+        human: 'humain'
+      },
+      en: {
+        eyebrow: 'Middle zone', title1: 'Three ways to draw', title2: 'branches',
+        tag1: 'For mission and puzzle', tag2: 'For the sandbox', tag3: 'For beginners',
+        v1: '1 · Parallel lanes', v1d: 'One lane per branch. Curves show departures and returns (merge). The most classic reading.',
+        v1p: 'Familiar, warm, true to the brand world.', v1c: 'Little room for each commit’s details.',
+        v2: '2 · Tool rail', v2d: 'Thin 45° strokes, readable hash and author, like VS Code’s Git Graph extension but horizontal.',
+        v2p: 'Precise, helps understand what Git really says.', v2c: 'Denser, less welcoming for a non-technical audience.',
+        v3: '3 · River', v3d: 'A trunk that splits into arms and joins again. Thickness tells how much work was done.',
+        v3p: 'Very telling for non-developers.', v3c: 'Less faithful to real graphs; rebase and squash still to be invented.',
+        human: 'human'
+      }
+    };
+  }
+  renderVals() {
+    const lang = (this.state && this.state.lang) || this.props.lang || 'fr';
+    return {
+      t: this.dict()[lang], isFr: lang === 'fr', isEn: lang === 'en',
+      setFr: () => this.setState({ lang: 'fr' }), setEn: () => this.setState({ lang: 'en' })
+    };
+  }
+}
+</script>
+</body>
+</html>

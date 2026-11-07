@@ -1,0 +1,148 @@
+{
+  "id": "mission-03",
+  "kind": "mission",
+  "titleKey": "mission.3.title",
+  "durationMin": 2,
+  "visibleRepos": [
+    "local"
+  ],
+  "unlocked": [
+    "add",
+    "branch",
+    "commit",
+    "diff",
+    "status",
+    "switch",
+    "worktree-add",
+    "worktree-list"
+  ],
+  "initialState": {
+    "commits": {
+      "c1": {
+        "id": "c1",
+        "parents": [],
+        "msg": "commit.firstDraft",
+        "author": "human",
+        "files": [
+          "rapport.md"
+        ]
+      },
+      "c2": {
+        "id": "c2",
+        "parents": [
+          "c1"
+        ],
+        "msg": "commit.addConclusion",
+        "author": "human",
+        "files": [
+          "rapport.md"
+        ]
+      }
+    },
+    "branches": {
+      "main": {
+        "tip": "c2"
+      }
+    },
+    "remotes": {},
+    "worktrees": [
+      {
+        "id": "w1",
+        "path": "rapport-client",
+        "main": true,
+        "branch": "main",
+        "head": "c2",
+        "index": [],
+        "files": {
+          "rapport.md": "clean",
+          "chiffres.md": "clean",
+          "resume.md": "clean"
+        }
+      }
+    ],
+    "active": "w1",
+    "stash": [],
+    "visibleRepos": [
+      "local"
+    ]
+  },
+  "steps": [
+    {
+      "id": "s1",
+      "titleKey": "mission.3.step1.title",
+      "explainKey": "mission.3.step1.explain",
+      "expect": {
+        "name": "none"
+      },
+      "done": {
+        "predicate": "stateShown"
+      }
+    },
+    {
+      "id": "s2",
+      "titleKey": "mission.3.step2.title",
+      "explainKey": "mission.3.step2.explain",
+      "command": "git worktree add ../rapport-ia-chiffres -b ia/chiffres",
+      "hintKey": "mission.3.step2.hint",
+      "done": {
+        "all": [
+          {
+            "predicate": "branchExists",
+            "args": {
+              "name": "ia/chiffres"
+            }
+          },
+          {
+            "predicate": "worktreeOnBranch",
+            "args": {
+              "path": "rapport-ia-chiffres",
+              "branch": "ia/chiffres"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "s3",
+      "titleKey": "mission.3.step3.title",
+      "explainKey": "mission.3.step3.explain",
+      "command": "git worktree add ../rapport-ia-resume -b ia/resume",
+      "hintKey": "mission.3.step3.hint",
+      "done": {
+        "predicate": "worktreeOnBranch",
+        "args": {
+          "path": "rapport-ia-resume",
+          "branch": "ia/resume"
+        }
+      }
+    },
+    {
+      "id": "s3b",
+      "titleKey": "mission.3.stepDiff.title",
+      "explainKey": "mission.3.stepDiff.explain",
+      "command": "git diff main ia/resume",
+      "hintKey": "mission.3.stepDiff.hint",
+      "opens": "diff",
+      "diffMode": "branches",
+      "done": {
+        "predicate": "diffShown",
+        "args": {
+          "mode": "branches"
+        }
+      }
+    },
+    {
+      "id": "s4",
+      "titleKey": "mission.3.step4.title",
+      "explainKey": "mission.3.step4.explain",
+      "command": "git worktree list",
+      "done": {
+        "predicate": "lastCommandWas",
+        "args": {
+          "name": "worktree-list"
+        }
+      }
+    }
+  ],
+  "outroKey": "mission.3.outro"
+}

@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Comegitmix — Diff</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,500;1,300;1,500&family=DM+Sans:wght@400;500;700&family=DM+Mono:wght@400;500&family=Caveat:wght@500&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:inherit;text-decoration:none}
+button{font-family:'DM Sans',sans-serif;cursor:pointer}
+.abs{position:absolute}
+.mono{font-family:'DM Mono',monospace}
+.card{position:absolute;background:rgba(255,255,255,.78);border:1px solid rgba(40,32,28,.12);border-radius:22px;box-shadow:0 1px 0 rgba(40,32,28,.05),0 12px 28px -12px rgba(40,32,28,.18);box-sizing:border-box}
+.eb{font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#5f544c;font-weight:500}
+.step{display:flex;align-items:center;gap:12px;height:38px;font-size:14.5px;color:#28201c}
+.step .n{flex:0 0 26px;height:26px;border-radius:50%;box-sizing:border-box;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:12px;font-weight:500}
+.cmdchip{display:flex;align-items:center;gap:8px;height:34px;padding:0 12px;border-radius:999px;font-family:'DM Mono',monospace;font-size:13px;box-sizing:border-box}
+.tab{border:1.5px solid #28201c;background:#fff;color:#28201c;border-radius:999px;height:32px;padding:0 14px;font-size:13px;font-weight:500;white-space:nowrap}
+.fi{display:flex;align-items:center;gap:8px;height:40px;padding:0 10px;border-radius:12px;cursor:pointer;font-family:'DM Mono',monospace;font-size:13px;color:#28201c;border:1.5px solid transparent;box-sizing:border-box}
+.fi .ct{margin-left:auto;font-size:12px;white-space:nowrap}
+.gr{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.dc{display:flex;align-items:flex-start;gap:6px;min-height:24px;padding:2px 10px 2px 0;box-sizing:border-box;font-family:'DM Mono',monospace;font-size:13px;line-height:20px}
+.dn{flex:0 0 40px;text-align:right;color:#5f544c;font-size:12px;padding-right:4px}
+.dg{flex:0 0 14px;text-align:center;font-weight:500}
+.dt{flex:1;min-width:0;white-space:pre-wrap;word-break:break-word}
+svg.ic{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto}
+</style>
+</helmet>
+
+<div style="position:relative;width:1440px;height:900px;background:#f7ede1;color:#28201c;font-family:'DM Sans',sans-serif;overflow:hidden">
+
+<div class="abs" style="left:880px;top:60px;width:620px;height:520px;border-radius:58% 42% 51% 49% / 46% 57% 43% 54%;background:radial-gradient(closest-side,#DFE2C5 0%,rgba(223,226,197,0) 100%)"></div>
+<div class="abs" style="left:-120px;top:560px;width:620px;height:460px;border-radius:44% 56% 47% 53% / 55% 43% 57% 45%;background:radial-gradient(closest-side,#B6E1ED 0%,rgba(182,225,237,0) 100%);opacity:.7"></div>
+
+<!-- En-tête -->
+<div class="abs" style="left:0;top:0;width:1440px;height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;box-sizing:border-box">
+  <div style="display:flex;align-items:center;gap:16px">
+    <img src="/_blob/f78629e8f3c2961c4cc08d22d1ceef4e" alt="Le sens de l'IA" style="height:48px;width:auto">
+    <div style="width:1px;height:28px;background:rgba(40,32,28,.25)"></div>
+    <div style="font-family:'Cormorant Garamond',serif;font-weight:300;font-size:28px;line-height:1;letter-spacing:-.005em">Come<em style="font-weight:500;color:#E9722D">git</em>mix</div>
+  </div>
+  <nav style="display:flex;gap:6px;padding:4px;border-radius:999px;background:rgba(255,255,255,.7);border:1px solid rgba(40,32,28,.12)">
+    <a href="Main.dc.html" style="padding:8px 20px;border-radius:999px;background:#28201c;color:#f7ede1;font-size:14px;font-weight:500">{{t.tabMission}}</a>
+    <a href="A2-Puzzle.dc.html" style="padding:8px 20px;border-radius:999px;font-size:14px;font-weight:500">{{t.tabPuzzle}}</a>
+    <a href="A3-Sandbox.dc.html" style="padding:8px 20px;border-radius:999px;font-size:14px;font-weight:500">{{t.tabSandbox}}</a>
+  </nav>
+  <div style="display:flex;align-items:center;gap:20px">
+    <div style="display:flex;align-items:center;gap:6px" aria-label="Progression 3 sur 7">
+      <div style="width:12px;height:12px;border-radius:50%;background:#28201c"></div>
+      <div style="width:12px;height:12px;border-radius:50%;background:#28201c"></div>
+      <div style="width:12px;height:12px;border-radius:50%;background:#E9722D"></div>
+      <div style="width:12px;height:12px;border-radius:50%;border:1.5px solid #28201c;box-sizing:border-box"></div>
+      <div style="width:12px;height:12px;border-radius:50%;border:1.5px solid #28201c;box-sizing:border-box"></div>
+      <div style="width:12px;height:12px;border-radius:50%;border:1.5px solid #28201c;box-sizing:border-box"></div>
+      <div style="width:12px;height:12px;border-radius:50%;border:1.5px solid #28201c;box-sizing:border-box"></div>
+    </div>
+    <div style="display:flex;border:1.5px solid #28201c;border-radius:999px;overflow:hidden">
+      <sc-if value="{{isFr}}" hint-placeholder-val="{{true}}">
+        <button onClick="{{setFr}}" aria-label="Français" style="border:0;padding:6px 14px;font-size:13px;font-weight:700;background:#28201c;color:#f7ede1">FR</button>
+        <button onClick="{{setEn}}" aria-label="English" style="border:0;padding:6px 14px;font-size:13px;font-weight:500;background:transparent;color:#28201c">EN</button>
+      </sc-if>
+      <sc-if value="{{isEn}}" hint-placeholder-val="{{false}}">
+        <button onClick="{{setFr}}" aria-label="Français" style="border:0;padding:6px 14px;font-size:13px;font-weight:500;background:transparent;color:#28201c">FR</button>
+        <button onClick="{{setEn}}" aria-label="English" style="border:0;padding:6px 14px;font-size:13px;font-weight:700;background:#28201c;color:#f7ede1">EN</button>
+      </sc-if>
+    </div>
+  </div>
+</div>
+
+
+<!-- Panneau de mission -->
+<div class="card" style="left:20px;top:84px;width:368px;height:796px;padding:22px 22px 18px;display:flex;flex-direction:column;gap:14px;overflow:hidden">
+  <div class="eb">★ {{t.eyebrow}}</div>
+  <h2 style="margin:0;font-family:'Cormorant Garamond',serif;font-weight:300;font-size:32px;line-height:1.05">{{t.title1}} <em style="font-weight:500;color:#E9722D">{{t.title2}}</em></h2>
+  <div style="display:flex;gap:12px;align-items:flex-start">
+    <img src="/_blob/19b4599bc9dac48645a34b326ed12da7" alt="" style="width:68px;height:68px;flex:0 0 68px">
+    <div style="background:#fff;border:1px solid rgba(40,32,28,.14);border-radius:6px 18px 18px 18px;padding:12px 14px;font-size:14px;line-height:1.5">{{t.bubble}}</div>
+  </div>
+  <div style="display:flex;flex-direction:column">
+    <div class="step"><div class="n" style="background:#28201c;color:#f7ede1"><svg class="ic" viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M20 6 9 17l-5-5"/></svg></div><span style="color:#5f544c;text-decoration:line-through">{{t.s1}}</span></div>
+    <div class="step"><div class="n" style="background:#28201c;color:#f7ede1"><svg class="ic" viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M20 6 9 17l-5-5"/></svg></div><span style="color:#5f544c;text-decoration:line-through">{{t.s2}}</span></div>
+    <div class="step" style="font-weight:700"><div class="n" style="background:#E9722D;color:#28201c">3</div><span>{{t.s3}}</span></div>
+    <div class="step"><div class="n" style="border:1.5px solid #28201c">4</div><span>{{t.s4}}</span></div>
+  </div>
+  <div style="background:#28201c;color:#f7ede1;border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:8px">
+    <div class="mono" style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:rgba(247,237,225,.7)">{{t.cmdLabel}}</div>
+    <div class="mono" style="font-size:13px;line-height:1.5;word-break:break-all"><span style="color:#E9722D">$</span> {{cmdNow}}</div>
+    <div style="font-size:13px;line-height:1.4;color:rgba(247,237,225,.78)">{{t.cmdExplain}}</div>
+    <div style="display:flex;gap:10px;margin-top:4px">
+      <a href="Main.dc.html" style="border-radius:999px;background:#E9722D;color:#28201c;font-weight:700;font-size:14px;padding:9px 22px">{{t.next}}</a>
+      <button style="border:1.5px solid rgba(247,237,225,.5);border-radius:999px;background:transparent;color:#f7ede1;font-weight:500;font-size:14px;padding:8px 18px">{{t.hint}}</button>
+    </div>
+  </div>
+  <div>
+    <div class="eb" style="margin-bottom:8px">{{t.palette}}</div>
+    <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px">
+      <div class="cmdchip" style="background:#fff;border:1.5px solid #28201c">branch</div>
+      <div class="cmdchip" style="background:#fff;border:1.5px solid #28201c">worktree</div>
+      <div class="cmdchip" style="background:#E9722D;border:1.5px solid #28201c;font-weight:500">diff</div>
+      <div class="cmdchip" style="background:#ede5d6;border:1.5px dashed #7a6e65;color:#5f544c">merge</div>
+      <div class="cmdchip" style="background:#ede5d6;border:1.5px dashed #7a6e65;color:#5f544c">revert</div>
+      <div class="cmdchip" style="background:#ede5d6;border:1.5px dashed #7a6e65;color:#5f544c">push</div>
+    </div>
+  </div>
+</div>
+
+<!-- Scène : écran de diff -->
+<div class="abs" style="left:408px;top:84px;width:1012px;height:796px">
+
+  <!-- Qu'est-ce qu'on compare -->
+  <div class="card" style="left:0;top:0;width:1012px;height:128px;padding:16px 24px">
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:16px">
+      <div class="eb">★ {{t.zDiff}}</div>
+      <div style="display:flex;gap:8px">
+        <sc-for list="{{tabs}}" as="m" hint-placeholder-count="3"><button class="tab" onClick="{{m.onClick}}" style="{{m.style}}">{{m.label}}</button></sc-for>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:14px;margin-top:16px">
+      <div style="{{cmp.fromStyle}}">{{cmp.from}}</div>
+      <svg width="64" height="18" viewBox="0 0 64 18" aria-hidden="true"><path d="M2 9 H58" stroke="#28201c" stroke-width="2.5" stroke-linecap="round"/><path d="M51 3 L59 9 L51 15" stroke="#28201c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+      <div style="{{cmp.toStyle}}">{{cmp.to}}</div>
+      <div class="mono" style="margin-left:8px;font-size:13px;background:#28201c;color:#f7ede1;border-radius:999px;padding:6px 14px"><span style="color:#E9722D">$</span> {{cmp.cmd}}</div>
+      <div style="margin-left:auto;display:flex;align-items:baseline;gap:14px">
+        <span style="font-size:13px;color:#5f544c">{{cmp.filesTxt}}</span>
+        <span class="mono" style="font-size:14px;font-weight:500;color:#3f4a1a;background:#DFE2C5;border-radius:6px;padding:1px 8px">+{{cmp.adds}}</span>
+        <span class="mono" style="font-size:14px;font-weight:500;color:#8a3510;background:#f6dccd;border-radius:6px;padding:1px 8px">−{{cmp.dels}}</span>
+      </div>
+    </div>
+    <div style="font-size:14px;color:#28201c;margin-top:12px;line-height:1.35">{{cmp.sentence}}</div>
+  </div>
+
+  <!-- Liste des fichiers -->
+  <div class="card" style="left:0;top:144px;width:264px;height:652px;padding:18px 14px;display:flex;flex-direction:column;gap:6px">
+    <div class="eb" style="margin:0 0 6px 10px">{{t.files}}</div>
+    <sc-for list="{{flist}}" as="f" hint-placeholder-count="3">
+      <div class="fi" onClick="{{f.onClick}}" style="{{f.style}}">
+        <span style="{{f.badgeStyle}}">{{f.letter}}</span>
+        <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{f.name}}</span>
+        <span class="ct" style="{{f.ctStyle}}">{{f.count}}</span>
+      </div>
+    </sc-for>
+    <div style="margin-top:auto;display:flex;flex-direction:column;gap:8px;font-size:12.5px;color:#5f544c;line-height:1.3">
+      <div style="display:flex;align-items:center;gap:8px"><span style="display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;border-radius:5px;font-family:'DM Mono',monospace;font-size:12px;font-weight:500;color:#c4551a;background:rgba(233,114,45,.16)">M</span>{{t.legM}}</div>
+      <div style="display:flex;align-items:center;gap:8px"><span style="display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;border-radius:5px;font-family:'DM Mono',monospace;font-size:12px;font-weight:500;color:#1a6a88;background:#dff1f7">A</span>{{t.legA}}</div>
+      <div style="display:flex;align-items:center;gap:8px"><span style="display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;border-radius:5px;font-family:'DM Mono',monospace;font-size:12px;font-weight:500;color:#55612a;background:#DFE2C5">U</span>{{t.legU}}</div>
+    </div>
+  </div>
+
+  <!-- Visionneuse -->
+  <div class="card" style="left:280px;top:144px;width:732px;height:652px;padding:0;overflow:hidden;display:flex;flex-direction:column">
+    <div style="display:flex;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px solid rgba(40,32,28,.12)">
+      <span class="mono" style="font-weight:500;font-size:14px">{{cur.name}}</span>
+      <div style="margin-left:auto;display:flex;border:1.5px solid #28201c;border-radius:999px;overflow:hidden">
+        <button onClick="{{setSide}}" style="{{viewSideStyle}}">{{t.vSide}}</button>
+        <button onClick="{{setUni}}" style="{{viewUniStyle}}">{{t.vUni}}</button>
+      </div>
+    </div>
+    <sc-if value="{{isSide}}" hint-placeholder-val="{{true}}">
+      <div class="gr" style="border-bottom:1px solid rgba(40,32,28,.12);background:#ede5d6">
+        <div class="mono" style="padding:7px 14px;font-size:12px;letter-spacing:.08em;color:#5f544c;border-right:1px solid rgba(40,32,28,.12)">{{cmp.from}}</div>
+        <div class="mono" style="padding:7px 14px;font-size:12px;letter-spacing:.08em;color:#5f544c">{{cmp.to}}</div>
+      </div>
+      <div style="flex:1;overflow-y:auto;background:#fff">
+        <sc-for list="{{srows}}" as="r" hint-placeholder-count="8">
+          <div class="gr">
+            <div class="dc" style="{{r.lStyle}}"><span class="dn">{{r.ln}}</span><span class="dg">{{r.lg}}</span><span class="dt">{{r.lt}}</span></div>
+            <div class="dc" style="{{r.rStyle}}"><span class="dn">{{r.rn}}</span><span class="dg">{{r.rg}}</span><span class="dt">{{r.rt}}</span></div>
+          </div>
+        </sc-for>
+        <div style="{{emptyStyle}}">{{cur.empty}}</div>
+      </div>
+    </sc-if>
+    <sc-if value="{{isUni}}" hint-placeholder-val="{{false}}">
+      <div class="mono" style="padding:7px 14px;font-size:12px;letter-spacing:.08em;color:#5f544c;background:#ede5d6;border-bottom:1px solid rgba(40,32,28,.12)">{{cmp.from}} → {{cmp.to}}</div>
+      <div style="flex:1;overflow-y:auto;background:#fff">
+        <sc-for list="{{urows}}" as="r" hint-placeholder-count="8">
+          <div class="dc" style="{{r.style}}"><span class="dn">{{r.n1}}</span><span class="dn">{{r.n2}}</span><span class="dg">{{r.g}}</span><span class="dt">{{r.t}}</span></div>
+        </sc-for>
+        <div style="{{emptyStyle}}">{{cur.empty}}</div>
+      </div>
+    </sc-if>
+    <div style="display:flex;align-items:center;gap:16px;padding:12px 18px;border-top:1px solid rgba(40,32,28,.12);background:#f7ede1">
+      <span style="display:flex;align-items:center;gap:6px;font-size:13px"><span style="width:14px;height:14px;border-radius:3px;background:#f6dccd;border:1px solid #c4551a"></span>{{t.lgDel}}</span>
+      <span style="display:flex;align-items:center;gap:6px;font-size:13px"><span style="width:14px;height:14px;border-radius:3px;background:#DFE2C5;border:1px solid #55612a"></span>{{t.lgAdd}}</span>
+      <span style="font-family:'Caveat',cursive;font-size:22px;color:#c4551a;margin-left:auto;line-height:1">{{t.note}}</span>
+    </div>
+  </div>
+</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"lang":{"editor":"enum","options":["fr","en"],"default":"fr","section":"Langue"},"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  dict() {
+    return {
+      fr: {
+        tabMission: 'Mission', tabPuzzle: 'Puzzle', tabSandbox: 'Bac à sable',
+        eyebrow: 'Mission 3 sur 7 · 12 min', title1: 'Relire avant', title2: 'd’accepter',
+        bubble: 'L’assistant 1 a terminé. Avant d’accepter son travail, regardons ce qu’il a vraiment changé : c’est le rôle de diff.',
+        s1: 'Un bureau pour l’assistant 1', s2: 'Un bureau pour l’assistant 2', s3: 'Relire son travail avec diff', s4: 'Fusionner ce qui est bon',
+        cmdLabel: 'Votre prochaine commande', cmdExplain: 'Compare deux voies : les lignes retirées en rouge, les lignes ajoutées en vert.',
+        next: 'Suite : fusionner', hint: 'Un indice', palette: 'Commandes débloquées',
+        zDiff: 'Le diff : ce qui a changé', files: 'Fichiers', vSide: 'Côte à côte', vUni: 'Unifié',
+        legM: 'modifié', legA: 'ajouté (préparé)', legU: 'nouveau, non suivi',
+        lgDel: 'ligne retirée', lgAdd: 'ligne ajoutée',
+        note: 'rien n’est modifié : on regarde seulement',
+        tabBranches: 'Entre deux voies', tabWork: 'Mes changements', tabStaged: 'Préparé',
+        filesN: 'fichiers', fileN: 'fichier',
+        untrackedCount: 'non suivi', folded: '··· {n} lignes inchangées'
+      },
+      en: {
+        tabMission: 'Mission', tabPuzzle: 'Puzzle', tabSandbox: 'Sandbox',
+        eyebrow: 'Mission 3 of 7 · 12 min', title1: 'Review before', title2: 'accepting',
+        bubble: 'Assistant 1 is done. Before accepting its work, let’s see what it really changed: that’s what diff is for.',
+        s1: 'A desk for assistant 1', s2: 'A desk for assistant 2', s3: 'Review its work with diff', s4: 'Merge what’s good',
+        cmdLabel: 'Your next command', cmdExplain: 'Compares two lanes: removed lines in red, added lines in green.',
+        next: 'Next: merge', hint: 'Hint', palette: 'Unlocked commands',
+        zDiff: 'The diff: what changed', files: 'Files', vSide: 'Side by side', vUni: 'Unified',
+        legM: 'modified', legA: 'added (staged)', legU: 'new, untracked',
+        lgDel: 'removed line', lgAdd: 'added line',
+        note: 'nothing is changed: we only look',
+        tabBranches: 'Between two lanes', tabWork: 'My changes', tabStaged: 'Staged',
+        filesN: 'files', fileN: 'file',
+        untrackedCount: 'untracked', folded: '··· {n} unchanged lines'
+      }
+    };
+  }
+  data(lang) {
+    const fr = lang === 'fr';
+    const C = (n1, n2, t) => ({ lk: 'ctx', rk: 'ctx', ln: n1, rn: n2, lt: t, rt: t });
+    const D = (n1, n2, a, b) => ({ lk: 'del', rk: 'add', ln: n1, rn: n2, lt: a, rt: b });
+    const A = (n2, b) => ({ lk: 'empty', rk: 'add', ln: '', rn: n2, lt: '', rt: b });
+    const FOLD = (n) => ({ lk: 'fold', rk: 'fold', lt: this.dict()[lang].folded.replace('{n}', n), rt: this.dict()[lang].folded.replace('{n}', n) });
+    return {
+      branches: {
+        cmd: 'git diff main ia/resume', from: 'main', to: 'ia/resume', fromBg: '#28201c', fromFg: '#f7ede1', toBg: '#E9722D', toFg: '#28201c',
+        sentence: fr ? 'Voici ce que l’assistant 1 a changé sur sa voie, par rapport à main. Rien n’est encore fusionné.' : 'Here is what assistant 1 changed on its lane, compared with main. Nothing is merged yet.',
+        files: [
+          { name: 'resume.md', letter: 'M', rows: [
+            C(1, 1, '# ' + (fr ? 'Résumé du rapport' : 'Report summary')), C(2, 2, ''),
+            D(3, 3, fr ? 'Le rapport est long et couvre beaucoup de sujets.' : 'The report is long and covers many topics.', fr ? 'Ce rapport présente trois résultats clés pour le client.' : 'This report presents three key results for the client.'),
+            C(4, 4, ''), C(5, 5, '## ' + (fr ? 'Points clés' : 'Key points')),
+            D(6, 6, fr ? 'Les ventes ont augmenté.' : 'Sales went up.', fr ? 'Les ventes ont augmenté de 12 % au second semestre.' : 'Sales went up 12% in the second half.'),
+            A(7, fr ? 'Le coût d’acquisition a baissé de 8 %.' : 'Acquisition cost fell by 8%.'),
+            C(7, 8, ''), FOLD(12), C(19, 20, ''),
+            A(21, '## Conclusion'), A(22, fr ? 'Nous recommandons de poursuivre l’effort sur la vente en ligne.' : 'We recommend keeping up the effort on online sales.'), A(23, ''),
+            C(20, 24, '## Sources')
+          ] },
+          { name: 'plan.md', letter: 'M', rows: [
+            C(1, 1, '# Plan'), C(2, 2, fr ? '1. Introduction' : '1. Introduction'), C(3, 3, fr ? '2. Résultats' : '2. Results'),
+            D(4, 4, fr ? '3. Résumé' : '3. Summary', fr ? '3. Résumé et conclusion' : '3. Summary and conclusion')
+          ] },
+          { name: 'sources.md', letter: 'A', rows: [
+            A(1, '# Sources'), A(2, fr ? '- Étude de marché 2026' : '- 2026 market study'), A(3, fr ? '- Base interne des ventes' : '- Internal sales database')
+          ] }
+        ]
+      },
+      work: {
+        cmd: 'git diff', from: fr ? 'Index' : 'Index', to: fr ? 'Votre dossier' : 'Your folder', fromBg: '#dff1f7', fromFg: '#1a6a88', toBg: '#fff', toFg: '#28201c',
+        sentence: fr ? 'Ce que vous avez modifié mais pas encore préparé avec git add. Les fichiers nouveaux (U) n’apparaissent pas ici.' : 'What you changed but have not staged with git add yet. New files (U) do not show up here.',
+        files: [
+          { name: 'plan.md', letter: 'M', rows: [
+            C(1, 1, '# Plan'), C(3, 3, fr ? '2. Résultats' : '2. Results'),
+            D(4, 4, fr ? '3. Résumé et conclusion' : '3. Summary and conclusion', fr ? '3. Résumé, conclusion et annexes' : '3. Summary, conclusion and appendices')
+          ] },
+          { name: 'nouveau-1.md', letter: 'U', rows: [], empty: fr ? 'Un fichier nouveau n’apparaît pas dans git diff tant qu’il n’est pas préparé. Lancez d’abord : git add nouveau-1.md' : 'A new file does not show in git diff until it is staged. Run first: git add nouveau-1.md' }
+        ]
+      },
+      staged: {
+        cmd: 'git diff --staged', from: fr ? 'Dernier commit' : 'Last commit', to: 'Index', fromBg: '#fff', fromFg: '#28201c', toBg: '#dff1f7', toFg: '#1a6a88',
+        sentence: fr ? 'Ce qui est préparé dans l’index : c’est exactement ce qui partira dans le prochain commit.' : 'What is staged in the index: exactly what will go into the next commit.',
+        files: [
+          { name: 'resume.md', letter: 'M', staged: true, rows: [
+            C(1, 1, '# ' + (fr ? 'Résumé du rapport' : 'Report summary')), C(2, 2, ''),
+            D(3, 3, fr ? 'Le rapport est long et couvre beaucoup de sujets.' : 'The report is long and covers many topics.', fr ? 'Ce rapport présente trois résultats clés pour le client.' : 'This report presents three key results for the client.'),
+            C(4, 4, '')
+          ] }
+        ]
+      }
+    };
+  }
+  renderVals() {
+    const lang = (this.state && this.state.lang) || this.props.lang || 'fr';
+    const t = this.dict()[lang];
+    const mode = (this.state && this.state.mode) || 'branches';
+    const view = (this.state && this.state.view) || 'side';
+    const D = this.data(lang)[mode];
+    const fi = Math.min((this.state && this.state.fi) || 0, D.files.length - 1);
+    const cur = D.files[fi];
+    const base = 'display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;border-radius:5px;font-family:DM Mono,monospace;font-size:12px;font-weight:500;flex:0 0 auto;';
+    const bs = (f) => f.staged ? base + 'color:#1a6a88;background:#dff1f7' : (f.letter === 'M' ? base + 'color:#c4551a;background:rgba(233,114,45,.16)' : (f.letter === 'A' ? base + 'color:#1a6a88;background:#dff1f7' : base + 'color:#55612a;background:#DFE2C5'));
+    const cnt = (f) => { let a = 0, d = 0; f.rows.forEach(r => { if (r.rk === 'add') a++; if (r.lk === 'del') d++; }); return { a, d }; };
+    let ta = 0, td = 0; D.files.forEach(f => { const c = cnt(f); ta += c.a; td += c.d; });
+    const nf = D.files.filter(f => f.rows.length).length;
+    const delSt = 'background:#f6dccd;color:#8a3510', addSt = 'background:#DFE2C5;color:#3f4a1a', ctxSt = 'background:#fff;color:#28201c', foldSt = 'background:#f7f3ea;color:#5f544c;font-style:italic', emptySt = 'background:#fafafa';
+    const stl = (k) => k === 'del' ? delSt : (k === 'add' ? addSt : (k === 'fold' ? foldSt : (k === 'empty' ? emptySt : ctxSt)));
+    const sign = (k) => k === 'del' ? '−' : (k === 'add' ? '+' : '');
+    const srows = cur.rows.map(r => ({
+      lStyle: stl(r.lk) + ';border-right:1px solid rgba(40,32,28,.12)', rStyle: stl(r.rk),
+      ln: r.ln, rn: r.rn, lg: sign(r.lk), rg: sign(r.rk), lt: r.lt, rt: r.rt
+    }));
+    const urows = [];
+    cur.rows.forEach(r => {
+      if (r.lk === 'fold') urows.push({ style: foldSt, n1: '', n2: '', g: '', t: r.lt });
+      else if (r.lk === 'ctx') urows.push({ style: ctxSt, n1: r.ln, n2: r.rn, g: '', t: r.lt });
+      else { if (r.lk === 'del') urows.push({ style: delSt, n1: r.ln, n2: '', g: '−', t: r.lt }); if (r.rk === 'add') urows.push({ style: addSt, n1: '', n2: r.rn, g: '+', t: r.rt }); }
+    });
+    const tabOrder = [['branches', t.tabBranches], ['work', t.tabWork], ['staged', t.tabStaged]];
+    return {
+      t, cmdNow: D.cmd,
+      isFr: lang === 'fr', isEn: lang === 'en',
+      setFr: () => this.setState({ lang: 'fr' }), setEn: () => this.setState({ lang: 'en' }),
+      tabs: tabOrder.map(m => ({ label: m[1], onClick: () => this.setState({ mode: m[0], fi: 0 }), style: m[0] === mode ? 'background:#28201c;color:#f7ede1' : '' })),
+      cmp: {
+        cmd: D.cmd, from: D.from, to: D.to,
+        fromStyle: 'font-family:DM Mono,monospace;font-size:13px;font-weight:500;border-radius:999px;padding:5px 14px;border:1.5px solid #28201c;background:' + D.fromBg + ';color:' + D.fromFg,
+        toStyle: 'font-family:DM Mono,monospace;font-size:13px;font-weight:500;border-radius:999px;padding:5px 14px;border:1.5px solid #28201c;background:' + D.toBg + ';color:' + D.toFg,
+        adds: ta, dels: td, filesTxt: nf + ' ' + (nf > 1 ? t.filesN : t.fileN), sentence: D.sentence
+      },
+      flist: D.files.map((f, i) => {
+        const c = cnt(f);
+        return { name: f.name, letter: f.letter === 'A' && f.staged ? 'A' : f.letter, badgeStyle: bs(f), count: f.rows.length ? '+' + c.a + ' −' + c.d : t.untrackedCount,
+          ctStyle: 'color:#5f544c', onClick: () => this.setState({ fi: i }),
+          style: i === fi ? 'background:#fff;border-color:#28201c' : '' };
+      }),
+      cur: { name: cur.name, empty: cur.empty || '' },
+      emptyStyle: cur.rows.length ? 'display:none' : 'padding:28px 24px;font-size:15px;line-height:1.5;color:#28201c;background:#fff',
+      isSide: view === 'side', isUni: view === 'uni',
+      setSide: () => this.setState({ view: 'side' }), setUni: () => this.setState({ view: 'uni' }),
+      viewSideStyle: 'border:0;padding:6px 14px;font-size:13px;' + (view === 'side' ? 'font-weight:700;background:#28201c;color:#f7ede1' : 'font-weight:500;background:transparent;color:#28201c'),
+      viewUniStyle: 'border:0;padding:6px 14px;font-size:13px;' + (view === 'uni' ? 'font-weight:700;background:#28201c;color:#f7ede1' : 'font-weight:500;background:transparent;color:#28201c'),
+      srows, urows
+    };
+  }
+}
+</script>
+</body>
+</html>

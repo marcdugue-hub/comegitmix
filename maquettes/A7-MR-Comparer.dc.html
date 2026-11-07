@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Comegitmix — Deux façons de relire</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,500;1,300;1,500&family=DM+Sans:wght@400;500;700&family=DM+Mono:wght@400;500&family=Caveat:wght@500&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:inherit;text-decoration:none}
+button{font-family:'DM Sans',sans-serif;cursor:pointer}
+.abs{position:absolute}
+.mono{font-family:'DM Mono',monospace}
+.card{position:absolute;background:rgba(255,255,255,.82);border:1px solid rgba(40,32,28,.12);border-radius:22px;box-shadow:0 1px 0 rgba(40,32,28,.05),0 12px 28px -12px rgba(40,32,28,.18);box-sizing:border-box}
+.ebi{font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#5f544c;font-weight:500}
+.rw{display:grid;grid-template-columns:26px minmax(0,1fr) 128px;align-items:center;gap:12px;min-height:46px;border-bottom:1px solid rgba(40,32,28,.08)}
+.rw .n{width:24px;height:24px;border-radius:50%;border:1.5px solid #28201c;box-sizing:border-box;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:12px}
+.rw b{display:block;font-size:14px;font-weight:500}
+.rw code{font-family:'DM Mono',monospace;font-size:12.5px;color:#5f544c}
+.chipS{justify-self:end;font-size:12px;font-weight:700;border-radius:999px;padding:3px 10px;white-space:nowrap}
+svg.ic{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto}
+</style>
+</helmet>
+
+<div style="position:relative;width:1440px;height:900px;background:#f7ede1;color:#28201c;font-family:'DM Sans',sans-serif;overflow:hidden">
+<div class="abs" style="left:-120px;top:520px;width:620px;height:460px;border-radius:44% 56% 47% 53% / 55% 43% 57% 45%;background:radial-gradient(closest-side,#B6E1ED 0%,rgba(182,225,237,0) 100%);opacity:.7"></div>
+<!-- En-tête -->
+<div class="abs" style="left:0;top:0;width:1440px;height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;box-sizing:border-box">
+  <div style="display:flex;align-items:center;gap:16px">
+    <img src="/_blob/f78629e8f3c2961c4cc08d22d1ceef4e" alt="Le sens de l'IA" style="height:48px;width:auto">
+    <div style="width:1px;height:28px;background:rgba(40,32,28,.25)"></div>
+    <div style="font-family:'Cormorant Garamond',serif;font-weight:300;font-size:28px;line-height:1;letter-spacing:-.005em">Come<em style="font-weight:500;color:#E9722D">git</em>mix</div>
+  </div>
+  <nav style="display:flex;gap:6px;padding:4px;border-radius:999px;background:rgba(255,255,255,.7);border:1px solid rgba(40,32,28,.12)">
+    <a href="Main.dc.html" style="padding:8px 20px;border-radius:999px;background:#28201c;color:#f7ede1;font-size:14px;font-weight:500">{{t.tabMission}}</a>
+    <a href="A2-Puzzle.dc.html" style="padding:8px 20px;border-radius:999px;font-size:14px;font-weight:500">{{t.tabPuzzle}}</a>
+    <a href="A3-Sandbox.dc.html" style="padding:8px 20px;border-radius:999px;font-size:14px;font-weight:500">{{t.tabSandbox}}</a>
+  </nav>
+  <div style="display:flex;align-items:center;gap:20px">
+    <div style="display:flex;align-items:center;gap:6px" aria-label="Progression 6 sur 7">
+      <div style="width:12px;height:12px;border-radius:50%;background:#28201c"></div>
+      <div style="width:12px;height:12px;border-radius:50%;background:#28201c"></div>
+      <div style="width:12px;height:12px;border-radius:50%;background:#28201c"></div>
+      <div style="width:12px;height:12px;border-radius:50%;background:#28201c"></div>
+      <div style="width:12px;height:12px;border-radius:50%;background:#28201c"></div>
+      <div style="width:12px;height:12px;border-radius:50%;background:#E9722D"></div>
+      <div style="width:12px;height:12px;border-radius:50%;border:1.5px solid #28201c;box-sizing:border-box"></div>
+    </div>
+    <div style="display:flex;border:1.5px solid #28201c;border-radius:999px;overflow:hidden">
+      <sc-if value="{{isFr}}" hint-placeholder-val="{{true}}">
+        <button onClick="{{setFr}}" aria-label="Français" style="border:0;padding:6px 14px;font-size:13px;font-weight:700;background:#28201c;color:#f7ede1">FR</button>
+        <button onClick="{{setEn}}" aria-label="English" style="border:0;padding:6px 14px;font-size:13px;font-weight:500;background:transparent;color:#28201c">EN</button>
+      </sc-if>
+      <sc-if value="{{isEn}}" hint-placeholder-val="{{false}}">
+        <button onClick="{{setFr}}" aria-label="Français" style="border:0;padding:6px 14px;font-size:13px;font-weight:500;background:transparent;color:#28201c">FR</button>
+        <button onClick="{{setEn}}" aria-label="English" style="border:0;padding:6px 14px;font-size:13px;font-weight:700;background:#28201c;color:#f7ede1">EN</button>
+      </sc-if>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="abs" style="left:28px;top:84px;width:1384px;display:flex;align-items:flex-end;justify-content:space-between">
+  <div>
+    <div class="ebi">★ {{t.eyebrow}}</div>
+    <h1 style="margin:6px 0 0;font-family:'Cormorant Garamond',serif;font-weight:300;font-size:44px;line-height:1">{{t.title1}} <em style="font-weight:500;color:#E9722D">{{t.title2}}</em></h1>
+  </div>
+  <div style="font-size:14px;color:#5f544c;max-width:520px;line-height:1.45;text-align:right">{{t.lead}}</div>
+</div>
+
+<div class="card" style="left:28px;top:186px;width:676px;height:520px;padding:20px 24px">
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><span style="width:12px;height:12px;border-radius:50%;background:#28201c"></span><span style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:26px">{{t.colA}}</span><a href="A5-MR-Branche.dc.html" style="margin-left:auto;font-size:13px;font-weight:700;border-bottom:2px solid #E9722D">{{t.replay}}</a></div>
+  <sc-for list="{{rowsA}}" as="r" hint-placeholder-count="7"><div class="rw"><div class="n">{{r.n}}</div><div><b>{{r.title}}</b><code>{{r.cmd}}</code></div><span class="chipS" style="{{r.style}}">{{r.desk}}</span></div></sc-for>
+</div>
+<div class="card" style="left:736px;top:186px;width:676px;height:520px;padding:20px 24px">
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><span style="width:12px;height:12px;border-radius:50%;background:#4aadcc"></span><span style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:26px">{{t.colB}}</span><a href="A6-MR-Worktree.dc.html" style="margin-left:auto;font-size:13px;font-weight:700;border-bottom:2px solid #E9722D">{{t.replay}}</a></div>
+  <sc-for list="{{rowsB}}" as="r" hint-placeholder-count="6"><div class="rw"><div class="n">{{r.n}}</div><div><b>{{r.title}}</b><code>{{r.cmd}}</code></div><span class="chipS" style="{{r.style}}">{{r.desk}}</span></div></sc-for>
+</div>
+
+<div class="card" style="left:28px;top:722px;width:676px;height:158px;padding:16px 24px;background:#ede5d6">
+  <div class="ebi" style="margin-bottom:6px">{{t.whenTitle}}</div>
+  <div style="font-size:14px;line-height:1.5"><b>{{t.colA}} :</b> {{t.whenA}}</div>
+  <div style="font-size:14px;line-height:1.5;margin-top:4px"><b>{{t.colB}} :</b> {{t.whenB}}</div>
+</div>
+<div class="card" style="left:736px;top:722px;width:440px;height:158px;padding:16px 20px;border:2px dashed #c4551a;background:#fff">
+  <div class="ebi" style="color:#c4551a;margin-bottom:6px">{{t.trapTitle}}</div>
+  <div class="mono" style="font-size:12.5px;margin-bottom:6px">fatal: 'ia/graphiques' is already used by worktree at '…/rapport-ia-graphiques'</div>
+  <div style="font-size:13.5px;line-height:1.45">{{t.trap}}</div>
+</div>
+<div class="card" style="left:1192px;top:722px;width:220px;height:158px;padding:16px 18px;background:#DFE2C5">
+  <div class="ebi" style="margin-bottom:6px">{{t.glossTitle}}</div>
+  <div style="font-size:13.5px;line-height:1.45">{{t.gloss}}</div>
+</div>
+<div class="abs" style="left:520px;top:150px;font-family:'Caveat',cursive;font-size:24px;color:#c4551a;white-space:nowrap">{{t.note}}</div>
+
+</div>
+</x-dc>
+
+<script type="text/x-dc" data-dc-script data-props='{"lang":{"editor":"enum","options":["fr","en"],"default":"fr","section":"Langue"},"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  dict() { return {
+ "fr": {
+  "tabMission": "Mission",
+  "tabPuzzle": "Puzzle",
+  "tabSandbox": "Bac à sable",
+  "eyebrow": "Mission 6 sur 7 · bilan",
+  "title1": "Deux façons",
+  "title2": "de relire une MR",
+  "lead": "La même MR !42, relue deux fois. Ce qui change : ce qui arrive à votre bureau pendant la revue.",
+  "colA": "Sur une branche",
+  "colB": "Dans un worktree",
+  "replay": "Revoir pas à pas →",
+  "intact": "bureau intact",
+  "stashed": "travail rangé",
+  "changed": "dossier changé",
+  "restored": "travail revenu",
+  "removed": "dossier supprimé",
+  "whenTitle": "Quand choisir quoi ?",
+  "whenA": "pour un coup d’œil rapide, quand vous n’avez rien en cours.",
+  "whenB": "dès que vous avez du travail en cours, que la revue dure, ou que plusieurs MR attendent (un dossier par MR).",
+  "trapTitle": "Piège",
+  "trap": "Une branche ne peut être ouverte que dans un seul dossier. Si l’assistant l’a déjà ouverte dans son bureau, allez relire dans ce bureau (git worktree list le montre).",
+  "glossTitle": "MR ou PR ?",
+  "gloss": "Merge request (GitLab) et pull request (GitHub) : c’est la même chose, une demande de fusion à relire.",
+  "note": "regardez la dernière colonne",
+  "stepsA": [
+   {
+    "title": "Regarder son travail en cours",
+    "cmd": "git status"
+   },
+   {
+    "title": "Ranger son travail",
+    "cmd": "git stash"
+   },
+   {
+    "title": "Récupérer la branche de la MR",
+    "cmd": "git fetch origin"
+   },
+   {
+    "title": "Ouvrir la branche de la MR",
+    "cmd": "git switch ia/graphiques"
+   },
+   {
+    "title": "Relire avec diff",
+    "cmd": "git diff main...ia/graphiques"
+   },
+   {
+    "title": "Approuver la MR",
+    "cmd": "Cliquer « Approuver » sur la MR !42"
+   },
+   {
+    "title": "Revenir et ressortir son travail",
+    "cmd": "git switch main && git stash pop"
+   }
+  ],
+  "stepsB": [
+   {
+    "title": "Récupérer la branche de la MR",
+    "cmd": "git fetch origin"
+   },
+   {
+    "title": "Ouvrir un bureau de revue",
+    "cmd": "git worktree add ../revue-mr-42 ia/graphiques"
+   },
+   {
+    "title": "Relire avec diff",
+    "cmd": "git diff main...ia/graphiques"
+   },
+   {
+    "title": "Approuver puis fusionner",
+    "cmd": "Cliquer « Approuver » puis « Fusionner »"
+   },
+   {
+    "title": "Ranger le bureau de revue",
+    "cmd": "git worktree remove ../revue-mr-42"
+   },
+   {
+    "title": "Mettre main à jour",
+    "cmd": "git pull"
+   }
+  ]
+ },
+ "en": {
+  "tabMission": "Mission",
+  "tabPuzzle": "Puzzle",
+  "tabSandbox": "Sandbox",
+  "eyebrow": "Mission 6 of 7 · wrap-up",
+  "title1": "Two ways",
+  "title2": "to review an MR",
+  "lead": "The same MR !42, reviewed twice. What changes: what happens to your desk during the review.",
+  "colA": "On a branch",
+  "colB": "In a worktree",
+  "replay": "Replay step by step →",
+  "intact": "desk untouched",
+  "stashed": "work put away",
+  "changed": "folder changed",
+  "restored": "work back",
+  "removed": "folder removed",
+  "whenTitle": "When to choose which?",
+  "whenA": "for a quick look, when you have nothing in progress.",
+  "whenB": "as soon as you have work in progress, the review takes time, or several MRs are waiting (one folder per MR).",
+  "trapTitle": "Trap",
+  "trap": "A branch can be open in only one folder. If the assistant already opened it in its desk, review in that desk (git worktree list shows it).",
+  "glossTitle": "MR or PR?",
+  "gloss": "Merge request (GitLab) and pull request (GitHub): the same thing, a request to merge that someone reviews.",
+  "note": "look at the last column",
+  "stepsA": [
+   {
+    "title": "Look at your work in progress",
+    "cmd": "git status"
+   },
+   {
+    "title": "Put your work away",
+    "cmd": "git stash"
+   },
+   {
+    "title": "Fetch the MR’s branch",
+    "cmd": "git fetch origin"
+   },
+   {
+    "title": "Open the MR’s branch",
+    "cmd": "git switch ia/graphiques"
+   },
+   {
+    "title": "Review with diff",
+    "cmd": "git diff main...ia/graphiques"
+   },
+   {
+    "title": "Approve the MR",
+    "cmd": "Click “Approve” on MR !42"
+   },
+   {
+    "title": "Go back and bring your work out",
+    "cmd": "git switch main && git stash pop"
+   }
+  ],
+  "stepsB": [
+   {
+    "title": "Fetch the MR’s branch",
+    "cmd": "git fetch origin"
+   },
+   {
+    "title": "Open a review desk",
+    "cmd": "git worktree add ../revue-mr-42 ia/graphiques"
+   },
+   {
+    "title": "Review with diff",
+    "cmd": "git diff main...ia/graphiques"
+   },
+   {
+    "title": "Approve, then merge",
+    "cmd": "Click “Approve”, then “Merge”"
+   },
+   {
+    "title": "Remove the review desk",
+    "cmd": "git worktree remove ../revue-mr-42"
+   },
+   {
+    "title": "Update main",
+    "cmd": "git pull"
+   }
+  ]
+ }
+}; }
+  renderVals() {
+    const lang = (this.state && this.state.lang) || this.props.lang || 'fr';
+    const t = this.dict()[lang];
+    const ok = 'background:#DFE2C5;color:#3f4a1a', bad = 'background:rgba(233,114,45,.18);color:#8a3510', back = 'background:#dff1f7;color:#1a6a88';
+    const deskA = [['intact', ok], ['stashed', bad], ['stashed', bad], ['changed', bad], ['changed', bad], ['changed', bad], ['restored', back]];
+    const deskB = [['intact', ok], ['intact', ok], ['intact', ok], ['intact', ok], ['intact', ok], ['intact', ok]];
+    const mk = (steps, desk) => steps.map((s, i) => ({ n: i + 1, title: s.title, cmd: s.cmd, desk: t[desk[i][0]], style: desk[i][1] }));
+    return {
+      t, isFr: lang === 'fr', isEn: lang === 'en',
+      setFr: () => this.setState({ lang: 'fr' }), setEn: () => this.setState({ lang: 'en' }),
+      rowsA: mk(t.stepsA, deskA), rowsB: mk(t.stepsB, deskB)
+    };
+  }
+}
+</script>
+</body>
+</html>

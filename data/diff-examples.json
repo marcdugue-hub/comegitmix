@@ -1,0 +1,597 @@
+{
+  "_doc": "Exemples de diff (extraits de maquettes/A4-Diff.dc.html). rows: lk/rk = ctx|del|add|empty|fold ; ln/rn = numéros de ligne.",
+  "fr": {
+    "branches": {
+      "cmd": "git diff main ia/resume",
+      "from": "main",
+      "to": "ia/resume",
+      "fromBg": "#28201c",
+      "fromFg": "#f7ede1",
+      "toBg": "#E9722D",
+      "toFg": "#28201c",
+      "sentence": "Voici ce que l’assistant 1 a changé sur sa voie, par rapport à main. Rien n’est encore fusionné.",
+      "files": [
+        {
+          "name": "resume.md",
+          "letter": "M",
+          "rows": [
+            {
+              "lk": "ctx",
+              "rk": "ctx",
+              "ln": 1,
+              "rn": 1,
+              "lt": "# Résumé du rapport",
+              "rt": "# Résumé du rapport"
+            },
+            {
+              "lk": "ctx",
+              "rk": "ctx",
+              "ln": 2,
+              "rn": 2,
+              "lt": "",
+              "rt": ""
+            },
+            {
+              "lk": "del",
+              "rk": "add",
+              "ln": 3,
+              "rn": 3,
+              "lt": "Le rapport est long et couvre beaucoup de sujets.",
+              "rt": "Ce rapport présente trois résultats clés pour le client."
+            },
+            {
+              "lk": "ctx",
+              "rk": "ctx",
+              "ln": 4,
+              "rn": 4,
+              "lt": "",
+              "rt": ""
+            },
+            {
+              "lk": "ctx",
+              "rk": "ctx",
+              "ln": 5,
+              "rn": 5,
+              "lt": "## Points clés",
+              "rt": "## Points clés"
+            },
+            {
+              "lk": "del",
+              "rk": "add",
+              "ln": 6,
+              "rn": 6,
+              "lt": "Les ventes ont augmenté.",
+              "rt": "Les ventes ont augmenté de 12 % au second semestre."
+            },
+            {
+              "lk": "empty",
+              "rk": "add",
+              "ln": "",
+              "rn": 7,
+              "lt": "",
+              "rt": "Le coût d’acquisition a baissé de 8 %."
+            },
+            {
+              "lk": "ctx",
+              "rk": "ctx",
+              "ln": 7,
+              "rn": 8,
+              "lt": "",
+              "rt": ""
+            },
+            {
+              "lk": "fold",
+              "rk": "fold",
+              "lt": "··· 12 lignes inchangées",
+              "rt": "··· 12 lignes inchangées"
+            },
+            {
+              "lk": "ctx",
+              "rk": "ctx",
+              "ln": 19,
+              "rn": 20,
+              "lt": "",
+              "rt": ""
+            },
+            {
+              "lk": "empty",
+              "rk": "add",
+              "ln": "",
+              "rn": 21,
+              "lt": "",
+              "rt": "## Conclusion"
+            },
+            {
+              "lk": "empty",
+              "rk": "add",
+              "ln": "",
+              "rn": 22,
+              "lt": "",
+              "rt": "Nous recommandons de poursuivre l’effort sur la vente en ligne."
+            },
+            {
+              "lk": "empty",
+              "rk": "add",
+              "ln": "",
+              "rn": 23,
+              "lt": "",
+              "rt": ""
+            },
+            {
+              "lk": "ctx",
+              "rk": "ctx",
+              "ln": 20,
+              "rn": 24,
+              "lt": "## Sources",
+              "rt": "## Sources"
+            }
+          ]
+        },
+        {
+          "name": "plan.md",
+          "letter": "M",
+          "rows": [
+            {
+              "lk": "ctx",
+              "rk": "ctx",
+              "ln": 1,
+              "rn": 1,
+              "lt": "# Plan",
+              "rt": "# Plan"
+            },
+            {
+              "lk": "ctx",
+              "rk": "ctx",
+              "ln": 2,
+              "rn": 2,
+              "lt": "1. Introduction",
+              "rt": "1. Introduction"
+            },
+            {
+              "lk": "ctx",
+              "rk": "ctx",
+              "ln": 3,
+              "rn": 3,
+              "lt": "2. Résultats",
+              "rt": "2. Résultats"
+            },
+            {
+              "lk": "del",
+              "rk": "add",
+              "ln": 4,
+              "rn": 4,
+              "lt": "3. Résumé",
+              "rt": "3. Résumé et conclusion"
+            }
+          ]
+        },
+        {
+          "name": "sources.md",
+          "letter": "A",
+          "rows": [
+            {
+              "lk": "empty",
+              "rk": "add",
+              "ln": "",
+              "rn": 1,
+              "lt": "",
+              "rt": "# Sources"
+            },
+            {
+              "lk": "empty",
+              "rk": "add",
+              "ln": "",
+              "rn": 2,
+              "lt": "",
+              "rt": "- Étude de marché 2026"
+            },
+            {
+              "lk": "empty",
+              "rk": "add",
+              "ln": "",
+              "rn": 3,
+              "lt": "",
+              "rt": "- Base interne des ventes"
+            }
+          ]
+        }
+      ]
+    },
+    "work": {
+      "cmd": "git diff",
+      "from": "Index",
+      "to": "Votre dossier",
+      "fromBg": "#dff1f7",
+      "fromFg": "#1a6a88",
+      "toBg": "#fff",
+      "toFg": "#28201c",
+      "sentence": "Ce que vous avez modifié mais pas encore préparé avec git add. Les fichiers nouveaux (U) n’apparaissent pas ici.",
+      "files": [
+        {
+          "name": "plan.md",
+          "letter": "M",
+          "rows": [
+            {
+              "lk": "ctx",
+              "rk": "ctx",
+              "ln": 1,
+              "rn": 1,
+              "lt": "# Plan",
+              "rt": "# Plan"
+            },
+            {
+              "lk": "ctx",
+              "rk": "ctx",
+              "ln": 3,
+              "rn": 3,
+              "lt": "2. Résultats",
+              "rt": "2. Résultats"
+            },
+            {
+              "lk": "del",
+              "rk": "add",
+              "ln": 4,
+              "rn": 4,
+              "lt": "3. Résumé et conclusion",
+              "rt": "3. Résumé, conclusion et annexes"
+            }
+          ]
+        },
+        {
+          "name": "nouveau-1.md",
+          "letter": "U",
+          "rows": [],
+          "empty": "Un fichier nouveau n’apparaît pas dans git diff tant qu’il n’est pas préparé. Lancez d’abord : git add nouveau-1.md"
+        }
+      ]
+    },
+    "staged": {
+      "cmd": "git diff --staged",
+      "from": "Dernier commit",
+      "to": "Index",
+      "fromBg": "#fff",
+      "fromFg": "#28201c",
+      "toBg": "#dff1f7",
+      "toFg": "#1a6a88",
+      "sentence": "Ce qui est préparé dans l’index : c’est exactement ce qui partira dans le prochain commit.",
+      "files": [
+        {
+          "name": "resume.md",
+          "letter": "M",
+          "staged": true,
+          "rows": [
+            {
+              "lk": "ctx",
+              "rk": "ctx",
+              "ln": 1,
+              "rn": 1,
+              "lt": "# Résumé du rapport",
+              "rt": "# Résumé du rapport"
+            },
+            {
+              "lk": "ctx",
+              "rk": "ctx",
+              "ln": 2,
+              "rn": 2,
+              "lt": "",
+              "rt": ""
+            },
+            {
+              "lk": "del",
+              "rk": "add",
+              "ln": 3,
+              "rn": 3,
+              "lt": "Le rapport est long et couvre beaucoup de sujets.",
+              "rt": "Ce rapport présente trois résultats clés pour le client."
+            },
+            {
+              "lk": "ctx",
+              "rk": "ctx",
+              "ln": 4,
+              "rn": 4,
+              "lt": "",
+              "rt": ""
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "en": {
+    "branches": {
+      "cmd": "git diff main ia/resume",
+      "from": "main",
+      "to": "ia/resume",
+      "fromBg": "#28201c",
+      "fromFg": "#f7ede1",
+      "toBg": "#E9722D",
+      "toFg": "#28201c",
+      "sentence": "Here is what assistant 1 changed on its lane, compared with main. Nothing is merged yet.",
+      "files": [
+        {
+          "name": "resume.md",
+          "letter": "M",
+          "rows": [
+            {
+              "lk": "ctx",
+              "rk": "ctx",
+              "ln": 1,
+              "rn": 1,
+              "lt": "# Report summary",
+              "rt": "# Report summary"
+            },
+            {
+              "lk": "ctx",
+              "rk": "ctx",
+              "ln": 2,
+              "rn": 2,
+              "lt": "",
+              "rt": ""
+            },
+            {
+              "lk": "del",
+              "rk": "add",
+              "ln": 3,
+              "rn": 3,
+              "lt": "The report is long and covers many topics.",
+              "rt": "This report presents three key results for the client."
+            },
+            {
+              "lk": "ctx",
+              "rk": "ctx",
+              "ln": 4,
+              "rn": 4,
+              "lt": "",
+              "rt": ""
+            },
+            {
+              "lk": "ctx",
+              "rk": "ctx",
+              "ln": 5,
+              "rn": 5,
+              "lt": "## Key points",
+              "rt": "## Key points"
+            },
+            {
+              "lk": "del",
+              "rk": "add",
+              "ln": 6,
+              "rn": 6,
+              "lt": "Sales went up.",
+              "rt": "Sales went up 12% in the second half."
+            },
+            {
+              "lk": "empty",
+              "rk": "add",
+              "ln": "",
+              "rn": 7,
+              "lt": "",
+              "rt": "Acquisition cost fell by 8%."
+            },
+            {
+              "lk": "ctx",
+              "rk": "ctx",
+              "ln": 7,
+              "rn": 8,
+              "lt": "",
+              "rt": ""
+            },
+            {
+              "lk": "fold",
+              "rk": "fold",
+              "lt": "··· 12 unchanged lines",
+              "rt": "··· 12 unchanged lines"
+            },
+            {
+              "lk": "ctx",
+              "rk": "ctx",
+              "ln": 19,
+              "rn": 20,
+              "lt": "",
+              "rt": ""
+            },
+            {
+              "lk": "empty",
+              "rk": "add",
+              "ln": "",
+              "rn": 21,
+              "lt": "",
+              "rt": "## Conclusion"
+            },
+            {
+              "lk": "empty",
+              "rk": "add",
+              "ln": "",
+              "rn": 22,
+              "lt": "",
+              "rt": "We recommend keeping up the effort on online sales."
+            },
+            {
+              "lk": "empty",
+              "rk": "add",
+              "ln": "",
+              "rn": 23,
+              "lt": "",
+              "rt": ""
+            },
+            {
+              "lk": "ctx",
+              "rk": "ctx",
+              "ln": 20,
+              "rn": 24,
+              "lt": "## Sources",
+              "rt": "## Sources"
+            }
+          ]
+        },
+        {
+          "name": "plan.md",
+          "letter": "M",
+          "rows": [
+            {
+              "lk": "ctx",
+              "rk": "ctx",
+              "ln": 1,
+              "rn": 1,
+              "lt": "# Plan",
+              "rt": "# Plan"
+            },
+            {
+              "lk": "ctx",
+              "rk": "ctx",
+              "ln": 2,
+              "rn": 2,
+              "lt": "1. Introduction",
+              "rt": "1. Introduction"
+            },
+            {
+              "lk": "ctx",
+              "rk": "ctx",
+              "ln": 3,
+              "rn": 3,
+              "lt": "2. Results",
+              "rt": "2. Results"
+            },
+            {
+              "lk": "del",
+              "rk": "add",
+              "ln": 4,
+              "rn": 4,
+              "lt": "3. Summary",
+              "rt": "3. Summary and conclusion"
+            }
+          ]
+        },
+        {
+          "name": "sources.md",
+          "letter": "A",
+          "rows": [
+            {
+              "lk": "empty",
+              "rk": "add",
+              "ln": "",
+              "rn": 1,
+              "lt": "",
+              "rt": "# Sources"
+            },
+            {
+              "lk": "empty",
+              "rk": "add",
+              "ln": "",
+              "rn": 2,
+              "lt": "",
+              "rt": "- 2026 market study"
+            },
+            {
+              "lk": "empty",
+              "rk": "add",
+              "ln": "",
+              "rn": 3,
+              "lt": "",
+              "rt": "- Internal sales database"
+            }
+          ]
+        }
+      ]
+    },
+    "work": {
+      "cmd": "git diff",
+      "from": "Index",
+      "to": "Your folder",
+      "fromBg": "#dff1f7",
+      "fromFg": "#1a6a88",
+      "toBg": "#fff",
+      "toFg": "#28201c",
+      "sentence": "What you changed but have not staged with git add yet. New files (U) do not show up here.",
+      "files": [
+        {
+          "name": "plan.md",
+          "letter": "M",
+          "rows": [
+            {
+              "lk": "ctx",
+              "rk": "ctx",
+              "ln": 1,
+              "rn": 1,
+              "lt": "# Plan",
+              "rt": "# Plan"
+            },
+            {
+              "lk": "ctx",
+              "rk": "ctx",
+              "ln": 3,
+              "rn": 3,
+              "lt": "2. Results",
+              "rt": "2. Results"
+            },
+            {
+              "lk": "del",
+              "rk": "add",
+              "ln": 4,
+              "rn": 4,
+              "lt": "3. Summary and conclusion",
+              "rt": "3. Summary, conclusion and appendices"
+            }
+          ]
+        },
+        {
+          "name": "nouveau-1.md",
+          "letter": "U",
+          "rows": [],
+          "empty": "A new file does not show in git diff until it is staged. Run first: git add nouveau-1.md"
+        }
+      ]
+    },
+    "staged": {
+      "cmd": "git diff --staged",
+      "from": "Last commit",
+      "to": "Index",
+      "fromBg": "#fff",
+      "fromFg": "#28201c",
+      "toBg": "#dff1f7",
+      "toFg": "#1a6a88",
+      "sentence": "What is staged in the index: exactly what will go into the next commit.",
+      "files": [
+        {
+          "name": "resume.md",
+          "letter": "M",
+          "staged": true,
+          "rows": [
+            {
+              "lk": "ctx",
+              "rk": "ctx",
+              "ln": 1,
+              "rn": 1,
+              "lt": "# Report summary",
+              "rt": "# Report summary"
+            },
+            {
+              "lk": "ctx",
+              "rk": "ctx",
+              "ln": 2,
+              "rn": 2,
+              "lt": "",
+              "rt": ""
+            },
+            {
+              "lk": "del",
+              "rk": "add",
+              "ln": 3,
+              "rn": 3,
+              "lt": "The report is long and covers many topics.",
+              "rt": "This report presents three key results for the client."
+            },
+            {
+              "lk": "ctx",
+              "rk": "ctx",
+              "ln": 4,
+              "rn": 4,
+              "lt": "",
+              "rt": ""
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

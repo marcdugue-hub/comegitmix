@@ -1,0 +1,200 @@
+{
+  "groups": [
+    {
+      "id": "prepare",
+      "label": "group.prepare",
+      "commands": [
+        "status",
+        "add",
+        "commit",
+        "stash",
+        "restore"
+      ]
+    },
+    {
+      "id": "lanes",
+      "label": "group.lanes",
+      "commands": [
+        "branch",
+        "switch",
+        "merge",
+        "rebase"
+      ]
+    },
+    {
+      "id": "rewrite",
+      "label": "group.rewrite",
+      "commands": [
+        "squash",
+        "cherry-pick",
+        "reset",
+        "revert"
+      ]
+    },
+    {
+      "id": "share",
+      "label": "group.share",
+      "commands": [
+        "fork",
+        "fetch",
+        "pull",
+        "push",
+        "mr-approve",
+        "mr-merge"
+      ]
+    },
+    {
+      "id": "parallel",
+      "label": "group.parallel",
+      "commands": [
+        "worktree-add",
+        "worktree-list",
+        "worktree-remove"
+      ]
+    },
+    {
+      "id": "read",
+      "label": "group.read",
+      "commands": [
+        "diff",
+        "log",
+        "blame"
+      ]
+    }
+  ],
+  "commands": {
+    "status": {
+      "syntax": "git status",
+      "icon": "list-checks",
+      "unlock": 1,
+      "readOnly": true
+    },
+    "add": {
+      "syntax": "git add <fichier>",
+      "icon": "plus-square",
+      "unlock": 1
+    },
+    "commit": {
+      "syntax": "git commit -m \"<message>\"",
+      "icon": "camera",
+      "unlock": 1
+    },
+    "stash": {
+      "syntax": "git stash [pop]",
+      "icon": "archive",
+      "unlock": 6
+    },
+    "restore": {
+      "syntax": "git restore <fichier>",
+      "icon": "undo-2",
+      "unlock": 4
+    },
+    "branch": {
+      "syntax": "git branch <nom>",
+      "icon": "git-branch",
+      "unlock": 2
+    },
+    "switch": {
+      "syntax": "git switch <nom>",
+      "icon": "arrow-right-left",
+      "unlock": 2
+    },
+    "merge": {
+      "syntax": "git merge <nom>",
+      "icon": "git-merge",
+      "unlock": 4
+    },
+    "rebase": {
+      "syntax": "git rebase <nom>",
+      "icon": "move-horizontal",
+      "unlock": 7
+    },
+    "squash": {
+      "syntax": "git rebase -i HEAD~<n>",
+      "icon": "layers",
+      "unlock": 7
+    },
+    "cherry-pick": {
+      "syntax": "git cherry-pick <commit>",
+      "icon": "cherry",
+      "unlock": 7
+    },
+    "reset": {
+      "syntax": "git reset [--soft|--hard] <commit>",
+      "icon": "rotate-ccw",
+      "unlock": 4
+    },
+    "revert": {
+      "syntax": "git revert <commit>",
+      "icon": "history",
+      "unlock": 4
+    },
+    "fork": {
+      "syntax": "fork (bouton du site d'hébergement)",
+      "icon": "git-fork",
+      "unlock": 5
+    },
+    "fetch": {
+      "syntax": "git fetch",
+      "icon": "download-cloud",
+      "unlock": 5
+    },
+    "pull": {
+      "syntax": "git pull",
+      "icon": "arrow-down-to-line",
+      "unlock": 5
+    },
+    "push": {
+      "syntax": "git push",
+      "icon": "arrow-up-from-line",
+      "unlock": 5
+    },
+    "worktree-add": {
+      "syntax": "git worktree add <chemin> -b <branche>",
+      "icon": "folder-plus",
+      "unlock": 3
+    },
+    "worktree-list": {
+      "syntax": "git worktree list",
+      "icon": "folders",
+      "unlock": 3,
+      "readOnly": true
+    },
+    "worktree-remove": {
+      "syntax": "git worktree remove <chemin>",
+      "icon": "folder-minus",
+      "unlock": 6
+    },
+    "diff": {
+      "syntax": "git diff",
+      "icon": "diff",
+      "unlock": 2,
+      "readOnly": true
+    },
+    "log": {
+      "syntax": "git log",
+      "icon": "scroll-text",
+      "unlock": 4,
+      "readOnly": true
+    },
+    "blame": {
+      "syntax": "git blame <fichier>",
+      "icon": "user-search",
+      "unlock": 4,
+      "readOnly": true
+    },
+    "mr-approve": {
+      "syntax": "(site) Approuver la MR",
+      "icon": "badge-check",
+      "unlock": 6,
+      "web": true
+    },
+    "mr-merge": {
+      "syntax": "(site) Fusionner la MR",
+      "icon": "git-pull-request-arrow",
+      "unlock": 6,
+      "web": true
+    }
+  },
+  "notes": "label, explain.* et error.* sont des clés i18n (src/i18n). unlock = numéro de mission qui débloque la commande ; le bac à sable débloque tout. Icônes : noms Lucide. web = action sur le site d'hébergement (GitLab/GitHub), pas une commande Git."
+}

@@ -1,0 +1,636 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Comegitmix — MR dans un worktree</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,500;1,300;1,500&family=DM+Sans:wght@400;500;700&family=DM+Mono:wght@400;500&family=Caveat:wght@500&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:inherit;text-decoration:none}
+button{font-family:'DM Sans',sans-serif;cursor:pointer}
+.abs{position:absolute}
+.mono{font-family:'DM Mono',monospace}
+.zone{position:absolute;left:0;width:1012px;background:rgba(255,255,255,.7);border:1px solid rgba(40,32,28,.12);border-radius:22px;box-shadow:0 1px 0 rgba(40,32,28,.05),0 12px 28px -12px rgba(40,32,28,.18)}
+.eb{position:absolute;left:24px;font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#5f544c;font-weight:500}
+.ebi{font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#5f544c;font-weight:500}
+.sub{position:absolute;left:24px;width:160px;font-size:13px;line-height:1.35;color:#5f544c}
+.lane{position:absolute;left:24px;width:160px;display:flex;flex-direction:column;gap:1px}
+.lane b{font-family:'DM Mono',monospace;font-size:13px;font-weight:500;color:#28201c}
+.lane span{font-size:13px;color:#5f544c;line-height:1.25}
+.pl{position:absolute;height:26px;box-sizing:border-box;border-radius:999px;display:flex;align-items:center;gap:6px;padding:0 10px;font-family:'DM Mono',monospace;font-size:13px;font-weight:500;white-space:nowrap}
+.pl i{font-style:normal;font-size:12px;opacity:.85;border-left:1.5px solid currentColor;padding-left:6px}
+.stp{display:flex;align-items:center;gap:10px;min-height:30px;font-size:13.5px;color:#28201c;cursor:pointer;border-radius:8px;padding:2px 4px}
+.stp .n{flex:0 0 22px;height:22px;border-radius:50%;box-sizing:border-box;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:11.5px;font-weight:500}
+.fr{display:flex;align-items:center;height:25px;gap:6px;font-family:'DM Mono',monospace;font-size:13px;color:#28201c}
+.ix{position:absolute;top:512px;width:250px;height:36px;box-sizing:border-box;display:flex;align-items:center;gap:6px;padding-left:10px;font-size:13px;color:#5f544c;font-style:italic}
+.part{flex:1;text-align:center;padding:7px 8px;border-radius:999px;font-size:12.5px;font-weight:500;white-space:nowrap}
+svg.ic{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto}
+</style>
+</helmet>
+
+<div style="position:relative;width:1440px;height:900px;background:#f7ede1;color:#28201c;font-family:'DM Sans',sans-serif;overflow:hidden">
+<div class="abs" style="left:880px;top:60px;width:620px;height:520px;border-radius:58% 42% 51% 49% / 46% 57% 43% 54%;background:radial-gradient(closest-side,#DFE2C5 0%,rgba(223,226,197,0) 100%)"></div>
+<!-- En-tête -->
+<div class="abs" style="left:0;top:0;width:1440px;height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;box-sizing:border-box">
+  <div style="display:flex;align-items:center;gap:16px">
+    <img src="/_blob/f78629e8f3c2961c4cc08d22d1ceef4e" alt="Le sens de l'IA" style="height:48px;width:auto">
+    <div style="width:1px;height:28px;background:rgba(40,32,28,.25)"></div>
+    <div style="font-family:'Cormorant Garamond',serif;font-weight:300;font-size:28px;line-height:1;letter-spacing:-.005em">Come<em style="font-weight:500;color:#E9722D">git</em>mix</div>
+  </div>
+  <nav style="display:flex;gap:6px;padding:4px;border-radius:999px;background:rgba(255,255,255,.7);border:1px solid rgba(40,32,28,.12)">
+    <a href="Main.dc.html" style="padding:8px 20px;border-radius:999px;background:#28201c;color:#f7ede1;font-size:14px;font-weight:500">{{t.tabMission}}</a>
+    <a href="A2-Puzzle.dc.html" style="padding:8px 20px;border-radius:999px;font-size:14px;font-weight:500">{{t.tabPuzzle}}</a>
+    <a href="A3-Sandbox.dc.html" style="padding:8px 20px;border-radius:999px;font-size:14px;font-weight:500">{{t.tabSandbox}}</a>
+  </nav>
+  <div style="display:flex;align-items:center;gap:20px">
+    <div style="display:flex;align-items:center;gap:6px" aria-label="Progression 6 sur 7">
+      <div style="width:12px;height:12px;border-radius:50%;background:#28201c"></div>
+      <div style="width:12px;height:12px;border-radius:50%;background:#28201c"></div>
+      <div style="width:12px;height:12px;border-radius:50%;background:#28201c"></div>
+      <div style="width:12px;height:12px;border-radius:50%;background:#28201c"></div>
+      <div style="width:12px;height:12px;border-radius:50%;background:#28201c"></div>
+      <div style="width:12px;height:12px;border-radius:50%;background:#E9722D"></div>
+      <div style="width:12px;height:12px;border-radius:50%;border:1.5px solid #28201c;box-sizing:border-box"></div>
+    </div>
+    <div style="display:flex;border:1.5px solid #28201c;border-radius:999px;overflow:hidden">
+      <sc-if value="{{isFr}}" hint-placeholder-val="{{true}}">
+        <button onClick="{{setFr}}" aria-label="Français" style="border:0;padding:6px 14px;font-size:13px;font-weight:700;background:#28201c;color:#f7ede1">FR</button>
+        <button onClick="{{setEn}}" aria-label="English" style="border:0;padding:6px 14px;font-size:13px;font-weight:500;background:transparent;color:#28201c">EN</button>
+      </sc-if>
+      <sc-if value="{{isEn}}" hint-placeholder-val="{{false}}">
+        <button onClick="{{setFr}}" aria-label="Français" style="border:0;padding:6px 14px;font-size:13px;font-weight:500;background:transparent;color:#28201c">FR</button>
+        <button onClick="{{setEn}}" aria-label="English" style="border:0;padding:6px 14px;font-size:13px;font-weight:700;background:#28201c;color:#f7ede1">EN</button>
+      </sc-if>
+    </div>
+  </div>
+</div>
+
+
+<!-- Panneau de mission -->
+<div class="abs" style="left:20px;top:84px;width:368px;height:796px;box-sizing:border-box;padding:18px 20px;border-radius:22px;background:rgba(255,255,255,.78);border:1px solid rgba(40,32,28,.12);box-shadow:0 1px 0 rgba(40,32,28,.05),0 12px 28px -12px rgba(40,32,28,.18);display:flex;flex-direction:column;gap:11px;overflow:hidden">
+  <div style="display:flex;gap:6px;padding:3px;border-radius:999px;background:#ede5d6">
+    <a href="A5-MR-Branche.dc.html" class="part" style="{{partAStyle}}">{{t.partA}}</a>
+    <a href="A6-MR-Worktree.dc.html" class="part" style="{{partBStyle}}">{{t.partB}}</a>
+  </div>
+  <div class="ebi">★ {{t.eyebrow}}</div>
+  <h2 style="margin:0;font-family:'Cormorant Garamond',serif;font-weight:300;font-size:30px;line-height:1.05">{{t.title1}} <em style="font-weight:500;color:#E9722D">{{title2}}</em></h2>
+  <div style="display:flex;gap:10px;align-items:flex-start">
+    <img src="/_blob/19b4599bc9dac48645a34b326ed12da7" alt="" style="width:52px;height:52px;flex:0 0 52px">
+    <div style="background:#fff;border:1px solid rgba(40,32,28,.14);border-radius:6px 16px 16px 16px;padding:9px 12px;font-size:13px;line-height:1.45">{{bubble}}</div>
+  </div>
+  <div style="display:flex;align-items:center;gap:8px;font-size:13px;background:#fff;border:1px solid rgba(40,32,28,.14);border-radius:12px;padding:7px 10px">
+    <span style="color:#5f544c">{{t.work}}</span><span style="{{workStyle}}">{{workTxt}}</span>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:1px">
+    <sc-for list="{{steps}}" as="s" hint-placeholder-count="7">
+      <div class="stp" onClick="{{s.onClick}}" style="{{s.style}}"><div class="n" style="{{s.nStyle}}">{{s.num}}</div><span style="{{s.tStyle}}">{{s.title}}</span></div>
+    </sc-for>
+  </div>
+  <sc-if value="{{notDone}}" hint-placeholder-val="{{true}}">
+    <div style="background:#28201c;color:#f7ede1;border-radius:16px;padding:13px 14px;display:flex;flex-direction:column;gap:7px">
+      <div class="mono" style="font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:rgba(247,237,225,.7)">{{cmdLabel}}</div>
+      <div class="mono" style="font-size:13px;line-height:1.45;word-break:break-word"><span style="{{dollarStyle}}">$ </span>{{cur.cmd}}</div>
+      <div style="font-size:13px;line-height:1.4;color:rgba(247,237,225,.8)">{{cur.ex}}</div>
+      <div style="display:flex;gap:8px;margin-top:2px">
+        <button onClick="{{run}}" style="border:0;border-radius:999px;background:#E9722D;color:#28201c;font-weight:700;font-size:13.5px;padding:8px 20px">{{t.run}}</button>
+        <button onClick="{{prev}}" style="{{prevStyle}}">{{t.prev}}</button>
+      </div>
+    </div>
+  </sc-if>
+  <sc-if value="{{isDone}}" hint-placeholder-val="{{false}}">
+    <div style="background:#DFE2C5;border-radius:16px;padding:13px 14px;display:flex;flex-direction:column;gap:7px">
+      <div style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:21px;line-height:1.1">{{t.outroTitle}}</div>
+      <div style="font-size:13px;line-height:1.45">{{outro}}</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:2px">
+        <a href="{{nextHref}}" style="border-radius:999px;background:#28201c;color:#f7ede1;font-weight:700;font-size:13px;padding:7px 14px">{{nextTxt}}</a>
+        <button onClick="{{restart}}" style="border:1.5px solid #28201c;border-radius:999px;background:transparent;color:#28201c;font-weight:500;font-size:13px;padding:6px 14px">{{t.restart}}</button>
+      </div>
+    </div>
+  </sc-if>
+  <div style="{{happenedStyle}}">
+    <div class="ebi" style="font-size:11px;margin-bottom:3px">{{t.happened}}</div>
+    <div style="font-size:13px;line-height:1.4">{{happened}}</div>
+  </div>
+</div>
+
+<!-- Scène -->
+<div class="abs" style="left:408px;top:84px;width:1012px;height:796px">
+  <div class="zone" style="top:0;height:176px"></div>
+  <div class="zone" style="top:192px;height:292px"></div>
+  <div class="zone" style="top:500px;height:60px;border-radius:18px"></div>
+  <div class="zone" style="top:576px;height:220px"></div>
+  <div class="eb" style="top:16px">★ {{t.zGit}}</div>
+  <div class="sub" style="top:38px">{{t.zGitSub}}</div>
+  <div class="eb" style="top:206px">★ {{t.zLanes}}</div>
+  <div class="sub" style="top:228px">{{t.zLanesSub}}</div>
+  <div class="eb" style="top:508px">★ {{t.zIndex}}</div>
+  <div class="sub" style="top:528px;white-space:nowrap">{{t.zIndexSub}}</div>
+  <div class="eb" style="top:590px">★ {{t.zDisk}}</div>
+  <div class="sub mono" style="top:612px">~/Projets/</div>
+
+  <!-- origin + MR -->
+  <div class="abs" style="left:200px;top:20px;width:420px;height:136px;box-sizing:border-box;border:1.5px solid rgba(40,32,28,.45);border-radius:16px;background:#fff;padding:12px 16px;display:flex;flex-direction:column;gap:8px">
+    <div style="display:flex;align-items:center;gap:8px;font-size:14px"><span class="mono" style="font-weight:500">origin</span><span style="color:#5f544c">· {{t.originDesc}}</span></div>
+    <div style="{{mrCardStyle}}">
+      <div style="display:flex;align-items:center;gap:8px"><span class="mono" style="font-weight:500;font-size:14px">!42</span><span style="font-size:14px;font-weight:500">{{t.mrTitle}}</span><span style="{{mrChipStyle}}">{{mrStatus}}</span></div>
+      <div style="display:flex;align-items:center;gap:10px;font-size:12.5px;color:#5f544c"><span class="mono" style="color:#1a6a88">ia/graphiques</span><span>→</span><span class="mono" style="color:#28201c">main</span><span style="margin-left:auto">{{t.comments}}</span></div>
+    </div>
+  </div>
+  <div class="abs" style="left:640px;top:20px;width:348px;height:136px;box-sizing:border-box;border:2px solid #28201c;border-radius:16px;background:#fff;padding:12px 16px;display:flex;flex-direction:column;gap:4px">
+    <div style="font-weight:500;font-size:14px">{{t.local}}</div>
+    <div style="display:flex;gap:24px;align-items:baseline">
+      <div><div style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:36px;line-height:1">{{stats.c}}</div><div style="font-size:12.5px;color:#5f544c">{{t.stCommits}}</div></div>
+      <div><div style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:36px;line-height:1">{{stats.b}}</div><div style="font-size:12.5px;color:#5f544c">{{t.stBranches}}</div></div>
+      <div><div style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:36px;line-height:1">{{stats.d}}</div><div style="font-size:12.5px;color:#5f544c">{{t.stDesks}}</div></div>
+    </div>
+    <div style="margin-top:auto;font-size:12.5px;color:#5f544c">{{t.oneGit}}</div>
+  </div>
+
+  <!-- voies -->
+  <div class="lane" style="top:282px"><b>ia/graphiques</b><span>{{t.laneG}}</span></div>
+  <div class="lane" style="top:396px"><b>main</b><span>{{t.laneM}}</span></div>
+  <sc-for list="{{segs}}" as="g" hint-placeholder-count="6"><div style="{{g.style}}"></div></sc-for>
+  <sc-for list="{{dots}}" as="d" hint-placeholder-count="7"><div style="{{d.style}}"></div></sc-for>
+  <sc-for list="{{pills}}" as="p" hint-placeholder-count="3"><div class="pl" style="{{p.style}}">{{p.text}}<i style="{{p.headStyle}}">HEAD</i></div></sc-for>
+
+  <!-- stash -->
+  <div style="{{stashStyle}}"><svg class="ic" viewBox="0 0 24 24"><rect width="20" height="5" x="2" y="3" rx="1"/><path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8"/><path d="M10 12h4"/></svg><span class="mono" style="font-weight:500">stash@{0}</span><span>{{t.stashFiles}}</span></div>
+
+  <!-- bureaux -->
+
+  <div style="{{tile0.style}}">
+    <div style="{{tile0.stStyle}}"></div>
+    <div style="display:flex;align-items:center;gap:8px;font-family:'DM Mono',monospace;font-size:14px;font-weight:500"><svg class="ic" viewBox="0 0 24 24"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>{{tile0.name}}</div>
+    <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#5f544c;margin:2px 0 6px"><span>{{tile0.desc}}</span><span style="{{tile0.hereStyle}}">{{t.here}}</span></div>
+    <div style="height:118px;overflow-y:auto">
+      <sc-for list="{{tile0.rows}}" as="r" hint-placeholder-count="4">
+        <div class="fr" style="{{r.style}}"><svg class="ic" viewBox="0 0 24 24" style="{{r.chev}}"><path d="m9 18 6-6-6-6"/></svg><svg class="ic" viewBox="0 0 24 24"><path d="{{r.d1}}"/><path d="{{r.d2}}"/></svg><span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{r.name}}</span><span style="{{r.bs}}">{{r.letter}}</span></div>
+      </sc-for>
+    </div>
+  </div>
+  <div class="ix" style="{{ix0.style}}">{{t.emptyIdx}}</div>
+  <div style="{{tile1.style}}">
+    <div style="{{tile1.stStyle}}"></div>
+    <div style="display:flex;align-items:center;gap:8px;font-family:'DM Mono',monospace;font-size:14px;font-weight:500"><svg class="ic" viewBox="0 0 24 24"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>{{tile1.name}}</div>
+    <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#5f544c;margin:2px 0 6px"><span>{{tile1.desc}}</span><span style="{{tile1.hereStyle}}">{{t.here}}</span></div>
+    <div style="height:118px;overflow-y:auto">
+      <sc-for list="{{tile1.rows}}" as="r" hint-placeholder-count="4">
+        <div class="fr" style="{{r.style}}"><svg class="ic" viewBox="0 0 24 24" style="{{r.chev}}"><path d="m9 18 6-6-6-6"/></svg><svg class="ic" viewBox="0 0 24 24"><path d="{{r.d1}}"/><path d="{{r.d2}}"/></svg><span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{r.name}}</span><span style="{{r.bs}}">{{r.letter}}</span></div>
+      </sc-for>
+    </div>
+  </div>
+  <div class="ix" style="{{ix1.style}}">{{t.emptyIdx}}</div>
+
+  <!-- relecture -->
+  <div style="{{diffStyle}}">
+    <div class="mono" style="font-size:12.5px;font-weight:500;margin-bottom:6px">git diff main...ia/graphiques</div>
+    <div class="fr"><span style="display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;border-radius:5px;font-size:12px;font-weight:500;color:#1a6a88;background:#dff1f7">A</span><span style="flex:1">ventes.svg</span><span style="font-size:12px;color:#3f4a1a">+12</span></div>
+    <div class="fr"><span style="display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;border-radius:5px;font-size:12px;font-weight:500;color:#1a6a88;background:#dff1f7">A</span><span style="flex:1">couts.svg</span><span style="font-size:12px;color:#3f4a1a">+5</span></div>
+    <div class="fr"><span style="display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;border-radius:5px;font-size:12px;font-weight:500;color:#c4551a;background:rgba(233,114,45,.16)">M</span><span style="flex:1">plan.md</span><span style="font-size:12px;color:#5f544c">+1 −1</span></div>
+    <a href="A4-Diff.dc.html" style="display:inline-block;margin-top:8px;font-size:13px;font-weight:700;color:#28201c;border-bottom:2px solid #E9722D">{{t.openDiff}}</a>
+  </div>
+  <div style="{{noteStyle}}">{{note}}</div>
+</div>
+
+</div>
+</x-dc>
+
+<script type="text/x-dc" data-dc-script data-props='{"lang":{"editor":"enum","options":["fr","en"],"default":"fr","section":"Langue"},"step":{"editor":"number","default":0,"section":"Étape"},"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  part() { return 'B'; }
+  dict() { return {
+ "fr": {
+  "tabMission": "Mission",
+  "tabPuzzle": "Puzzle",
+  "tabSandbox": "Bac à sable",
+  "eyebrow": "Mission 6 sur 7 · 12 min",
+  "title1": "Relire une MR",
+  "title2A": "sur une branche",
+  "title2B": "dans un worktree",
+  "partA": "A · Sur une branche",
+  "partB": "B · Dans un worktree",
+  "bubbleA": "Un assistant IA a ouvert la MR !42 sur sa branche ia/graphiques. Vous êtes en plein travail. Relisons sa MR de la façon classique : en changeant de branche.",
+  "bubbleB": "Même MR, autre méthode : on ouvre un deuxième dossier juste pour la relecture. Regardez bien votre bureau pendant toute la mission.",
+  "work": "Votre travail en cours",
+  "workVisible": "sur votre bureau",
+  "workStashed": "rangé dans le stash",
+  "cmdLabel": "Votre prochaine commande",
+  "webLabel": "Sur le site (GitLab ou GitHub)",
+  "run": "Lancer",
+  "prev": "Précédent",
+  "restart": "Recommencer",
+  "happened": "Ce qui vient de se passer",
+  "outroTitle": "MR relue",
+  "outroA": "Ça marche, mais votre bureau a été dérangé pendant toute la revue, et il fallait penser au stash pop.",
+  "outroB": "Votre travail n’a jamais bougé. Le dossier de revue se crée en une commande et se jette après usage.",
+  "toPartB": "Partie B : dans un worktree →",
+  "toCompare": "Comparer les deux façons →",
+  "zGit": "Dans Git",
+  "zGitSub": "En ligne et en local",
+  "zLanes": "Les voies",
+  "zLanesSub": "Une voie par branche",
+  "zIndex": "L’index",
+  "zIndexSub": "Un par bureau",
+  "zDisk": "Sur votre poste",
+  "originDesc": "le dépôt en ligne de l’équipe",
+  "mrTitle": "Ajout des graphiques",
+  "mrOpen": "Ouverte · en revue",
+  "mrApproved": "Approuvée",
+  "mrMerged": "Fusionnée",
+  "comments": "2 commentaires",
+  "local": "Dépôt local · .git",
+  "stCommits": "commits",
+  "stBranches": "branches",
+  "stDesks": "bureaux",
+  "oneGit": "Un seul .git, partagé par tous les bureaux",
+  "laneM": "Version de référence",
+  "laneG": "Assistant IA · graphiques",
+  "onlyOnline": "MR !42 · seulement en ligne",
+  "dMain": "votre dossier",
+  "dReview": "dossier de revue",
+  "here": "ici",
+  "emptyIdx": "rien de préparé",
+  "stashFiles": "plan.md, intro.md rangés",
+  "openDiff": "Ouvrir l’écran de diff →",
+  "stepsA": [
+   {
+    "title": "Regarder son travail en cours",
+    "cmd": "git status",
+    "ex": "Avant de changer de branche, on regarde ce qui est en cours.",
+    "after": "Deux fichiers modifiés (M) : votre travail n’est pas encore enregistré."
+   },
+   {
+    "title": "Ranger son travail",
+    "cmd": "git stash",
+    "ex": "On met le travail de côté pour pouvoir changer de branche sans l’emporter ni le perdre.",
+    "after": "Vos M ont disparu du dossier : ils sont rangés dans le stash, en zone ③.",
+    "note": "Votre travail est caché, pas perdu."
+   },
+   {
+    "title": "Récupérer la branche de la MR",
+    "cmd": "git fetch origin",
+    "ex": "On télécharge ce qui est en ligne, sans toucher à votre dossier.",
+    "after": "La voie de la MR existe maintenant chez vous, sous le nom origin/ia/graphiques."
+   },
+   {
+    "title": "Ouvrir la branche de la MR",
+    "cmd": "git switch ia/graphiques",
+    "ex": "Votre dossier prend le contenu de la branche de la MR.",
+    "after": "Votre dossier a changé de contenu : le dossier graphiques/ est apparu. Le fil part maintenant vers la voie bleue.",
+    "note": "Même dossier, autre contenu : vous n’êtes plus sur main."
+   },
+   {
+    "title": "Relire avec diff",
+    "cmd": "git diff main...ia/graphiques",
+    "ex": "On compare la branche de la MR avec main : seulement ce que la MR apporte.",
+    "after": "Deux fichiers ajoutés (A) et un modifié (M). On peut ouvrir l’écran de diff pour lire ligne à ligne."
+   },
+   {
+    "title": "Approuver la MR",
+    "cmd": "Cliquer « Approuver » sur la MR !42",
+    "web": true,
+    "ex": "La relecture est faite : on donne son accord en ligne.",
+    "after": "La MR est approuvée. Elle pourra être fusionnée dans main."
+   },
+   {
+    "title": "Revenir et ressortir son travail",
+    "cmd": "git switch main && git stash pop",
+    "ex": "Retour sur main, puis on ressort le travail rangé.",
+    "after": "Vous êtes revenu sur main et vos deux M sont de retour. Sans stash pop, ils seraient restés cachés."
+   }
+  ],
+  "stepsB": [
+   {
+    "title": "Récupérer la branche de la MR",
+    "cmd": "git fetch origin",
+    "ex": "On télécharge ce qui est en ligne, sans toucher à votre dossier.",
+    "after": "La voie de la MR existe chez vous, sous le nom origin/ia/graphiques. Vos M n’ont pas bougé."
+   },
+   {
+    "title": "Ouvrir un bureau de revue",
+    "cmd": "git worktree add ../revue-mr-42 ia/graphiques",
+    "ex": "Un deuxième dossier, ouvert sur la branche de la MR. Pas besoin de stash.",
+    "after": "Un nouveau dossier revue-mr-42 est apparu, relié à la voie bleue. Votre bureau est intact, à 60 % : vous travaillez maintenant dans la revue.",
+    "note": "Votre bureau n’a pas bougé : vos M sont toujours là."
+   },
+   {
+    "title": "Relire avec diff",
+    "cmd": "git diff main...ia/graphiques",
+    "ex": "Dans le dossier de revue, on compare la branche de la MR avec main.",
+    "after": "Deux fichiers ajoutés (A) et un modifié (M). On peut ouvrir l’écran de diff pour lire ligne à ligne."
+   },
+   {
+    "title": "Approuver puis fusionner",
+    "cmd": "Cliquer « Approuver » puis « Fusionner »",
+    "web": true,
+    "ex": "On donne son accord, puis la MR est fusionnée dans main, en ligne.",
+    "after": "La MR est fusionnée sur origin : origin/main a avancé. Votre main local, lui, n’a pas encore bougé.",
+    "note": "Fusionné en ligne : il faudra le récupérer."
+   },
+   {
+    "title": "Ranger le bureau de revue",
+    "cmd": "git worktree remove ../revue-mr-42",
+    "ex": "Le dossier de revue a fini son travail : on le supprime.",
+    "after": "Le dossier de revue a disparu. La branche ia/graphiques, elle, existe toujours dans le .git."
+   },
+   {
+    "title": "Mettre main à jour",
+    "cmd": "git pull",
+    "ex": "Dans votre bureau, on récupère la fusion faite en ligne.",
+    "after": "main a avancé jusqu’à la fusion, et vos deux M sont toujours là : votre travail n’a jamais été dérangé."
+   }
+  ]
+ },
+ "en": {
+  "tabMission": "Mission",
+  "tabPuzzle": "Puzzle",
+  "tabSandbox": "Sandbox",
+  "eyebrow": "Mission 6 of 7 · 12 min",
+  "title1": "Review an MR",
+  "title2A": "on a branch",
+  "title2B": "in a worktree",
+  "partA": "A · On a branch",
+  "partB": "B · In a worktree",
+  "bubbleA": "An AI assistant opened MR !42 on its branch ia/graphiques. You are in the middle of your own work. Let’s review its MR the classic way: by switching branches.",
+  "bubbleB": "Same MR, another method: we open a second folder just for the review. Keep an eye on your desk during the whole mission.",
+  "work": "Your work in progress",
+  "workVisible": "on your desk",
+  "workStashed": "put away in the stash",
+  "cmdLabel": "Your next command",
+  "webLabel": "On the website (GitLab or GitHub)",
+  "run": "Run",
+  "prev": "Back",
+  "restart": "Start over",
+  "happened": "What just happened",
+  "outroTitle": "MR reviewed",
+  "outroA": "It works, but your desk was disturbed during the whole review, and you had to remember stash pop.",
+  "outroB": "Your work never moved. The review folder takes one command to create and is thrown away afterwards.",
+  "toPartB": "Part B: in a worktree →",
+  "toCompare": "Compare both ways →",
+  "zGit": "Inside Git",
+  "zGitSub": "Online and local",
+  "zLanes": "The lanes",
+  "zLanesSub": "One lane per branch",
+  "zIndex": "The index",
+  "zIndexSub": "One per desk",
+  "zDisk": "On your computer",
+  "originDesc": "the team’s online repository",
+  "mrTitle": "Add the charts",
+  "mrOpen": "Open · in review",
+  "mrApproved": "Approved",
+  "mrMerged": "Merged",
+  "comments": "2 comments",
+  "local": "Local repository · .git",
+  "stCommits": "commits",
+  "stBranches": "branches",
+  "stDesks": "desks",
+  "oneGit": "One single .git, shared by every desk",
+  "laneM": "Reference version",
+  "laneG": "AI assistant · charts",
+  "onlyOnline": "MR !42 · online only",
+  "dMain": "your folder",
+  "dReview": "review folder",
+  "here": "here",
+  "emptyIdx": "nothing staged",
+  "stashFiles": "plan.md, intro.md put away",
+  "openDiff": "Open the diff screen →",
+  "stepsA": [
+   {
+    "title": "Look at your work in progress",
+    "cmd": "git status",
+    "ex": "Before switching branches, check what is in progress.",
+    "after": "Two modified files (M): your work is not saved yet."
+   },
+   {
+    "title": "Put your work away",
+    "cmd": "git stash",
+    "ex": "Set your work aside so you can switch branches without carrying it along or losing it.",
+    "after": "Your M files are gone from the folder: they are put away in the stash, in zone ③.",
+    "note": "Your work is hidden, not lost."
+   },
+   {
+    "title": "Fetch the MR’s branch",
+    "cmd": "git fetch origin",
+    "ex": "Download what is online, without touching your folder.",
+    "after": "The MR’s lane now exists on your side, as origin/ia/graphiques."
+   },
+   {
+    "title": "Open the MR’s branch",
+    "cmd": "git switch ia/graphiques",
+    "ex": "Your folder takes the content of the MR’s branch.",
+    "after": "Your folder changed content: the graphiques/ folder appeared. The thread now runs to the blue lane.",
+    "note": "Same folder, different content: you are no longer on main."
+   },
+   {
+    "title": "Review with diff",
+    "cmd": "git diff main...ia/graphiques",
+    "ex": "Compare the MR’s branch with main: only what the MR brings.",
+    "after": "Two added files (A) and one modified (M). Open the diff screen to read line by line."
+   },
+   {
+    "title": "Approve the MR",
+    "cmd": "Click “Approve” on MR !42",
+    "web": true,
+    "ex": "The review is done: give your approval online.",
+    "after": "The MR is approved. It can be merged into main."
+   },
+   {
+    "title": "Go back and bring your work out",
+    "cmd": "git switch main && git stash pop",
+    "ex": "Back to main, then bring the stashed work back.",
+    "after": "You are back on main and your two M files are back. Without stash pop, they would have stayed hidden."
+   }
+  ],
+  "stepsB": [
+   {
+    "title": "Fetch the MR’s branch",
+    "cmd": "git fetch origin",
+    "ex": "Download what is online, without touching your folder.",
+    "after": "The MR’s lane exists on your side, as origin/ia/graphiques. Your M files did not move."
+   },
+   {
+    "title": "Open a review desk",
+    "cmd": "git worktree add ../revue-mr-42 ia/graphiques",
+    "ex": "A second folder, open on the MR’s branch. No stash needed.",
+    "after": "A new folder revue-mr-42 appeared, linked to the blue lane. Your desk is untouched, at 60%: you now work in the review.",
+    "note": "Your desk did not move: your M files are still there."
+   },
+   {
+    "title": "Review with diff",
+    "cmd": "git diff main...ia/graphiques",
+    "ex": "In the review folder, compare the MR’s branch with main.",
+    "after": "Two added files (A) and one modified (M). Open the diff screen to read line by line."
+   },
+   {
+    "title": "Approve, then merge",
+    "cmd": "Click “Approve”, then “Merge”",
+    "web": true,
+    "ex": "Give your approval, then the MR is merged into main, online.",
+    "after": "The MR is merged on origin: origin/main moved forward. Your local main has not moved yet.",
+    "note": "Merged online: you will need to fetch it."
+   },
+   {
+    "title": "Remove the review desk",
+    "cmd": "git worktree remove ../revue-mr-42",
+    "ex": "The review folder has done its job: remove it.",
+    "after": "The review folder is gone. The ia/graphiques branch still exists in the .git."
+   },
+   {
+    "title": "Update main",
+    "cmd": "git pull",
+    "ex": "In your desk, bring in the merge made online.",
+    "after": "main moved up to the merge, and your two M files are still there: your work was never disturbed."
+   }
+  ]
+ }
+}; }
+  patches() {
+    if (this.part() === 'A') return [
+      {}, { work: 'stashed' }, { fetched: true }, { local: true, mainTile: 'g' }, { diff: true },
+      { diff: false, mr: 'approved' }, { mainTile: 'main', work: 'visible' }
+    ];
+    return [
+      { fetched: true }, { local: true, review: true, active: 'review' }, { diff: true },
+      { diff: false, mr: 'merged', merged: true }, { review: false, active: 'main' }, { pulled: true }
+    ];
+  }
+  sceneAt(k) {
+    let s = { fetched: false, local: false, mainTile: 'main', work: 'visible', review: false, active: 'main', diff: false, mr: 'open', merged: false, pulled: false };
+    this.patches().slice(0, k).forEach(p => { s = Object.assign({}, s, p); });
+    return s;
+  }
+  bar(x1, x2, y, c, dashed, op) {
+    const bg = dashed ? 'repeating-linear-gradient(90deg,' + c + ' 0 8px,transparent 8px 18px)' : c;
+    return { style: 'position:absolute;left:' + x1 + 'px;top:' + (y - 5.5) + 'px;width:' + (x2 - x1) + 'px;height:11px;border-radius:6px;background:' + bg + ';opacity:' + (op == null ? 1 : op) };
+  }
+  diag(x1, y1, x2, y2, c, dashed, op) {
+    const L = Math.hypot(x2 - x1, y2 - y1), a = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
+    const bg = dashed ? 'repeating-linear-gradient(90deg,' + c + ' 0 8px,transparent 8px 18px)' : c;
+    return { style: 'position:absolute;left:' + x1 + 'px;top:' + (y1 - 5.5) + 'px;width:' + L + 'px;height:11px;border-radius:6px;background:' + bg + ';transform-origin:0 50%;transform:rotate(' + a + 'deg);opacity:' + (op == null ? 1 : op) };
+  }
+  vline(x, y1, y2, c, op) { return { style: 'position:absolute;left:' + (x - 1.5) + 'px;top:' + y1 + 'px;width:3px;height:' + (y2 - y1) + 'px;background:repeating-linear-gradient(180deg,' + c + ' 0 3px,transparent 3px 12px);opacity:' + op }; }
+  hline(x1, x2, y, c, op) { const a = Math.min(x1, x2), b = Math.max(x1, x2); return { style: 'position:absolute;left:' + a + 'px;top:' + (y - 1.5) + 'px;height:3px;width:' + (b - a) + 'px;background:repeating-linear-gradient(90deg,' + c + ' 0 3px,transparent 3px 12px);opacity:' + op }; }
+  dot(x, y, c, tip, ghost, op) {
+    const r = tip ? 14 : 12;
+    return { style: 'position:absolute;left:' + (x - r) + 'px;top:' + (y - r) + 'px;width:' + 2 * r + 'px;height:' + 2 * r + 'px;box-sizing:border-box;border-radius:50%;border:4px ' + (ghost ? 'dashed' : 'solid') + ' ' + (tip && !ghost ? '#28201c' : c) + ';background:' + (tip ? c : (ghost ? '#f7ede1' : '#fff')) + ';opacity:' + (op == null ? 1 : op) };
+  }
+  pill(x, y, text, bg, fg, ghost, head) {
+    return { text, style: 'left:' + x + 'px;top:' + y + 'px;background:' + bg + ';color:' + fg + (ghost ? ';border:2px dashed #2f8fb0' : ''), headStyle: head ? '' : 'display:none' };
+  }
+  rows(kind, work) {
+    const FD1 = 'M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z', FD2 = 'M14 2v4a2 2 0 0 0 2 2h4';
+    const FOLD = 'M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z', FOPEN = 'm6 14 1.5-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.54 6a2 2 0 0 1-1.95 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2';
+    const base = 'display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;border-radius:5px;font-size:12px;font-weight:500;flex:0 0 auto;';
+    const M = base + 'color:#c4551a;background:rgba(233,114,45,.16)';
+    const f = (name, depth, letter) => ({ name, style: 'padding-left:' + depth * 16 + 'px', chev: 'width:14px;height:14px;visibility:hidden', d1: FD1, d2: FD2, letter: letter || '', bs: letter ? M : 'display:none' });
+    const d = (name, open) => ({ name, style: '', chev: 'width:14px;height:14px;color:#5f544c;transform:rotate(' + (open ? 90 : 0) + 'deg)', d1: open ? FOPEN : FOLD, d2: '', letter: '', bs: 'display:none' });
+    if (kind === 'main') return [d('chapitres/', false), f('plan.md', 0, work ? 'M' : ''), f('intro.md', 0, work ? 'M' : ''), f('resume.md', 0)];
+    return [d('chapitres/', false), d('graphiques/', true), f('ventes.svg', 1), f('couts.svg', 1), f('plan.md', 0), f('intro.md', 0), f('resume.md', 0)];
+  }
+  renderVals() {
+    const lang = (this.state && this.state.lang) || this.props.lang || 'fr';
+    const t = this.dict()[lang];
+    const st = t['steps' + this.part()];
+    const n = st.length;
+    let k = (this.state && this.state.k != null) ? this.state.k : (this.props.step || 0);
+    k = Math.max(0, Math.min(n, k));
+    const S = this.sceneAt(k);
+    const SKY = '#4aadcc', INK = '#28201c';
+    // voies
+    const segs = [], dots = [], pills = [];
+    const mainTip = S.pulled ? 700 : 325;
+    segs.push(this.bar(200, 325, 414, INK));
+    const gOp = S.fetched ? 1 : 0.45;
+    segs.push(this.diag(275, 414, 365, 300, SKY, !S.fetched, gOp));
+    segs.push(this.bar(365, 595, 300, SKY, !S.fetched, gOp));
+    if (S.merged) {
+      segs.push(this.bar(325, 700, 414, INK, !S.pulled, S.pulled ? 1 : 0.6));
+      segs.push(this.diag(595, 300, 700, 414, SKY, !S.pulled, S.pulled ? 1 : 0.6));
+    }
+    dots.push(this.dot(225, 414, INK), this.dot(275, 414, INK), this.dot(325, 414, INK, !S.pulled));
+    dots.push(this.dot(400, 300, SKY, false, !S.fetched, gOp), this.dot(500, 300, SKY, false, !S.fetched, gOp), this.dot(595, 300, SKY, true, !S.fetched, gOp));
+    if (S.merged) dots.push(this.dot(700, 414, INK, S.pulled, !S.pulled, S.pulled ? 1 : 0.7));
+    const mainHead = S.mainTile === 'main';
+    pills.push(this.pill(mainTip + 22, 401, 'main', INK, '#f7ede1', false, mainHead));
+    if (S.merged && !S.pulled) pills.push(this.pill(722, 401, 'origin/main', '#f7ede1', INK, true, false));
+    if (S.local) pills.push(this.pill(617, 287, 'ia/graphiques', SKY, INK, false, S.mainTile === 'g' || S.review));
+    else if (S.fetched) pills.push(this.pill(617, 287, 'origin/ia/graphiques', '#f7ede1', INK, true, false));
+    else pills.push(this.pill(617, 287, t.onlyOnline, '#f7ede1', '#5f544c', true, false));
+    // bureaux
+    const opMain = S.review ? (S.active === 'main' ? 1 : 0.6) : 1;
+    const opRev = S.active === 'review' ? 1 : 0.6;
+    const mainColor = S.mainTile === 'main' ? INK : SKY;
+    const tx = (x, act, color) => 'position:absolute;top:606px;left:' + x + 'px;width:250px;height:184px;box-sizing:border-box;background:#fff;border-radius:14px;border:' + (act ? '2px solid ' + color : '1px solid rgba(40,32,28,.14)') + ';box-shadow:0 8px 20px -10px rgba(40,32,28,.25);padding:12px 14px 0 24px;overflow:hidden;transition:opacity .2s;opacity:';
+    const here = (color) => 'font-family:DM Sans,sans-serif;font-size:11.5px;font-weight:700;border-radius:999px;padding:0 8px;line-height:18px;background:' + color + ';color:' + (color === INK ? '#f7ede1' : INK);
+    const tile0 = {
+      name: 'rapport-client/', desc: t.dMain + ' · ' + (S.mainTile === 'main' ? 'main' : 'ia/graphiques'),
+      style: tx(200, S.active === 'main', mainColor) + opMain,
+      stStyle: 'position:absolute;left:0;top:0;bottom:0;width:9px;background:' + mainColor,
+      hereStyle: S.active === 'main' ? here(mainColor) : 'display:none',
+      rows: this.rows(S.mainTile === 'main' ? 'main' : 'g', S.work === 'visible')
+    };
+    const tile1 = {
+      name: 'revue-mr-42/', desc: t.dReview + ' · ia/graphiques',
+      style: S.review ? tx(470, S.active === 'review', SKY) + opRev : 'display:none',
+      stStyle: 'position:absolute;left:0;top:0;bottom:0;width:9px;background:' + SKY,
+      hereStyle: S.active === 'review' ? here(SKY) : 'display:none',
+      rows: this.rows('g', false)
+    };
+    // fils dossier -> voie
+    const cx0 = 325, tipX0 = S.mainTile === 'main' ? mainTip : 595, tipY0 = S.mainTile === 'main' ? 428 : 314;
+    if (tipX0 === cx0) segs.push(this.vline(cx0, tipY0, 606, mainColor, opMain));
+    else { segs.push(this.vline(tipX0, tipY0, 568, mainColor, opMain)); segs.push(this.hline(cx0, tipX0, 568, mainColor, opMain)); segs.push(this.vline(cx0, 568, 606, mainColor, opMain)); }
+    if (S.review) segs.push(this.vline(595, 314, 606, SKY, opRev));
+    // MR
+    const chip = { open: 'background:#fff;color:#c4551a;border:1.5px solid #c4551a', approved: 'background:#DFE2C5;color:#3f4a1a;border:1.5px solid #55612a', merged: 'background:#28201c;color:#f7ede1;border:1.5px solid #28201c' }[S.mr];
+    const mrTxt = { open: t.mrOpen, approved: t.mrApproved, merged: t.mrMerged }[S.mr];
+    const cur = k < n ? st[k] : st[n - 1];
+    const web = cur.web;
+    return {
+      t, isFr: lang === 'fr', isEn: lang === 'en',
+      setFr: () => this.setState({ lang: 'fr' }), setEn: () => this.setState({ lang: 'en' }),
+      partAStyle: this.part() === 'A' ? 'background:#28201c;color:#f7ede1' : 'color:#28201c',
+      partBStyle: this.part() === 'B' ? 'background:#28201c;color:#f7ede1' : 'color:#28201c',
+      title2: this.part() === 'A' ? t.title2A : t.title2B,
+      bubble: this.part() === 'A' ? t.bubbleA : t.bubbleB,
+      workTxt: S.work === 'visible' ? t.workVisible : t.workStashed,
+      workStyle: 'margin-left:auto;font-weight:700;border-radius:999px;padding:2px 10px;' + (S.work === 'visible' ? 'background:#DFE2C5;color:#3f4a1a' : 'background:rgba(233,114,45,.18);color:#8a3510'),
+      steps: st.map((s, i) => ({
+        num: i < k ? '✓' : String(i + 1), title: s.title, onClick: () => this.setState({ k: i }),
+        style: i === k ? 'background:rgba(233,114,45,.12)' : '',
+        nStyle: i < k ? 'background:#28201c;color:#f7ede1' : (i === k ? 'background:#E9722D;color:#28201c' : 'border:1.5px solid #28201c'),
+        tStyle: i < k ? 'color:#5f544c' : (i === k ? 'font-weight:700' : '')
+      })),
+      notDone: k < n, isDone: k >= n,
+      cur, cmdLabel: web ? t.webLabel : t.cmdLabel, dollarStyle: web ? 'display:none' : 'color:#E9722D',
+      run: () => this.setState({ k: k + 1 }), prev: () => this.setState({ k: Math.max(0, k - 1) }),
+      prevStyle: 'border:1.5px solid rgba(247,237,225,.5);border-radius:999px;background:transparent;color:#f7ede1;font-weight:500;font-size:13.5px;padding:7px 16px;' + (k === 0 ? 'opacity:.4' : ''),
+      restart: () => this.setState({ k: 0 }),
+      outro: this.part() === 'A' ? t.outroA : t.outroB,
+      nextHref: this.part() === 'A' ? 'A6-MR-Worktree.dc.html' : 'A7-MR-Comparer.dc.html',
+      nextTxt: this.part() === 'A' ? t.toPartB : t.toCompare,
+      happened: k > 0 ? st[k - 1].after : '',
+      happenedStyle: k > 0 ? 'background:#fff;border-left:4px solid #E9722D;border-radius:4px 12px 12px 4px;padding:9px 12px' : 'display:none',
+      stats: { c: 3 + (S.fetched ? 3 : 0) + (S.pulled ? 1 : 0), b: 1 + (S.local ? 1 : 0), d: 1 + (S.review ? 1 : 0) },
+      segs, dots, pills, tile0, tile1,
+      ix0: { style: 'left:200px;border-left:4px solid ' + mainColor + ';opacity:' + opMain },
+      ix1: { style: S.review ? 'left:470px;border-left:4px solid ' + SKY + ';opacity:' + opRev : 'display:none' },
+      stashStyle: S.work === 'stashed' ? 'position:absolute;left:740px;top:512px;width:248px;height:36px;box-sizing:border-box;display:flex;align-items:center;gap:8px;padding:0 12px;border-radius:999px;background:#ede5d6;border:1.5px dashed #c4551a;font-size:13px;color:#28201c' : 'display:none',
+      mrCardStyle: 'border-radius:12px;padding:9px 12px;display:flex;flex-direction:column;gap:6px;background:' + (S.mr === 'merged' ? '#f7ede1' : '#f7ede1') + ';border:1.5px solid ' + (k > 0 && (this.part() === 'A' ? k >= 3 : k >= 1) ? '#28201c' : 'rgba(40,32,28,.25)'),
+      mrChipStyle: 'margin-left:auto;font-size:12px;font-weight:700;border-radius:999px;padding:2px 10px;white-space:nowrap;' + chip,
+      mrStatus: mrTxt,
+      diffStyle: S.diff ? 'position:absolute;left:740px;top:606px;width:248px;height:184px;box-sizing:border-box;background:#fff;border:2px solid #4aadcc;border-radius:14px;padding:12px 14px;box-shadow:0 8px 20px -10px rgba(40,32,28,.25)' : 'display:none',
+      note: k > 0 ? (st[k - 1].note || '') : '',
+      noteStyle: (k > 0 && st[k - 1].note && !S.diff) ? 'position:absolute;left:' + (S.review ? 740 : 470) + 'px;top:620px;width:' + (S.review ? 248 : 518) + 'px;font-family:Caveat,cursive;font-size:23px;line-height:1.15;color:#c4551a' : 'display:none'
+    };
+  }
+}
+</script>
+</body>
+</html>

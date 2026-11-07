@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Comegitmix — Puzzle atelier</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,500;1,300;1,500&family=DM+Sans:wght@400;500;700&family=DM+Mono:wght@400;500&family=Caveat:wght@500&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:inherit;text-decoration:none}
+button{font-family:'DM Sans',sans-serif;cursor:pointer}
+.abs{position:absolute}
+.mono{font-family:'DM Mono',monospace}
+.dz{position:absolute;left:0;width:1028px;background:#28201c;border:1px solid rgba(247,237,225,.14);border-radius:18px}
+.eb{position:absolute;left:24px;font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:rgba(247,237,225,.7);font-weight:500}
+.sub{position:absolute;left:24px;width:160px;font-size:13px;line-height:1.35;color:rgba(247,237,225,.7)}
+.lane{position:absolute;left:24px;width:165px;display:flex;flex-direction:column;gap:1px}
+.lane b{font-family:'DM Mono',monospace;font-size:13px;font-weight:500;color:#f7ede1}
+.lane span{font-size:13px;color:rgba(247,237,225,.7);line-height:1.25}
+.lb{font-family:'DM Mono',monospace;font-size:11.5px;line-height:1.25;color:rgba(247,237,225,.78);background:#28201c;border-radius:4px}
+.lb b{display:block;font-weight:500;color:#f7ede1}
+.pl{font-family:'DM Mono',monospace;font-size:13px;font-weight:500;display:flex;align-items:center;gap:6px}
+.pl i{font-style:normal;font-size:12px;opacity:.85;border-left:1.5px solid rgba(40,32,28,.4);padding-left:6px}
+.tree{position:absolute;top:36px;width:250px;height:216px;box-sizing:border-box;background:#1e1713;border:1px solid rgba(247,237,225,.16);border-radius:12px;overflow:hidden;font-family:'DM Mono',monospace;font-size:13px;color:#f7ede1}
+.tree .hd{display:flex;align-items:center;gap:8px;height:32px;padding:0 12px;border-bottom:1px solid rgba(247,237,225,.14);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:rgba(247,237,225,.85);font-weight:500}
+.tree .br{height:26px;display:flex;align-items:center;gap:6px;padding:0 12px;font-size:12px;color:rgba(247,237,225,.8)}
+.tree .tr{display:flex;align-items:center;gap:8px;height:26px;padding:0 12px 0 26px}
+.tree .tr em{margin-left:auto;font-style:normal;font-weight:500}
+.chip{position:absolute;height:30px;box-sizing:border-box;border-radius:8px;display:flex;align-items:center;gap:8px;padding:0 12px;font-size:13px;background:#1e1713;border:1px solid rgba(247,237,225,.28);font-family:'DM Mono',monospace;color:#f7ede1}
+.opt{display:flex;flex-direction:column;gap:3px;padding:10px 14px;border-radius:10px;background:#1e1713;border:1px solid rgba(247,237,225,.25);box-sizing:border-box}
+.opt code{font-family:'DM Mono',monospace;font-size:13px;font-weight:500;color:#f7ede1}
+.opt span{font-size:13px;color:rgba(247,237,225,.75);line-height:1.35}
+svg.ic{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto}
+</style>
+</helmet>
+
+<div style="position:relative;width:1440px;height:900px;background:#1a1411;color:#f7ede1;font-family:'DM Sans',sans-serif;overflow:hidden">
+
+<div class="abs" style="left:0;top:0;width:1440px;height:48px;background:#120d0b;border-bottom:1px solid rgba(247,237,225,.14);display:flex;align-items:center;justify-content:space-between;padding:0 16px 0 0">
+  <div style="display:flex;align-items:center;height:48px">
+    <div style="width:52px;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:500;line-height:1"><span style="color:#E9722D">i</span><span style="color:#84D0E4">A</span></div>
+    <div style="display:flex;align-items:center;height:48px;padding:0 20px;font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;border-right:1px solid rgba(247,237,225,.14)">Come<em style="font-weight:500;color:#E9722D">git</em>mix</div>
+    <a href="B1-Mission.dc.html" style="display:flex;align-items:center;height:48px;padding:0 20px;font-size:13.5px;color:rgba(247,237,225,.75)">{{t.tabMission}}</a>
+    <a href="B2-Puzzle.dc.html" style="display:flex;align-items:center;height:48px;padding:0 20px;font-size:13.5px;background:#1a1411;border-top:2px solid #E9722D;font-weight:500">{{t.tabPuzzle}}</a>
+    <a href="B3-Sandbox.dc.html" style="display:flex;align-items:center;height:48px;padding:0 20px;font-size:13.5px;color:rgba(247,237,225,.75)">{{t.tabSandbox}}</a>
+  </div>
+  <div style="display:flex;align-items:center;gap:16px">
+    <div class="mono" style="font-size:12.5px;color:rgba(247,237,225,.75)">0:42</div>
+    <div style="display:flex;border:1px solid rgba(247,237,225,.4);border-radius:8px;overflow:hidden">
+      <sc-if value="{{isFr}}" hint-placeholder-val="{{true}}">
+        <button onClick="{{setFr}}" aria-label="Français" style="border:0;padding:5px 12px;font-size:13px;font-weight:700;background:#f7ede1;color:#28201c">FR</button>
+        <button onClick="{{setEn}}" aria-label="English" style="border:0;padding:5px 12px;font-size:13px;font-weight:500;background:transparent;color:#f7ede1">EN</button>
+      </sc-if>
+      <sc-if value="{{isEn}}" hint-placeholder-val="{{false}}">
+        <button onClick="{{setFr}}" aria-label="Français" style="border:0;padding:5px 12px;font-size:13px;font-weight:500;background:transparent;color:#f7ede1">FR</button>
+        <button onClick="{{setEn}}" aria-label="English" style="border:0;padding:5px 12px;font-size:13px;font-weight:700;background:#f7ede1;color:#28201c">EN</button>
+      </sc-if>
+    </div>
+  </div>
+</div>
+
+<div class="abs" style="left:0;top:48px;width:52px;height:852px;background:#120d0b;border-right:1px solid rgba(247,237,225,.14);display:flex;flex-direction:column;align-items:center;gap:6px;padding-top:10px;box-sizing:border-box">
+  <div style="width:40px;height:40px;display:flex;align-items:center;justify-content:center;border-left:2px solid #E9722D"><svg class="ic" viewBox="0 0 24 24" style="width:22px;height:22px"><line x1="6" x2="6" y1="3" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg></div>
+  <div style="width:40px;height:40px;display:flex;align-items:center;justify-content:center;color:rgba(247,237,225,.65)"><svg class="ic" viewBox="0 0 24 24" style="width:22px;height:22px"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg></div>
+  <div style="width:40px;height:40px;display:flex;align-items:center;justify-content:center;color:rgba(247,237,225,.65)"><svg class="ic" viewBox="0 0 24 24" style="width:22px;height:22px"><path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></svg></div>
+</div>
+
+<div class="abs" style="left:52px;top:48px;width:320px;height:852px;background:#231b17;border-right:1px solid rgba(247,237,225,.14);box-sizing:border-box;padding:18px 18px 14px;display:flex;flex-direction:column;gap:12px;overflow:hidden">
+  <div class="mono" style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:rgba(247,237,225,.7);font-weight:500">{{t.eyebrow}}</div>
+  <h2 style="margin:0;font-family:'Cormorant Garamond',serif;font-weight:300;font-size:30px;line-height:1.05;color:#f7ede1">{{t.title1}} <em style="font-weight:500;color:#E9722D">{{t.title2}}</em></h2>
+  <div style="display:flex;gap:4px" aria-label="Défi 4 sur 10">
+    <div style="flex:1;height:6px;border-radius:3px;background:#f7ede1"></div><div style="flex:1;height:6px;border-radius:3px;background:#f7ede1"></div><div style="flex:1;height:6px;border-radius:3px;background:#f7ede1"></div><div style="flex:1;height:6px;border-radius:3px;background:#E9722D"></div><div style="flex:1;height:6px;border-radius:3px;background:rgba(247,237,225,.2)"></div><div style="flex:1;height:6px;border-radius:3px;background:rgba(247,237,225,.2)"></div><div style="flex:1;height:6px;border-radius:3px;background:rgba(247,237,225,.2)"></div><div style="flex:1;height:6px;border-radius:3px;background:rgba(247,237,225,.2)"></div><div style="flex:1;height:6px;border-radius:3px;background:rgba(247,237,225,.2)"></div><div style="flex:1;height:6px;border-radius:3px;background:rgba(247,237,225,.2)"></div>
+  </div>
+  <div class="mono" style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:rgba(247,237,225,.7)">{{t.pick}}</div>
+  <div style="display:flex;flex-direction:column;gap:9px">
+    <div class="opt" style="border:2px solid #E9722D;background:#2f221b"><code>git rebase -i HEAD~3</code><span>{{t.oA}}</span></div>
+    <div class="opt"><code>git revert HEAD~3..HEAD</code><span>{{t.oB}}</span></div>
+    <div class="opt"><code>git stash</code><span>{{t.oC}}</span></div>
+    <div class="opt"><code>git cherry-pick HEAD</code><span>{{t.oD}}</span></div>
+  </div>
+  <div style="display:flex;gap:8px;align-items:center">
+    <button style="border:0;border-radius:8px;background:#E9722D;color:#28201c;font-weight:700;font-size:13.5px;padding:9px 22px">{{t.validate}}</button>
+    <button style="border:1px solid rgba(247,237,225,.45);border-radius:8px;background:transparent;color:#f7ede1;font-weight:500;font-size:13.5px;padding:8px 16px">{{t.skip}}</button>
+    <div style="margin-left:auto;font-size:18px;color:#E9722D" aria-label="2 étoiles sur 3">★★<span style="color:rgba(247,237,225,.25)">★</span></div>
+  </div>
+  <div style="display:flex;gap:10px;align-items:flex-start;margin-top:auto">
+    <img src="/_blob/19b4599bc9dac48645a34b326ed12da7" alt="" style="width:48px;height:48px;flex:0 0 48px">
+    <div style="background:#1e1713;border:1px solid rgba(247,237,225,.2);border-radius:4px 12px 12px 12px;padding:9px 12px;font-size:13px;line-height:1.45">{{t.bubble}}</div>
+  </div>
+</div>
+
+<div class="abs" style="left:392px;top:62px;width:1028px;height:818px">
+  <div class="dz" style="top:0;height:136px"></div>
+  <div class="dz" style="top:148px;height:322px"></div>
+  <div class="dz" style="top:482px;height:56px;border-radius:14px"></div>
+  <div class="dz" style="top:550px;height:268px"></div>
+
+  <div class="eb" style="top:16px">{{t.zGoal}}</div>
+  <div class="sub" style="top:38px">{{t.zGoalSub}}</div>
+  <div class="eb" style="top:164px">{{t.zLanes}}</div>
+  <div class="sub" style="top:186px">{{t.zLanesSub}}</div>
+  <div class="eb" style="top:492px">{{t.zIndex}}</div>
+  <div class="sub" style="top:511px;white-space:nowrap">{{t.zIndexSub}}</div>
+  <div class="eb" style="top:566px">{{t.zDisk}}</div>
+
+  <div class="abs" style="left:210px;top:18px;width:420px;height:100px;box-sizing:border-box;border:1.5px solid rgba(247,237,225,.7);border-radius:12px;padding:12px 16px;display:flex;flex-direction:column;gap:4px">
+    <div style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:22px;line-height:1.1">{{t.cTitle}}</div>
+    <div style="font-size:13.5px;line-height:1.45;color:rgba(247,237,225,.88)">{{t.cText}}</div>
+  </div>
+  <div class="abs" style="left:650px;top:18px;width:346px;height:100px;box-sizing:border-box;border:1.5px dashed rgba(132,208,228,.8);border-radius:12px;padding:12px 16px;display:flex;flex-direction:column;gap:8px">
+    <div class="mono" style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:rgba(247,237,225,.75)">{{t.target}}</div>
+    <div style="display:flex;align-items:center;gap:7px"><div style="width:14px;height:14px;border-radius:50%;border:3px solid #f7ede1;box-sizing:border-box"></div><div style="width:14px;height:14px;border-radius:50%;border:3px solid #f7ede1;box-sizing:border-box"></div><div style="width:14px;height:14px;border-radius:50%;border:3px solid #f7ede1;box-sizing:border-box"></div><div style="width:14px;height:14px;border-radius:50%;background:#E9722D"></div><div style="width:14px;height:14px;border-radius:50%;background:#E9722D"></div><div style="width:14px;height:14px;border-radius:50%;background:#E9722D"></div><span class="mono" style="margin-left:10px;font-size:13px">6 → 4</span></div>
+    <div style="display:flex;align-items:center;gap:7px"><div style="width:14px;height:14px;border-radius:50%;border:3px dashed #84D0E4;box-sizing:border-box"></div><div style="width:14px;height:14px;border-radius:50%;border:3px dashed #84D0E4;box-sizing:border-box"></div><div style="width:14px;height:14px;border-radius:50%;border:3px dashed #84D0E4;box-sizing:border-box"></div><div style="width:20px;height:20px;border-radius:50%;background:#84D0E4"></div></div>
+  </div>
+
+  <div class="abs" style="left:210px;top:300px;width:790px;border-top:1px solid rgba(247,237,225,.1)"></div>
+  <div class="lane" style="top:233px"><b>main</b><span>{{t.laneNow}}</span></div>
+  <div class="lane" style="top:343px"><b>main</b><span>{{t.laneGoal}}</span></div>
+
+  <sc-for list="{{links}}" as="k" hint-placeholder-count="1"><div style="{{k.style}}"></div></sc-for>
+  <sc-for list="{{bars}}" as="b" hint-placeholder-count="8"><div style="{{b.style}}"></div></sc-for>
+  <sc-for list="{{dots}}" as="d" hint-placeholder-count="10"><div style="{{d.style}}"></div></sc-for>
+  <sc-for list="{{labels}}" as="l" hint-placeholder-count="8"><div class="lb" style="{{l.style}}"><b>{{l.hash}}</b>{{l.msg}}</div></sc-for>
+  <sc-for list="{{pills}}" as="p" hint-placeholder-count="2"><div class="pl" style="{{p.style}}">{{p.text}}<i>{{p.head}}</i></div></sc-for>
+
+  <div class="abs" style="left:700px;top:322px;width:290px;font-family:'Caveat',cursive;font-size:22px;color:#F59A63;line-height:1.1;background:#28201c;padding:4px 8px">{{t.note1}}</div>
+
+  <div class="chip" style="left:360px;top:494px"><span style="color:#E9722D;font-weight:500">M</span>resume.md<span style="font-family:'DM Sans',sans-serif;color:rgba(247,237,225,.75)">· {{t.touched3}}</span></div>
+  <div class="chip" style="left:640px;top:494px"><span style="color:#E9722D;font-weight:500">M</span>plan.md<span style="font-family:'DM Sans',sans-serif;color:rgba(247,237,225,.75)">· {{t.touched1}}</span></div>
+
+  <div class="abs" style="left:210px;top:586px;width:270px;height:216px;box-sizing:border-box;border:1.5px dashed rgba(247,237,225,.4);border-radius:12px;padding:18px;display:flex;flex-direction:column;justify-content:center;font-family:'Caveat',cursive;font-size:25px;line-height:1.15;color:#F59A63">{{t.note2}}</div>
+  <div class="tree" style="left:505px">
+    <div class="hd"><svg class="ic" viewBox="0 0 24 24"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>rapport-client</div>
+    <div class="br"><span style="width:10px;height:10px;border-radius:50%;background:#f7ede1;display:inline-block"></span>main · {{t.d1}}</div>
+    <div class="tr"><svg class="ic" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg>resume.md</div>
+    <div class="tr"><svg class="ic" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg>plan.md</div>
+    <div class="tr"><svg class="ic" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg>intro.md</div>
+    <div class="tr"><svg class="ic" viewBox="0 0 24 24" style="color:#84D0E4"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>.git/</div>
+  </div>
+  <div class="abs" style="left:780px;top:586px;width:216px;height:216px;box-sizing:border-box;border-radius:12px;background:#CDD0AB;color:#28201c;padding:16px 18px;display:flex;flex-direction:column;gap:6px">
+    <div style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:22px;line-height:1.1">{{t.rule}}</div>
+    <div style="font-size:13.5px;line-height:1.45">{{t.ruleText}}</div>
+  </div>
+</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"lang":{"editor":"enum","options":["fr","en"],"default":"fr","section":"Langue"},"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  dict() {
+    return {
+      fr: {
+        tabMission: 'Mission', tabPuzzle: 'Puzzle · défi 4', tabSandbox: 'Bac à sable',
+        eyebrow: 'Puzzle · défi 4 sur 10', title1: 'Ranger le', title2: 'brouillon de l’IA',
+        pick: 'Choisissez la bonne commande',
+        oA: 'Regroupe les 3 derniers commits en un seul.',
+        oB: 'Annule les 3 commits en ajoutant 3 commits d’annulation.',
+        oC: 'Met de côté des modifications non commitées.',
+        oD: 'Copie un seul commit sur une autre voie.',
+        validate: 'Valider', skip: 'Passer',
+        bubble: 'Astuce : le « i » de rebase -i veut dire « interactif ».',
+        zGoal: 'Le défi', zGoalSub: 'Quel objectif ?', zLanes: 'Les voies', zLanesSub: 'Avant et après',
+        zIndex: 'L’index', zIndexSub: 'Fichiers touchés', zDisk: 'Sur votre poste',
+        cTitle: 'Ranger le brouillon de l’IA',
+        cText: 'Trois commits « wip » laissés par l’assistant encombrent l’historique. Fusionnez-les en un seul, sans toucher aux fichiers.',
+        target: 'Objectif', laneNow: 'Aujourd’hui', laneGoal: 'Objectif', after: 'après', squashed: 'résumé',
+        note1: 'Trois brouillons deviennent un seul commit lisible.',
+        touched3: '3 modifs', touched1: '1 modif',
+        note2: 'Seul l’historique change. Vos fichiers restent identiques.',
+        d1: 'votre dossier',
+        rule: 'À retenir', ruleText: 'squash = réécrire l’historique. À faire avant de partager (push), jamais après.'
+      },
+      en: {
+        tabMission: 'Mission', tabPuzzle: 'Puzzle · challenge 4', tabSandbox: 'Sandbox',
+        eyebrow: 'Puzzle · challenge 4 of 10', title1: 'Tidy up the', title2: 'AI’s drafts',
+        pick: 'Pick the right command',
+        oA: 'Combines the last 3 commits into one.',
+        oB: 'Undoes the 3 commits by adding 3 undo commits.',
+        oC: 'Sets aside uncommitted changes.',
+        oD: 'Copies a single commit onto another lane.',
+        validate: 'Check', skip: 'Skip',
+        bubble: 'Tip: the “i” in rebase -i means “interactive”.',
+        zGoal: 'The challenge', zGoalSub: 'What is the goal?', zLanes: 'The lanes', zLanesSub: 'Before and after',
+        zIndex: 'The index', zIndexSub: 'Touched files', zDisk: 'On your computer',
+        cTitle: 'Tidy up the AI’s drafts',
+        cText: 'Three “wip” commits left by the assistant clutter the history. Merge them into one, without touching the files.',
+        target: 'Goal', laneNow: 'Today', laneGoal: 'Goal', after: 'after', squashed: 'summary',
+        note1: 'Three drafts become one readable commit.',
+        touched3: '3 changes', touched1: '1 change',
+        note2: 'Only the history changes. Your files stay the same.',
+        d1: 'your folder',
+        rule: 'Remember', ruleText: 'squash = rewriting history. Do it before sharing (push), never after.'
+      }
+    };
+  }
+  bar(x1, x2, y, color, dashed) {
+    const bg = dashed ? 'repeating-linear-gradient(90deg,' + color + ' 0 7px,transparent 7px 20px)' : color;
+    return { style: 'position:absolute;left:' + x1 + 'px;top:' + (y - 5) + 'px;width:' + (x2 - x1) + 'px;height:10px;border-radius:5px;background:' + bg };
+  }
+  diag(x1, y1, x2, y2, color, h) {
+    const L = Math.hypot(x2 - x1, y2 - y1), a = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI, t = h || 10;
+    return { style: 'position:absolute;left:' + x1 + 'px;top:' + (y1 - t / 2) + 'px;width:' + L + 'px;height:' + t + 'px;border-radius:' + (t / 2) + 'px;background:' + color + ';transform-origin:0 50%;transform:rotate(' + a + 'deg)' };
+  }
+  dot(x, y, color, tip, ghost, big, fill) {
+    const r = big ? 18 : (tip ? 14 : 11);
+    return { style: 'position:absolute;left:' + (x - r) + 'px;top:' + (y - r) + 'px;width:' + (2 * r) + 'px;height:' + (2 * r) + 'px;box-sizing:border-box;border-radius:50%;border:4px ' + (ghost ? 'dashed' : 'solid') + ' ' + color + ';background:' + (fill || (tip ? color : '#28201c')) };
+  }
+  label(x, y, hash, msg) {
+    return { hash, msg, style: 'position:absolute;left:' + (x - 32) + 'px;top:' + (y + 17) + 'px;width:64px;text-align:center' };
+  }
+  link(x, y1, y2, color) {
+    return { style: 'position:absolute;left:' + (x - 1.5) + 'px;top:' + y1 + 'px;height:' + (y2 - y1) + 'px;border-left:3px dashed ' + color };
+  }
+  pill(x, y, text, head, bg, fg, ghost) {
+    return { text, head, style: 'position:absolute;left:' + x + 'px;top:' + y + 'px;height:26px;box-sizing:border-box;border-radius:6px;padding:0 10px;background:' + bg + ';color:' + fg + (ghost ? ';border:1.5px dashed #84D0E4' : '') };
+  }
+  renderVals() {
+    const lang = (this.state && this.state.lang) || this.props.lang || 'fr';
+    const tt = this.dict()[lang];
+    const cream = '#f7ede1', or = '#E9722D', sky = '#84D0E4';
+    const bars = [
+      this.bar(210, 630, 250, cream),
+      this.bar(210, 350, 360, sky, true),
+      this.diag(450, 264, 450, 342, or, 4), this.diag(540, 264, 458, 344, or, 4), this.diag(630, 264, 466, 346, or, 4)
+    ];
+    const dots = [
+      this.dot(230, 250, cream), this.dot(290, 250, cream), this.dot(350, 250, cream),
+      this.dot(450, 250, or, false, false, false, or), this.dot(540, 250, or, false, false, false, or), this.dot(630, 250, or, true),
+      this.dot(230, 360, sky, false, true), this.dot(290, 360, sky, false, true), this.dot(350, 360, sky, false, true),
+      this.dot(450, 360, sky, false, true, true, '#2c4a54')
+    ];
+    const labels = [
+      this.label(230, 250, 'a1c04e2', 'init'), this.label(290, 250, 'b7d19f0', lang === 'fr' ? 'plan' : 'outline'), this.label(350, 250, 'c93e5a8', 'intro'),
+      this.label(450, 250, 'd02b7c1', 'wip'), this.label(540, 250, 'e41f8d6', 'wip'), this.label(630, 250, 'f58a3b9', 'wip'),
+      this.label(450, 378, '9e4b1d0', tt.squashed)
+    ];
+    const links = [this.link(630, 266, 586, cream)];
+    const pills = [
+      this.pill(654, 237, 'main', 'HEAD', cream, '#28201c'),
+      this.pill(486, 347, tt.after, '', 'transparent', cream, true)
+    ];
+    return {
+      t: tt, isFr: lang === 'fr', isEn: lang === 'en',
+      setFr: () => this.setState({ lang: 'fr' }), setEn: () => this.setState({ lang: 'en' }),
+      bars, dots, labels, links, pills
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+# Private brand system (ADR 0009)
+design-system/
+
+node_modules/
+test-results/
+playwright-report/
+.DS_Store

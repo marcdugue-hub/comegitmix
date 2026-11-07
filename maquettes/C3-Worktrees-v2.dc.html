@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Comegitmix — Worktrees, nouvelle série</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,500;1,300;1,500&family=DM+Sans:wght@400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+button{font-family:'DM Sans',sans-serif;cursor:pointer}
+.abs{position:absolute}
+.panel{position:absolute;left:40px;width:1360px;height:262px;box-sizing:border-box;background:rgba(255,255,255,.75);border:1px solid rgba(40,32,28,.12);border-radius:22px;box-shadow:0 1px 0 rgba(40,32,28,.05),0 12px 28px -12px rgba(40,32,28,.18)}
+.tx{position:absolute;left:28px;top:22px;width:290px;display:flex;flex-direction:column;gap:8px}
+.tx h3{margin:0;font-family:'Cormorant Garamond',serif;font-weight:300;font-size:30px;line-height:1.05}
+.tx p{margin:0;font-size:14px;line-height:1.5}
+.tx .pro,.tx .con{font-size:13px;line-height:1.4;color:#3f352f}
+.tag{align-self:flex-start;font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.1em;text-transform:uppercase;padding:3px 10px;border-radius:999px;background:#DFE2C5;color:#28201c}
+svg text{font-family:'DM Mono',monospace}
+</style>
+</helmet>
+
+<div style="position:relative;width:1440px;height:1000px;background:#f7ede1;color:#28201c;font-family:'DM Sans',sans-serif;overflow:hidden">
+<div class="abs" style="left:900px;top:-80px;width:620px;height:420px;border-radius:58% 42% 51% 49% / 46% 57% 43% 54%;background:radial-gradient(closest-side,#DFE2C5 0%,rgba(223,226,197,0) 100%)"></div>
+
+<div class="abs" style="left:40px;top:28px;right:40px;display:flex;justify-content:space-between;align-items:flex-start">
+  <div>
+    <div style="font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#5f544c;font-weight:500">★ {{t.eyebrow}}</div>
+    <h1 style="margin:6px 0 0;font-family:'Cormorant Garamond',serif;font-weight:300;font-size:44px;line-height:1">{{t.title1}} <em style="font-weight:500;color:#E9722D">{{t.title2}}</em></h1>
+  </div>
+  <div style="display:flex;border:1.5px solid #28201c;border-radius:999px;overflow:hidden">
+    <sc-if value="{{isFr}}" hint-placeholder-val="{{true}}">
+      <button onClick="{{setFr}}" aria-label="Français" style="border:0;padding:6px 14px;font-size:13px;font-weight:700;background:#28201c;color:#f7ede1">FR</button>
+      <button onClick="{{setEn}}" aria-label="English" style="border:0;padding:6px 14px;font-size:13px;font-weight:500;background:transparent;color:#28201c">EN</button>
+    </sc-if>
+    <sc-if value="{{isEn}}" hint-placeholder-val="{{false}}">
+      <button onClick="{{setFr}}" aria-label="Français" style="border:0;padding:6px 14px;font-size:13px;font-weight:500;background:transparent;color:#28201c">FR</button>
+      <button onClick="{{setEn}}" aria-label="English" style="border:0;padding:6px 14px;font-size:13px;font-weight:700;background:#28201c;color:#f7ede1">EN</button>
+    </sc-if>
+  </div>
+</div>
+
+<!-- 1 · Un dépôt, des curseurs -->
+<div class="panel" style="top:112px">
+  <div class="tx"><span class="tag">{{t.tag1}}</span><h3>{{t.n1}}</h3><p>{{t.n1d}}</p><div class="pro">+ {{t.n1p}}</div><div class="con">− {{t.n1c}}</div></div>
+  <svg class="abs" style="left:330px;top:6px" width="1020" height="250" viewBox="0 0 1020 250" role="img" aria-label="Un dépôt, des curseurs">
+    <rect x="10" y="6" width="1000" height="160" rx="18" fill="rgba(223,226,197,.4)" stroke="#7a6e65" stroke-width="2" stroke-dasharray="7 7"/>
+    <text x="26" y="26" font-size="12" fill="#5f544c">{{t.zoneRepo}}</text>
+    <path d="M170 156 V176" stroke="#28201c" stroke-width="3" stroke-dasharray="3 7" stroke-linecap="round"/>
+    <path d="M510 92 V176" stroke="#E9722D" stroke-width="3" stroke-dasharray="3 7" stroke-linecap="round" opacity=".6"/>
+    <path d="M850 60 V176" stroke="#4aadcc" stroke-width="3" stroke-dasharray="3 7" stroke-linecap="round" opacity=".6"/>
+    <path d="M30 146 H170" stroke="#28201c" stroke-width="8" stroke-linecap="round" fill="none"/>
+    <path d="M100 146 L130 82 H510" stroke="#E9722D" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    <path d="M130 146 L160 114 H330" stroke="#8A9456" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    <path d="M60 146 L80 50 H850" stroke="#4aadcc" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    <circle cx="170" cy="146" r="10" fill="#28201c" stroke="#fff" stroke-width="3"/>
+    <circle cx="510" cy="82" r="10" fill="#E9722D" stroke="#28201c" stroke-width="3"/>
+    <circle cx="850" cy="50" r="10" fill="#4aadcc" stroke="#28201c" stroke-width="3"/>
+    <circle cx="330" cy="114" r="9" fill="#fff" stroke="#8A9456" stroke-width="3.5"/>
+    <text x="34" y="136" font-size="12" fill="#28201c">main</text>
+    <text x="178" y="108" font-size="12" fill="#28201c">feature/intro</text>
+    <text x="150" y="74" font-size="12" fill="#28201c">ia/resume</text>
+    <text x="104" y="42" font-size="12" fill="#28201c">ia/chiffres</text>
+    <rect x="186" y="134" width="46" height="20" rx="6" fill="#28201c"/><text x="209" y="148" font-size="11" fill="#f7ede1" text-anchor="middle">HEAD</text>
+    <g opacity=".6"><rect x="526" y="70" width="46" height="20" rx="6" fill="#E9722D"/><text x="549" y="84" font-size="11" fill="#28201c" text-anchor="middle">HEAD</text></g>
+    <g opacity=".6"><rect x="866" y="38" width="46" height="20" rx="6" fill="#4aadcc"/><text x="889" y="52" font-size="11" fill="#28201c" text-anchor="middle">HEAD</text></g>
+    <rect x="20" y="176" width="300" height="66" rx="14" fill="#fff" stroke="#28201c" stroke-width="2"/>
+    <rect x="20" y="176" width="9" height="66" rx="4" fill="#28201c"/>
+    <text x="44" y="204" font-size="14" font-weight="500" fill="#28201c">rapport-client/</text>
+    <text x="44" y="226" font-size="12" fill="#5f544c">main</text>
+    <rect x="196" y="190" width="112" height="24" rx="12" fill="#E9722D"/><text x="252" y="206" font-size="12" font-weight="500" fill="#28201c" text-anchor="middle">{{t.here}}</text>
+    <g opacity=".6">
+      <rect x="360" y="176" width="300" height="66" rx="14" fill="#fff" stroke="rgba(40,32,28,.3)"/>
+      <rect x="360" y="176" width="9" height="66" rx="4" fill="#E9722D"/>
+      <text x="384" y="204" font-size="14" font-weight="500" fill="#28201c">rapport-ia-resume/</text>
+      <text x="384" y="226" font-size="12" fill="#5f544c">ia/resume</text>
+      <rect x="700" y="176" width="300" height="66" rx="14" fill="#fff" stroke="rgba(40,32,28,.3)"/>
+      <rect x="700" y="176" width="9" height="66" rx="4" fill="#4aadcc"/>
+      <text x="724" y="204" font-size="14" font-weight="500" fill="#28201c">rapport-ia-chiffres/</text>
+      <text x="724" y="226" font-size="12" fill="#5f544c">ia/chiffres</text>
+    </g>
+  </svg>
+</div>
+
+<!-- 2 · Clone ou worktree ? -->
+<div class="panel" style="top:394px">
+  <div class="tx"><span class="tag">{{t.tag2}}</span><h3>{{t.n2}}</h3><p>{{t.n2d}}</p><div class="pro">+ {{t.n2p}}</div><div class="con">− {{t.n2c}}</div></div>
+  <svg class="abs" style="left:330px;top:6px" width="1020" height="250" viewBox="0 0 1020 250" role="img" aria-label="Clone ou worktree">
+    <text x="12" y="24" font-size="14" font-weight="500" fill="#28201c">{{t.clone}}</text>
+    <text x="522" y="24" font-size="14" font-weight="500" fill="#28201c">{{t.worktree}}</text>
+    <rect x="10" y="34" width="230" height="206" rx="16" fill="rgba(223,226,197,.4)" stroke="#7a6e65" stroke-width="2" stroke-dasharray="7 7"/>
+    <text x="24" y="54" font-size="11" fill="#5f544c">{{t.copyA}}</text>
+    <path d="M30 112 H130" stroke="#28201c" stroke-width="7" stroke-linecap="round" fill="none"/>
+    <path d="M62 112 L84 82 H190" stroke="#E9722D" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    <circle cx="130" cy="112" r="9" fill="#28201c" stroke="#fff" stroke-width="3"/>
+    <circle cx="190" cy="82" r="9" fill="#E9722D" stroke="#28201c" stroke-width="3"/>
+    <rect x="26" y="150" width="198" height="74" rx="12" fill="#fff" stroke="rgba(40,32,28,.3)"/>
+    <text x="40" y="176" font-size="13" font-weight="500" fill="#28201c">projet-A/</text>
+    <text x="40" y="198" font-size="11" fill="#5f544c">{{t.ownGit}}</text>
+    <rect x="250" y="34" width="230" height="206" rx="16" fill="rgba(223,226,197,.4)" stroke="#7a6e65" stroke-width="2" stroke-dasharray="7 7"/>
+    <text x="264" y="54" font-size="11" fill="#5f544c">{{t.copyB}}</text>
+    <path d="M270 112 H370" stroke="#28201c" stroke-width="7" stroke-linecap="round" fill="none"/>
+    <path d="M302 112 L324 82 H430" stroke="#E9722D" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    <circle cx="370" cy="112" r="9" fill="#28201c" stroke="#fff" stroke-width="3"/>
+    <circle cx="430" cy="82" r="9" fill="#E9722D" stroke="#28201c" stroke-width="3"/>
+    <rect x="266" y="150" width="198" height="74" rx="12" fill="#fff" stroke="rgba(40,32,28,.3)"/>
+    <text x="280" y="176" font-size="13" font-weight="500" fill="#28201c">projet-B/</text>
+    <text x="280" y="198" font-size="11" fill="#5f544c">{{t.ownGit}}</text>
+    <rect x="520" y="34" width="490" height="206" rx="16" fill="rgba(223,226,197,.4)" stroke="#7a6e65" stroke-width="2" stroke-dasharray="7 7"/>
+    <text x="534" y="54" font-size="11" fill="#5f544c">{{t.oneRepo}}</text>
+    <path d="M645 122 V150" stroke="#28201c" stroke-width="3" stroke-dasharray="3 7" stroke-linecap="round"/>
+    <path d="M885 92 V150" stroke="#E9722D" stroke-width="3" stroke-dasharray="3 7" stroke-linecap="round" opacity=".6"/>
+    <path d="M540 112 H645" stroke="#28201c" stroke-width="7" stroke-linecap="round" fill="none"/>
+    <path d="M580 112 L602 82 H885" stroke="#E9722D" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    <circle cx="645" cy="112" r="9" fill="#28201c" stroke="#fff" stroke-width="3"/>
+    <circle cx="885" cy="82" r="9" fill="#E9722D" stroke="#28201c" stroke-width="3"/>
+    <rect x="540" y="150" width="210" height="74" rx="12" fill="#fff" stroke="#28201c" stroke-width="2"/>
+    <text x="554" y="176" font-size="13" font-weight="500" fill="#28201c">projet/ · main</text>
+    <text x="554" y="198" font-size="11" fill="#5f544c">{{t.here}}</text>
+    <g opacity=".6"><rect x="780" y="150" width="210" height="74" rx="12" fill="#fff" stroke="rgba(40,32,28,.3)"/>
+    <text x="794" y="176" font-size="13" font-weight="500" fill="#28201c">projet-ia/ · ia/resume</text>
+    <text x="794" y="198" font-size="11" fill="#5f544c">{{t.sameGit}}</text></g>
+  </svg>
+</div>
+
+<!-- 3 · Un point de vue par bureau -->
+<div class="panel" style="top:676px">
+  <div class="tx"><span class="tag">{{t.tag3}}</span><h3>{{t.n3}}</h3><p>{{t.n3d}}</p><div class="pro">+ {{t.n3p}}</div><div class="con">− {{t.n3c}}</div></div>
+  <svg class="abs" style="left:330px;top:6px" width="1020" height="250" viewBox="0 0 1020 250" role="img" aria-label="Un point de vue par bureau">
+    <g>
+      <rect x="10" y="4" width="1000" height="76" rx="14" fill="rgba(223,226,197,.4)" stroke="#7a6e65" stroke-width="2" stroke-dasharray="7 7"/>
+      <rect x="22" y="14" width="236" height="56" rx="12" fill="#fff" stroke="#28201c" stroke-width="2"/>
+      <text x="38" y="38" font-size="13" font-weight="500" fill="#28201c">rapport-client/</text>
+      <text x="38" y="58" font-size="11" fill="#5f544c">main</text>
+      <rect x="150" y="20" width="102" height="20" rx="10" fill="#E9722D"/><text x="201" y="34" font-size="11" font-weight="500" fill="#28201c" text-anchor="middle">{{t.here}}</text>
+      <path d="M290 62 H470" stroke="#28201c" stroke-width="9" stroke-linecap="round" fill="none"/>
+      <path d="M350 62 L372 40 H760" stroke="#E9722D" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity=".35"/>
+      <path d="M310 62 L324 18 H900" stroke="#4aadcc" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity=".35"/>
+      <circle cx="470" cy="62" r="10" fill="#28201c" stroke="#fff" stroke-width="3"/>
+      <circle cx="760" cy="40" r="6" fill="#E9722D" opacity=".35"/>
+      <circle cx="900" cy="18" r="6" fill="#4aadcc" opacity=".35"/>
+      <text x="486" y="66" font-size="12" font-weight="500" fill="#28201c">main · HEAD</text>
+      <text x="776" y="44" font-size="11" fill="#5f544c">ia/resume</text>
+      <text x="842" y="36" font-size="11" fill="#5f544c">ia/chiffres</text>
+    </g>
+    <g opacity=".6" transform="translate(0,86)">
+      <rect x="10" y="4" width="1000" height="76" rx="14" fill="rgba(223,226,197,.4)" stroke="#7a6e65" stroke-width="2" stroke-dasharray="7 7"/>
+      <rect x="22" y="14" width="236" height="56" rx="12" fill="#fff" stroke="rgba(40,32,28,.3)"/>
+      <text x="38" y="38" font-size="13" font-weight="500" fill="#28201c">rapport-ia-resume/</text>
+      <text x="38" y="58" font-size="11" fill="#5f544c">ia/resume</text>
+      <path d="M290 62 H470" stroke="#28201c" stroke-width="5" stroke-linecap="round" fill="none" opacity=".35"/>
+      <path d="M350 62 L372 40 H760" stroke="#E9722D" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <path d="M310 62 L324 18 H900" stroke="#4aadcc" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity=".35"/>
+      <circle cx="470" cy="62" r="6" fill="#28201c" opacity=".35"/>
+      <circle cx="760" cy="40" r="10" fill="#E9722D" stroke="#28201c" stroke-width="3"/>
+      <circle cx="900" cy="18" r="6" fill="#4aadcc" opacity=".35"/>
+      <text x="486" y="66" font-size="11" fill="#5f544c">main</text>
+      <text x="776" y="44" font-size="12" font-weight="500" fill="#28201c">ia/resume · HEAD</text>
+      <text x="842" y="36" font-size="11" fill="#5f544c">ia/chiffres</text>
+    </g>
+    <g opacity=".6" transform="translate(0,172)">
+      <rect x="10" y="4" width="1000" height="76" rx="14" fill="rgba(223,226,197,.4)" stroke="#7a6e65" stroke-width="2" stroke-dasharray="7 7"/>
+      <rect x="22" y="14" width="236" height="56" rx="12" fill="#fff" stroke="rgba(40,32,28,.3)"/>
+      <text x="38" y="38" font-size="13" font-weight="500" fill="#28201c">rapport-ia-chiffres/</text>
+      <text x="38" y="58" font-size="11" fill="#5f544c">ia/chiffres</text>
+      <path d="M290 62 H470" stroke="#28201c" stroke-width="5" stroke-linecap="round" fill="none" opacity=".35"/>
+      <path d="M350 62 L372 40 H760" stroke="#E9722D" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity=".35"/>
+      <path d="M310 62 L324 18 H900" stroke="#4aadcc" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <circle cx="470" cy="62" r="6" fill="#28201c" opacity=".35"/>
+      <circle cx="760" cy="40" r="6" fill="#E9722D" opacity=".35"/>
+      <circle cx="900" cy="18" r="10" fill="#4aadcc" stroke="#28201c" stroke-width="3"/>
+      <text x="486" y="66" font-size="11" fill="#5f544c">main</text>
+      <text x="776" y="44" font-size="11" fill="#5f544c">ia/resume</text>
+      <text x="722" y="12" font-size="12" font-weight="500" fill="#28201c" text-anchor="end">ia/chiffres · HEAD</text>
+    </g>
+  </svg>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"lang":{"editor":"enum","options":["fr","en"],"default":"fr","section":"Langue"},"$preview":{"width":1440,"height":1000}}'>
+class Component extends DCLogic {
+  dict() {
+    return {
+      fr: {
+        eyebrow: 'Mise au point', title1: 'Trois nouvelles façons de montrer', title2: 'les worktrees',
+        tag1: 'Dans le jeu', tag2: 'Pour expliquer', tag3: 'Vue détaillée',
+        n1: '1 · Un dépôt, des curseurs', n1d: 'Tout le dépôt, toutes branches comprises, est dessiné une seule fois dans une zone en pointillé. Chaque bureau pose un curseur HEAD sur une seule voie.',
+        n1p: 'Montre ce qui est partagé : une seule histoire.', n1c: 'Il faut saisir que HEAD est un pointeur.',
+        n2: '2 · Clone ou worktree ?', n2d: 'À gauche, un clone copie tout le dépôt, branches comprises. À droite, un worktree ajoute seulement un dossier de travail.',
+        n2p: 'Montre la différence avec une copie du dépôt.', n2c: 'Plus pédagogique que ludique.',
+        n3: '3 · Un point de vue par bureau', n3d: 'Le même dépôt vu depuis chaque bureau : la voie de ce bureau est en pleine couleur, les autres s’estompent. Bureau actif à 100 %, les autres à 60 %.',
+        n3p: 'Reprend votre idée de zone en pointillé et d’opacité.', n3c: 'Répète le graphe : à réserver à un écran dédié.',
+        zoneRepo: 'LE DÉPÔT (.git) : TOUTES LES BRANCHES, UNE SEULE FOIS',
+        here: 'Vous êtes ici', clone: 'Clone : deux copies', worktree: 'Worktree : un dépôt, deux bureaux',
+        copyA: 'DÉPÔT A (.git complet)', copyB: 'DÉPÔT B (.git complet)', ownGit: 'son propre .git, ses branches',
+        oneRepo: 'UN SEUL DÉPÔT (.git)', sameGit: 'même .git, autre dossier'
+      },
+      en: {
+        eyebrow: 'Clarification', title1: 'Three new ways to show', title2: 'worktrees',
+        tag1: 'In the game', tag2: 'To explain', tag3: 'Detailed view',
+        n1: '1 · One repository, several cursors', n1d: 'The whole repository, branches included, is drawn once in a dotted zone. Each desk places a HEAD cursor on a single lane.',
+        n1p: 'Shows what is shared: a single history.', n1c: 'You need to grasp that HEAD is a pointer.',
+        n2: '2 · Clone or worktree?', n2d: 'On the left, a clone copies the whole repository, branches included. On the right, a worktree only adds a working folder.',
+        n2p: 'Shows the difference with a copy of the repository.', n2c: 'More educational than playful.',
+        n3: '3 · One point of view per desk', n3d: 'The same repository seen from each desk: this desk’s lane is in full colour, the others fade. Active desk at 100%, the others at 60%.',
+        n3p: 'Picks up your idea of a dotted zone and opacity.', n3c: 'Repeats the graph: best kept for a dedicated screen.',
+        zoneRepo: 'THE REPOSITORY (.git): ALL BRANCHES, ONLY ONCE',
+        here: 'You are here', clone: 'Clone: two copies', worktree: 'Worktree: one repository, two desks',
+        copyA: 'REPOSITORY A (full .git)', copyB: 'REPOSITORY B (full .git)', ownGit: 'its own .git, its branches',
+        oneRepo: 'ONE SINGLE REPOSITORY (.git)', sameGit: 'same .git, other folder'
+      }
+    };
+  }
+  renderVals() {
+    const lang = (this.state && this.state.lang) || this.props.lang || 'fr';
+    return {
+      t: this.dict()[lang], isFr: lang === 'fr', isEn: lang === 'en',
+      setFr: () => this.setState({ lang: 'fr' }), setEn: () => this.setState({ lang: 'en' })
+    };
+  }
+}
+</script>
+</body>
+</html>

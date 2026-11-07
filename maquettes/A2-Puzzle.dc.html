@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Comegitmix — Puzzle</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,500;1,300;1,500&family=DM+Sans:wght@400;500;700&family=DM+Mono:wght@400;500&family=Caveat:wght@500&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:inherit;text-decoration:none}
+button{font-family:'DM Sans',sans-serif;cursor:pointer}
+.zone{position:absolute;left:0;width:1012px;background:rgba(255,255,255,.7);border:1px solid rgba(40,32,28,.12);border-radius:22px;box-shadow:0 1px 0 rgba(40,32,28,.05),0 12px 28px -12px rgba(40,32,28,.18)}
+.eb{position:absolute;left:24px;font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#5f544c;font-weight:500}
+.sub{position:absolute;left:24px;width:160px;font-size:13px;line-height:1.35;color:#5f544c}
+.abs{position:absolute}
+.mono{font-family:'DM Mono',monospace}
+.lane{position:absolute;left:24px;width:160px;display:flex;flex-direction:column;gap:1px}
+.lane b{font-family:'DM Mono',monospace;font-size:13px;font-weight:500;color:#28201c}
+.lane span{font-size:13px;color:#5f544c;line-height:1.25}
+.pill{position:absolute;height:26px;box-sizing:border-box;border-radius:999px;display:flex;align-items:center;gap:6px;padding:0 10px;font-family:'DM Mono',monospace;font-size:13px;font-weight:500;color:#28201c}
+.pill i{font-style:normal;font-size:12px;opacity:.85;border-left:1.5px solid rgba(40,32,28,.4);padding-left:6px}
+.cm{position:absolute;transform:translateX(-50%);background:rgba(255,255,255,.92);padding:1px 6px;border-radius:6px;font-family:'DM Mono',monospace;font-size:12px;color:#5f544c;white-space:nowrap}
+.tile{position:absolute;top:606px;width:250px;height:170px;box-sizing:border-box;background:#fff;border-radius:14px;border:1px solid rgba(40,32,28,.14);box-shadow:0 8px 20px -10px rgba(40,32,28,.25);padding:14px 14px 0 24px;overflow:hidden}
+.tile .st{position:absolute;left:0;top:0;bottom:0;width:9px}
+.tile .nm{display:flex;align-items:center;gap:8px;font-family:'DM Mono',monospace;font-size:14px;font-weight:500;color:#28201c}
+.tile .ds{font-size:13px;color:#5f544c;margin:2px 0 8px 0;line-height:1.3}
+.row{display:flex;align-items:center;gap:8px;height:26px;font-family:'DM Mono',monospace;font-size:13px;color:#28201c}
+.row em{margin-left:auto;font-style:normal;font-family:'DM Sans',sans-serif;font-size:12px;color:#5f544c}
+.chip{position:absolute;height:32px;box-sizing:border-box;border-radius:999px;display:flex;align-items:center;gap:8px;padding:0 14px;font-size:13px;background:#fff;border:1.5px solid #28201c;font-family:'DM Mono',monospace;color:#28201c}
+.opt{display:flex;flex-direction:column;gap:3px;padding:10px 14px;border-radius:14px;background:#fff;border:1.5px solid rgba(40,32,28,.25);box-sizing:border-box}
+.opt code{font-family:'DM Mono',monospace;font-size:13px;font-weight:500;color:#28201c}
+.opt span{font-size:13px;color:#5f544c;line-height:1.35}
+
+.fr{display:flex;align-items:center;height:26px;gap:6px;font-family:'DM Mono',monospace;font-size:13px;color:#28201c}
+.fr .mn{display:flex;align-items:center;gap:7px;flex:1;min-width:0;cursor:pointer;white-space:nowrap;overflow:hidden}
+.fr .mn:hover{background:rgba(40,32,28,.05);border-radius:6px}
+.fr button.pl{border:1.5px solid rgba(40,32,28,.4);background:#fff;color:#28201c;border-radius:6px;width:20px;height:20px;padding:0;line-height:16px;font-size:14px;font-weight:500;flex:0 0 20px}
+.fr a.df{font-family:'DM Sans',sans-serif;font-size:11.5px;color:#1a6a88;border:1px solid #1a6a88;border-radius:999px;padding:0 7px;line-height:17px;flex:0 0 auto}
+.fl{display:flex;flex-direction:column;height:116px;overflow-y:auto;margin-right:-8px;padding-right:6px}
+.hd{display:flex;align-items:center;gap:8px;font-family:'DM Mono',monospace;font-size:14px;font-weight:500;color:#28201c}
+.hd button.pl{margin-left:auto;border:1.5px solid #28201c;background:#fff;color:#28201c;border-radius:6px;width:22px;height:22px;padding:0;line-height:18px;font-size:15px;font-weight:500}
+.ix{position:absolute;top:512px;width:250px;height:36px;box-sizing:border-box;display:flex;align-items:center;gap:6px;padding-left:10px;overflow:hidden;transition:opacity .2s}
+.ixc{display:flex;align-items:center;gap:6px;height:28px;padding:0 10px 0 6px;border-radius:999px;border:1.5px solid #28201c;background:#fff;font-family:'DM Mono',monospace;font-size:12.5px;white-space:nowrap;flex:0 0 auto}
+.lg{position:absolute;left:24px;width:164px;display:flex;align-items:center;gap:8px;font-size:12.5px;color:#5f544c;line-height:1.2}
+svg.ic{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto}
+</style>
+</helmet>
+
+<div style="position:relative;width:1440px;height:900px;background:#f7ede1;color:#28201c;font-family:'DM Sans',sans-serif;overflow:hidden">
+
+<div class="abs" style="left:900px;top:520px;width:620px;height:520px;border-radius:58% 42% 51% 49% / 46% 57% 43% 54%;background:radial-gradient(closest-side,#DFE2C5 0%,rgba(223,226,197,0) 100%)"></div>
+<div class="abs" style="left:-100px;top:20px;width:600px;height:460px;border-radius:44% 56% 47% 53% / 55% 43% 57% 45%;background:radial-gradient(closest-side,#B6E1ED 0%,rgba(182,225,237,0) 100%);opacity:.6"></div>
+
+<!-- En-tête -->
+<div class="abs" style="left:0;top:0;width:1440px;height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;box-sizing:border-box">
+  <div style="display:flex;align-items:center;gap:16px">
+    <img src="/_blob/f78629e8f3c2961c4cc08d22d1ceef4e" alt="Le sens de l'IA" style="height:48px;width:auto">
+    <div style="width:1px;height:28px;background:rgba(40,32,28,.25)"></div>
+    <div style="font-family:'Cormorant Garamond',serif;font-weight:300;font-size:28px;line-height:1">Come<em style="font-weight:500;color:#E9722D">git</em>mix</div>
+  </div>
+  <nav style="display:flex;gap:6px;padding:4px;border-radius:999px;background:rgba(255,255,255,.7);border:1px solid rgba(40,32,28,.12)">
+    <a href="Main.dc.html" style="padding:8px 20px;border-radius:999px;font-size:14px;font-weight:500">{{t.tabMission}}</a>
+    <a href="A2-Puzzle.dc.html" style="padding:8px 20px;border-radius:999px;background:#28201c;color:#f7ede1;font-size:14px;font-weight:500">{{t.tabPuzzle}}</a>
+    <a href="A3-Sandbox.dc.html" style="padding:8px 20px;border-radius:999px;font-size:14px;font-weight:500">{{t.tabSandbox}}</a>
+  </nav>
+  <div style="display:flex;align-items:center;gap:20px">
+    <div style="display:flex;align-items:center;gap:8px;font-family:'DM Mono',monospace;font-size:14px"><svg class="ic" viewBox="0 0 24 24" style="width:18px;height:18px"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>0:42</div>
+    <div style="display:flex;border:1.5px solid #28201c;border-radius:999px;overflow:hidden">
+      <sc-if value="{{isFr}}" hint-placeholder-val="{{true}}">
+        <button onClick="{{setFr}}" aria-label="Français" style="border:0;padding:6px 14px;font-size:13px;font-weight:700;background:#28201c;color:#f7ede1">FR</button>
+        <button onClick="{{setEn}}" aria-label="English" style="border:0;padding:6px 14px;font-size:13px;font-weight:500;background:transparent;color:#28201c">EN</button>
+      </sc-if>
+      <sc-if value="{{isEn}}" hint-placeholder-val="{{false}}">
+        <button onClick="{{setFr}}" aria-label="Français" style="border:0;padding:6px 14px;font-size:13px;font-weight:500;background:transparent;color:#28201c">FR</button>
+        <button onClick="{{setEn}}" aria-label="English" style="border:0;padding:6px 14px;font-size:13px;font-weight:700;background:#28201c;color:#f7ede1">EN</button>
+      </sc-if>
+    </div>
+  </div>
+</div>
+
+<!-- Panneau du défi -->
+<div class="abs" style="left:20px;top:84px;width:368px;height:796px;box-sizing:border-box;padding:22px 22px 18px;border-radius:22px;background:rgba(255,255,255,.78);border:1px solid rgba(40,32,28,.12);box-shadow:0 1px 0 rgba(40,32,28,.05),0 12px 28px -12px rgba(40,32,28,.18);display:flex;flex-direction:column;gap:14px;overflow:hidden">
+  <div class="mono" style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#5f544c;font-weight:500">★ {{t.eyebrow}}</div>
+  <h2 style="margin:0;font-family:'Cormorant Garamond',serif;font-weight:300;font-size:32px;line-height:1.05">{{t.title1}} <em style="font-weight:500;color:#E9722D">{{t.title2}}</em></h2>
+  <div style="display:flex;align-items:center;gap:6px" aria-label="Défi 4 sur 10">
+    <div style="width:20px;height:8px;border-radius:4px;background:#28201c"></div>
+    <div style="width:20px;height:8px;border-radius:4px;background:#28201c"></div>
+    <div style="width:20px;height:8px;border-radius:4px;background:#28201c"></div>
+    <div style="width:20px;height:8px;border-radius:4px;background:#E9722D"></div>
+    <div style="width:20px;height:8px;border-radius:4px;background:rgba(40,32,28,.2)"></div>
+    <div style="width:20px;height:8px;border-radius:4px;background:rgba(40,32,28,.2)"></div>
+    <div style="width:20px;height:8px;border-radius:4px;background:rgba(40,32,28,.2)"></div>
+    <div style="width:20px;height:8px;border-radius:4px;background:rgba(40,32,28,.2)"></div>
+    <div style="width:20px;height:8px;border-radius:4px;background:rgba(40,32,28,.2)"></div>
+    <div style="width:20px;height:8px;border-radius:4px;background:rgba(40,32,28,.2)"></div>
+  </div>
+  <div class="mono" style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#5f544c;margin-top:2px">{{t.pick}}</div>
+  <div style="display:flex;flex-direction:column;gap:10px">
+    <div class="opt" style="border:2.5px solid #E9722D;background:#fff7ef"><code>git rebase -i HEAD~3</code><span>{{t.oA}}</span></div>
+    <div class="opt"><code>git revert HEAD~3..HEAD</code><span>{{t.oB}}</span></div>
+    <div class="opt"><code>git stash</code><span>{{t.oC}}</span></div>
+    <div class="opt"><code>git cherry-pick HEAD</code><span>{{t.oD}}</span></div>
+  </div>
+  <div style="display:flex;gap:10px">
+    <button style="border:0;border-radius:999px;background:#E9722D;color:#28201c;font-weight:700;font-size:14px;padding:10px 26px">{{t.validate}}</button>
+    <button style="border:1.5px solid #28201c;border-radius:999px;background:transparent;color:#28201c;font-weight:500;font-size:14px;padding:9px 20px">{{t.skip}}</button>
+    <div style="margin-left:auto;display:flex;align-items:center;gap:4px;font-size:18px;color:#E9722D" aria-label="2 étoiles sur 3">★★<span style="color:rgba(40,32,28,.25)">★</span></div>
+  </div>
+  <div style="display:flex;gap:12px;align-items:flex-start;margin-top:auto">
+    <img src="/_blob/19b4599bc9dac48645a34b326ed12da7" alt="" style="width:56px;height:56px;flex:0 0 56px">
+    <div style="background:#fff;border:1px solid rgba(40,32,28,.14);border-radius:6px 16px 16px 16px;padding:10px 12px;font-size:13.5px;line-height:1.45">{{t.bubble}}</div>
+  </div>
+</div>
+
+<!-- Scène -->
+<div class="abs" style="left:408px;top:84px;width:1012px;height:796px">
+
+  <div class="zone" style="top:0;height:176px"></div>
+  <div class="zone" style="top:192px;height:292px"></div>
+  <div class="zone" style="top:500px;height:60px;border-radius:18px"></div>
+  <div class="zone" style="top:576px;height:220px"></div>
+
+  <div class="eb" style="top:16px">★ {{t.zGoal}}</div>
+  <div class="sub" style="top:38px">{{t.zGoalSub}}</div>
+  <div class="eb" style="top:206px">★ {{t.zLanes}}</div>
+  <div class="sub" style="top:228px">{{t.zLanesSub}}</div>
+  <div class="eb" style="top:508px">★ {{t.zIndex}}</div>
+  <div class="sub" style="top:528px;white-space:nowrap">{{t.zIndexSub}}</div>
+  <div class="eb" style="top:590px">★ {{t.zDisk}}</div>
+  <div class="sub mono" style="top:612px">~/Projets/</div>
+
+  <svg class="abs" aria-hidden="true" width="1012" height="796" viewBox="0 0 1012 796" style="left:0;top:0;pointer-events:none">
+    <!-- voie actuelle -->
+    <path d="M200 290 H595" stroke="#28201c" stroke-width="11" stroke-linecap="round" fill="none"/>
+    <!-- voie objectif -->
+    <path d="M200 400 H435" stroke="#4aadcc" stroke-width="11" stroke-linecap="round" stroke-dasharray="2 20" fill="none" opacity=".8"/>
+    <!-- flèches de fusion -->
+    <path d="M435 306 V384" stroke="#E9722D" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+    <path d="M515 306 C515 350 445 346 438 386" stroke="#E9722D" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+    <path d="M595 306 C595 360 455 340 442 388" stroke="#E9722D" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+    <path d="M428 376 L435 388 L443 376" stroke="#E9722D" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    <!-- commits actuels -->
+    <circle cx="225" cy="290" r="12" fill="#fff" stroke="#28201c" stroke-width="4"/>
+    <circle cx="285" cy="290" r="12" fill="#fff" stroke="#28201c" stroke-width="4"/>
+    <circle cx="345" cy="290" r="12" fill="#fff" stroke="#28201c" stroke-width="4"/>
+    <circle cx="435" cy="290" r="13" fill="#E9722D" stroke="#28201c" stroke-width="3.5"/>
+    <circle cx="515" cy="290" r="13" fill="#E9722D" stroke="#28201c" stroke-width="3.5"/>
+    <circle cx="595" cy="290" r="15" fill="#E9722D" stroke="#28201c" stroke-width="3.5"/>
+    <!-- commits objectif -->
+    <circle cx="225" cy="400" r="12" fill="#f7ede1" stroke="#4aadcc" stroke-width="4" stroke-dasharray="5 5"/>
+    <circle cx="285" cy="400" r="12" fill="#f7ede1" stroke="#4aadcc" stroke-width="4" stroke-dasharray="5 5"/>
+    <circle cx="345" cy="400" r="12" fill="#f7ede1" stroke="#4aadcc" stroke-width="4" stroke-dasharray="5 5"/>
+    <circle cx="435" cy="400" r="18" fill="#B6E1ED" stroke="#4aadcc" stroke-width="4" stroke-dasharray="6 5"/>
+  </svg>
+
+  <!-- haut : énoncé + objectif -->
+  <div class="abs" style="left:200px;top:20px;width:400px;height:136px;box-sizing:border-box;border:1.5px solid #28201c;border-radius:16px;background:#fff;padding:14px 18px;display:flex;flex-direction:column;gap:6px">
+    <div style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:22px;line-height:1.1">{{t.cTitle}}</div>
+    <div style="font-size:14px;line-height:1.45">{{t.cText}}</div>
+  </div>
+  <div class="abs" style="left:620px;top:20px;width:368px;height:136px;box-sizing:border-box;border:2px dashed #2f8fb0;border-radius:16px;background:rgba(255,255,255,.6);padding:12px 18px">
+    <div class="mono" style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#5f544c;font-weight:500">{{t.target}}</div>
+    <svg width="330" height="84" viewBox="0 0 330 84" aria-hidden="true" style="margin-top:6px">
+      <path d="M10 22 H300" stroke="#28201c" stroke-width="5" stroke-linecap="round"/>
+      <circle cx="16" cy="22" r="7" fill="#fff" stroke="#28201c" stroke-width="3"/>
+      <circle cx="62" cy="22" r="7" fill="#fff" stroke="#28201c" stroke-width="3"/>
+      <circle cx="108" cy="22" r="7" fill="#fff" stroke="#28201c" stroke-width="3"/>
+      <circle cx="170" cy="22" r="8" fill="#E9722D" stroke="#28201c" stroke-width="3"/>
+      <circle cx="216" cy="22" r="8" fill="#E9722D" stroke="#28201c" stroke-width="3"/>
+      <circle cx="262" cy="22" r="8" fill="#E9722D" stroke="#28201c" stroke-width="3"/>
+      <path d="M10 66 H170" stroke="#4aadcc" stroke-width="5" stroke-linecap="round"/>
+      <circle cx="16" cy="66" r="7" fill="#fff" stroke="#4aadcc" stroke-width="3"/>
+      <circle cx="62" cy="66" r="7" fill="#fff" stroke="#4aadcc" stroke-width="3"/>
+      <circle cx="108" cy="66" r="7" fill="#fff" stroke="#4aadcc" stroke-width="3"/>
+      <circle cx="170" cy="66" r="11" fill="#B6E1ED" stroke="#4aadcc" stroke-width="3"/>
+      <text x="196" y="71" font-family="DM Mono, monospace" font-size="13" fill="#28201c">6 → 4</text>
+    </svg>
+  </div>
+
+  <!-- voies -->
+  <div class="lane" style="top:272px"><b>main</b><span>{{t.laneNow}}</span></div>
+  <div class="lane" style="top:382px"><b>main</b><span>{{t.laneGoal}}</span></div>
+  <div class="pill" style="left:620px;top:277px;background:#28201c;color:#f7ede1">main<i>HEAD</i></div>
+  <div class="pill" style="left:476px;top:387px;border:2px dashed #2f8fb0;background:#f7ede1;height:28px">{{t.after}}</div>
+
+  <div class="cm" style="left:225px;top:310px">init</div>
+  <div class="cm" style="left:285px;top:310px">plan</div>
+  <div class="cm" style="left:345px;top:310px">intro</div>
+  <div class="cm" style="left:435px;top:310px">wip</div>
+  <div class="cm" style="left:515px;top:310px">wip</div>
+  <div class="cm" style="left:595px;top:310px">wip</div>
+  <div class="cm" style="left:435px;top:428px;font-family:'DM Sans',sans-serif;font-size:13px;color:#28201c">{{t.squashed}}</div>
+  <div class="abs" style="left:640px;top:360px;width:330px;font-family:'Caveat',cursive;font-size:22px;color:#c4551a;line-height:1.1;background:rgba(255,255,255,.9);padding:4px 8px;border-radius:8px">{{t.note1}}</div>
+
+  <!-- index (un par bureau) -->
+  <div class="ix" style="{{ix0.style}}">
+    <sc-for list="{{ixc0}}" as="c" hint-placeholder-count="2"><div class="ixc" style="{{c.style}}"><span style="{{c.badgeStyle}}">{{c.letter}}</span>{{c.name}}</div></sc-for>
+    <span style="{{ix0.emptyStyle}}">{{t.emptyIdx}}</span>
+  </div>
+
+  <!-- poste -->
+  <div class="abs" style="left:200px;top:606px;width:250px;height:170px;box-sizing:border-box;border:2px dashed rgba(40,32,28,.4);border-radius:14px;padding:16px;display:flex;flex-direction:column;justify-content:center;font-family:'Caveat',cursive;font-size:24px;line-height:1.15;color:#c4551a">{{t.note2}}</div>
+  <!-- dossiers = worktrees -->
+  <sc-for list="{{links}}" as="k" hint-placeholder-count="3"><div style="{{k.style}}"></div></sc-for>
+  <div style="{{tile0.style}}" onClick="{{tile0.onTile}}">
+    <div class="st" style="{{tile0.stStyle}}"></div>
+    <div class="hd"><svg class="ic" viewBox="0 0 24 24"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg><span>{{tile0.name}}</span><button class="pl" onClick="{{tile0.onAdd}}" style="{{tile0.addStyle}}" aria-label="{{t.addFile}}">+</button></div>
+    <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#5f544c;margin:2px 0 6px 0;line-height:1.3"><span>{{tile0.desc}}</span><span style="{{tile0.hereStyle}}">{{t.here}}</span></div>
+    <div class="fl">
+      <sc-for list="{{rows0}}" as="r" hint-placeholder-count="4">
+        <div class="fr" style="{{r.style}}">
+          <div class="mn" onClick="{{r.onClick}}"><svg class="ic" viewBox="0 0 24 24" style="{{r.chevStyle}}"><path d="m9 18 6-6-6-6"/></svg><svg class="ic" viewBox="0 0 24 24"><path d="{{r.d1}}"/><path d="{{r.d2}}"/></svg><span style="overflow:hidden;text-overflow:ellipsis">{{r.name}}</span></div>
+          <button class="pl" onClick="{{r.onAdd}}" style="{{r.addStyle}}" aria-label="{{t.addFile}}">+</button>
+          <a class="df" href="A4-Diff.dc.html" style="{{r.diffStyle}}">diff</a>
+          <span style="{{r.badgeStyle}}">{{r.letter}}</span>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div class="lg" style="top:642px"><span style="display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;border-radius:5px;font-family:'DM Mono',monospace;font-size:12px;font-weight:500;color:#c4551a;background:rgba(233,114,45,.16)">M</span>{{t.legM}}</div>
+  <div class="lg" style="top:666px"><span style="display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;border-radius:5px;font-family:'DM Mono',monospace;font-size:12px;font-weight:500;color:#55612a;background:#DFE2C5">U</span>{{t.legU}}</div>
+  <div class="lg" style="top:690px"><span style="display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;border-radius:5px;font-family:'DM Mono',monospace;font-size:12px;font-weight:500;color:#1a6a88;background:#dff1f7">A</span>{{t.legA}}</div>
+  <div class="lg" style="top:722px;align-items:flex-start;width:168px;font-size:13px;line-height:1.35">{{t.tipClick}}</div>
+  <div class="abs" style="left:740px;top:606px;width:248px;height:170px;box-sizing:border-box;border-radius:14px;background:#DFE2C5;padding:16px 18px;display:flex;flex-direction:column;gap:6px">
+    <div style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:22px;line-height:1.1">{{t.rule}}</div>
+    <div style="font-size:13.5px;line-height:1.45">{{t.ruleText}}</div>
+  </div>
+</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"lang":{"editor":"enum","options":["fr","en"],"default":"fr","section":"Langue"},"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  dict() {
+    return {
+      fr: {
+        addFile: 'Ajouter un fichier', here: 'ici', emptyIdx: 'rien de préparé', legM: 'modifié', legU: 'nouveau (non suivi)', legA: 'préparé dans l’index', tipClick: 'Cliquez un fichier : modifié, puis préparé, puis propre. Un dossier s’ouvre au clic. Le + ajoute un fichier.',
+        tabMission: 'Mission', tabPuzzle: 'Puzzle', tabSandbox: 'Bac à sable',
+        eyebrow: 'Puzzle · défi 4 sur 10', title1: 'Ranger le', title2: 'brouillon de l’IA',
+        pick: 'Choisissez la bonne commande',
+        oA: 'Regroupe les 3 derniers commits en un seul.',
+        oB: 'Annule les 3 commits en ajoutant 3 commits d’annulation.',
+        oC: 'Met de côté des modifications non commitées.',
+        oD: 'Copie un seul commit sur une autre voie.',
+        validate: 'Valider', skip: 'Passer',
+        bubble: 'Astuce : le « i » de rebase -i veut dire « interactif ». Vous choisirez quoi garder, quoi fusionner.',
+        zGoal: 'Le défi', zGoalSub: 'Quel est l’objectif ?', zLanes: 'Les voies', zLanesSub: 'Avant et après',
+        zIndex: 'L’index', zIndexSub: 'Fichiers touchés', zDisk: 'Sur votre poste',
+        cTitle: 'Ranger le brouillon de l’IA',
+        cText: 'Trois commits « wip » laissés par l’assistant encombrent l’historique. Fusionnez-les en un seul commit propre, sans toucher aux fichiers.',
+        target: 'Objectif', laneNow: 'Aujourd’hui', laneGoal: 'Objectif', after: 'après', squashed: 'résumé',
+        note1: 'Trois brouillons deviennent un seul commit lisible.',
+        touched3: '3 modifs', touched1: '1 modif',
+        note2: 'Seul l’historique change. Vos fichiers restent identiques.',
+        d1: 'votre dossier',
+        rule: 'À retenir', ruleText: 'squash = réécrire l’historique. À faire avant de partager (push), jamais après.'
+      },
+      en: {
+        addFile: 'Add a file', here: 'here', emptyIdx: 'nothing staged', legM: 'modified', legU: 'new (untracked)', legA: 'staged in the index', tipClick: 'Click a file: modified, then staged, then clean. A folder opens on click. The + adds a file.',
+        tabMission: 'Mission', tabPuzzle: 'Puzzle', tabSandbox: 'Sandbox',
+        eyebrow: 'Puzzle · challenge 4 of 10', title1: 'Tidy up the', title2: 'AI’s drafts',
+        pick: 'Pick the right command',
+        oA: 'Combines the last 3 commits into one.',
+        oB: 'Undoes the 3 commits by adding 3 undo commits.',
+        oC: 'Sets aside uncommitted changes.',
+        oD: 'Copies a single commit onto another lane.',
+        validate: 'Check', skip: 'Skip',
+        bubble: 'Tip: the “i” in rebase -i means “interactive”. You choose what to keep and what to merge.',
+        zGoal: 'The challenge', zGoalSub: 'What is the goal?', zLanes: 'The lanes', zLanesSub: 'Before and after',
+        zIndex: 'The index', zIndexSub: 'Touched files', zDisk: 'On your computer',
+        cTitle: 'Tidy up the AI’s drafts',
+        cText: 'Three “wip” commits left by the assistant clutter the history. Merge them into one clean commit, without touching the files.',
+        target: 'Goal', laneNow: 'Today', laneGoal: 'Goal', after: 'after', squashed: 'summary',
+        note1: 'Three drafts become one readable commit.',
+        touched3: '3 changes', touched1: '1 change',
+        note2: 'Only the history changes. Your files stay the same.',
+        d1: 'your folder',
+        rule: 'Remember', ruleText: 'squash = rewriting history. Do it before sharing (push), never after.'
+      }
+    };
+  }
+
+  tcfg() { return {"active": 0, "open": {}, "tiles": [{"id": 0, "name": "rapport-client/", "color": "#28201c", "descKey": "d1", "x": 470, "files": [{"id": "resume.md", "name": "resume.md", "dir": false, "parent": null, "st": "", "staged": false}, {"id": "plan.md", "name": "plan.md", "dir": false, "parent": null, "st": "", "staged": false}, {"id": "intro.md", "name": "intro.md", "dir": false, "parent": null, "st": "", "staged": false}]}], "links": [{"x": 595, "y": 318, "color": "#28201c", "tile": 0}]}; }
+  fsInit() { const o = {}; this.tcfg().tiles.forEach(t => { o[t.id] = t.files.map(f => Object.assign({}, f)); }); return o; }
+  getFs() { return (this.state && this.state.fs) || this.fsInit(); }
+  getOpen() { return (this.state && this.state.open) || this.tcfg().open || {}; }
+  getActive() { return (this.state && this.state.active != null) ? this.state.active : this.tcfg().active; }
+  cloneFs() { const fs = this.getFs(), o = {}; Object.keys(fs).forEach(k => { o[k] = fs[k].map(f => Object.assign({}, f)); }); return o; }
+  clickFile(tid, fid) {
+    const fs = this.cloneFs(); const f = fs[tid].find(x => x.id === fid);
+    if (!f) return;
+    if (!f.staged) { if (f.st === '') f.st = 'M'; else f.staged = true; }
+    else { if (f.st === 'M') { f.st = ''; } f.staged = false; }
+    this.setState({ fs: fs, active: tid });
+  }
+  toggleDir(tid, fid) {
+    const open = Object.assign({}, this.getOpen()); const k = tid + ':' + fid; open[k] = !open[k];
+    this.setState({ open: open, active: tid });
+  }
+  addFile(tid, parent) {
+    const fs = this.cloneFs(); const list = fs[tid];
+    const n = list.filter(x => x.id.indexOf('nouveau') === 0).length + 1;
+    const name = 'nouveau-' + n + '.md';
+    list.push({ id: name, name: name, dir: false, parent: parent || null, st: 'U', staged: false });
+    const open = Object.assign({}, this.getOpen()); if (parent) open[tid + ':' + parent] = true;
+    this.setState({ fs: fs, open: open, active: tid });
+  }
+  badge(f) {
+    const base = 'display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;border-radius:5px;font-family:DM Mono,monospace;font-size:12px;font-weight:500;flex:0 0 auto;';
+    if (f.staged) return { letter: f.st === 'U' ? 'A' : 'M', style: base + 'color:#1a6a88;background:#dff1f7' };
+    if (f.st === 'M') return { letter: 'M', style: base + 'color:#c4551a;background:rgba(233,114,45,.16)' };
+    if (f.st === 'U') return { letter: 'U', style: base + 'color:#55612a;background:#DFE2C5' };
+    return { letter: '', style: 'display:none' };
+  }
+  tileVals(lang) {
+    const cfg = this.tcfg(), fs = this.getFs(), open = this.getOpen(), active = this.getActive(), t = this.dict()[lang];
+    const out = {};
+    const base = 'display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;border-radius:5px;font-family:DM Mono,monospace;font-size:12px;font-weight:500;flex:0 0 auto;';
+    cfg.tiles.forEach((tl, i) => {
+      const list = fs[tl.id], isAct = (active === tl.id), ghost = !!tl.ghost;
+      const op = ghost ? 0.55 : (isAct ? 1 : 0.6);
+      const noop = () => {};
+      const rows = [];
+      const pushRow = (f, depth) => {
+        const kids = f.dir ? list.filter(x => x.parent === f.id) : [];
+        const isOpen = f.dir && !!open[tl.id + ':' + f.id];
+        let letter = '', bst = 'display:none';
+        if (f.dir) {
+          const ch = kids.filter(x => x.st !== '' || x.staged);
+          if (ch.length && !ghost) {
+            letter = '●';
+            const colr = ch.some(x => !x.staged && x.st === 'M') ? '#c4551a' : (ch.some(x => !x.staged && x.st === 'U') ? '#55612a' : '#1a6a88');
+            bst = base + 'background:transparent;font-size:11px;color:' + colr;
+          }
+        } else if (!ghost) { const b = this.badge(f); letter = b.letter; bst = b.style; }
+        rows.push({
+          name: f.name,
+          style: 'padding-left:' + (depth * 16) + 'px;' + (ghost ? 'color:#5f544c' : ''),
+          chevStyle: f.dir ? ('width:14px;height:14px;transform:rotate(' + (isOpen ? 90 : 0) + 'deg);color:#5f544c') : 'width:14px;height:14px;visibility:hidden',
+          d1: f.dir ? (isOpen ? 'm6 14 1.5-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.54 6a2 2 0 0 1-1.95 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2' : 'M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z') : 'M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z',
+          d2: f.dir ? '' : 'M14 2v4a2 2 0 0 0 2 2h4',
+          onClick: ghost ? noop : (f.dir ? () => this.toggleDir(tl.id, f.id) : () => this.clickFile(tl.id, f.id)),
+          onAdd: f.dir && !ghost ? () => this.addFile(tl.id, f.id) : noop,
+          addStyle: f.dir && !ghost ? '' : 'display:none',
+          diffStyle: (!f.dir && !ghost && f.st === 'M') ? '' : 'display:none',
+          letter: letter, badgeStyle: bst
+        });
+        if (isOpen) kids.forEach(k => pushRow(k, depth + 1));
+      };
+      const roots = list.filter(x => !x.parent);
+      roots.filter(x => x.dir).forEach(x => pushRow(x, 0));
+      roots.filter(x => !x.dir).forEach(x => pushRow(x, 0));
+      out['rows' + i] = rows;
+      out['tile' + i] = {
+        name: tl.name, desc: t[tl.descKey],
+        style: 'position:absolute;top:606px;left:' + tl.x + 'px;width:250px;height:184px;box-sizing:border-box;background:' + (ghost ? 'rgba(255,255,255,.55)' : '#fff') + ';border-radius:14px;border:' + (ghost ? '2px dashed #2f8fb0' : (isAct ? '2px solid ' + tl.color : '1px solid rgba(40,32,28,.14)')) + ';box-shadow:0 8px 20px -10px rgba(40,32,28,.25);padding:12px 14px 0 24px;overflow:hidden;opacity:' + op + ';transition:opacity .2s',
+        stStyle: 'position:absolute;left:0;top:0;bottom:0;width:9px;background:' + tl.color + (ghost ? ';opacity:.55' : ''),
+        onTile: ghost ? noop : () => { if (this.getActive() !== tl.id) this.setState({ active: tl.id }); },
+        onAdd: ghost ? noop : () => this.addFile(tl.id, null),
+        addStyle: ghost ? 'display:none' : '',
+        hereStyle: (isAct && !ghost) ? 'font-family:DM Sans,sans-serif;font-size:11.5px;font-weight:700;color:#28201c;background:' + tl.color + ';' + (tl.color === '#28201c' ? 'color:#f7ede1;' : '') + 'border-radius:999px;padding:0 8px;line-height:18px' : 'display:none'
+      };
+      const staged = list.filter(x => x.staged);
+      const chips = staged.slice(0, 2).map(f => { const b = this.badge(f); return { name: f.name, letter: b.letter, badgeStyle: b.style, style: '' }; });
+      if (staged.length > 2) chips.push({ name: '+' + (staged.length - 2), letter: '', badgeStyle: 'display:none', style: '' });
+      out['ixc' + i] = chips;
+      out['ix' + i] = {
+        style: 'left:' + tl.x + 'px;border-left:4px solid ' + tl.color + ';opacity:' + (ghost ? 0.55 : (isAct ? 1 : 0.6)),
+        emptyStyle: staged.length ? 'display:none' : 'font-size:13px;color:#5f544c;font-style:italic'
+      };
+    });
+    out.links = cfg.links.map(l => {
+      const tl = cfg.tiles.find(x => x.id === l.tile);
+      const op = tl.ghost ? 0.55 : (active === l.tile ? 1 : 0.6);
+      return { style: 'position:absolute;left:' + (l.x - 1.5) + 'px;top:' + l.y + 'px;width:3px;height:' + (606 - l.y) + 'px;background:repeating-linear-gradient(180deg,' + l.color + ' 0 3px,transparent 3px 12px);opacity:' + op + ';transition:opacity .2s' };
+    });
+    return out;
+  }
+  renderVals() {
+    const lang = (this.state && this.state.lang) || this.props.lang || 'fr';
+    return {
+      ...this.tileVals(lang),
+      t: this.dict()[lang],
+      isFr: lang === 'fr',
+      isEn: lang === 'en',
+      setFr: () => this.setState({ lang: 'fr' }),
+      setEn: () => this.setState({ lang: 'en' })
+    };
+  }
+}
+</script>
+</body>
+</html>

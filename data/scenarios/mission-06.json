@@ -1,0 +1,345 @@
+{
+  "id": "mission-06",
+  "kind": "mission",
+  "mode": "stepper",
+  "titleKey": "mission.6.title",
+  "durationMin": 12,
+  "visibleRepos": [
+    "local",
+    "origin"
+  ],
+  "unlocked": [
+    "status",
+    "add",
+    "commit",
+    "branch",
+    "switch",
+    "diff",
+    "worktree-add",
+    "worktree-list",
+    "log",
+    "merge",
+    "revert",
+    "restore",
+    "reset",
+    "fork",
+    "fetch",
+    "pull",
+    "push",
+    "stash",
+    "worktree-remove",
+    "mr-approve",
+    "mr-merge"
+  ],
+  "initialState": {
+    "commits": {
+      "c1": {
+        "id": "c1",
+        "parents": [],
+        "msg": "init",
+        "author": "human"
+      },
+      "c2": {
+        "id": "c2",
+        "parents": [
+          "c1"
+        ],
+        "msg": "plan",
+        "author": "human"
+      },
+      "c3": {
+        "id": "c3",
+        "parents": [
+          "c2"
+        ],
+        "msg": "intro",
+        "author": "human"
+      }
+    },
+    "branches": {
+      "main": {
+        "tip": "c3"
+      }
+    },
+    "remotes": {
+      "origin": {
+        "branches": {
+          "main": {
+            "tip": "c3"
+          },
+          "ia/graphiques": {
+            "tip": "c6"
+          }
+        },
+        "commits": {
+          "c4": {
+            "id": "c4",
+            "parents": [
+              "c2"
+            ],
+            "msg": "graphique ventes",
+            "author": "ai"
+          },
+          "c5": {
+            "id": "c5",
+            "parents": [
+              "c4"
+            ],
+            "msg": "graphique coûts",
+            "author": "ai"
+          },
+          "c6": {
+            "id": "c6",
+            "parents": [
+              "c5"
+            ],
+            "msg": "plan mis à jour",
+            "author": "ai"
+          }
+        },
+        "mrs": [
+          {
+            "id": 42,
+            "title": "mr.42.title",
+            "source": "ia/graphiques",
+            "target": "main",
+            "status": "open",
+            "comments": 2
+          }
+        ]
+      }
+    },
+    "worktrees": [
+      {
+        "id": "w1",
+        "path": "rapport-client",
+        "main": true,
+        "branch": "main",
+        "head": "c3",
+        "index": [],
+        "files": [
+          {
+            "path": "chapitres",
+            "kind": "dir"
+          },
+          {
+            "path": "plan.md",
+            "kind": "file",
+            "status": "M",
+            "staged": false
+          },
+          {
+            "path": "intro.md",
+            "kind": "file",
+            "status": "M",
+            "staged": false
+          },
+          {
+            "path": "resume.md",
+            "kind": "file",
+            "status": "clean",
+            "staged": false
+          }
+        ]
+      }
+    ],
+    "active": "w1",
+    "stash": []
+  },
+  "parts": [
+    {
+      "id": "A",
+      "titleKey": "mission.6.titleA",
+      "bubbleKey": "mission.6.bubbleA",
+      "outroKey": "mission.6.outroA",
+      "steps": [
+        {
+          "id": "a1",
+          "command": "git status",
+          "done": {
+            "predicate": "lastCommandWas",
+            "args": {
+              "name": "status"
+            }
+          }
+        },
+        {
+          "id": "a2",
+          "command": "git stash",
+          "done": {
+            "predicate": "stashCount",
+            "args": {
+              "worktree": "w1",
+              "count": 1
+            }
+          }
+        },
+        {
+          "id": "a3",
+          "command": "git fetch origin",
+          "done": {
+            "predicate": "remoteBranchFetched",
+            "args": {
+              "name": "ia/graphiques"
+            }
+          }
+        },
+        {
+          "id": "a4",
+          "command": "git switch ia/graphiques",
+          "done": {
+            "predicate": "worktreeOnBranch",
+            "args": {
+              "path": "rapport-client",
+              "branch": "ia/graphiques"
+            }
+          }
+        },
+        {
+          "id": "a5",
+          "command": "git diff main...ia/graphiques",
+          "opens": "diff",
+          "diffMode": "branches",
+          "done": {
+            "predicate": "diffShown",
+            "args": {
+              "mode": "branches"
+            }
+          }
+        },
+        {
+          "id": "a6",
+          "web": "mr approve 42",
+          "done": {
+            "predicate": "mrStatus",
+            "args": {
+              "id": 42,
+              "status": "approved"
+            }
+          }
+        },
+        {
+          "id": "a7",
+          "command": "git switch main && git stash pop",
+          "done": {
+            "all": [
+              {
+                "predicate": "worktreeOnBranch",
+                "args": {
+                  "path": "rapport-client",
+                  "branch": "main"
+                }
+              },
+              {
+                "predicate": "stashCount",
+                "args": {
+                  "worktree": "w1",
+                  "count": 0
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "B",
+      "titleKey": "mission.6.titleB",
+      "bubbleKey": "mission.6.bubbleB",
+      "outroKey": "mission.6.outroB",
+      "resetState": true,
+      "steps": [
+        {
+          "id": "b1",
+          "command": "git fetch origin",
+          "done": {
+            "predicate": "remoteBranchFetched",
+            "args": {
+              "name": "ia/graphiques"
+            }
+          }
+        },
+        {
+          "id": "b2",
+          "command": "git worktree add ../revue-mr-42 ia/graphiques",
+          "done": {
+            "all": [
+              {
+                "predicate": "worktreeOnBranch",
+                "args": {
+                  "path": "revue-mr-42",
+                  "branch": "ia/graphiques"
+                }
+              },
+              {
+                "predicate": "workIntact",
+                "args": {
+                  "worktree": "w1"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "b3",
+          "command": "git diff main...ia/graphiques",
+          "opens": "diff",
+          "diffMode": "branches",
+          "done": {
+            "predicate": "diffShown",
+            "args": {
+              "mode": "branches"
+            }
+          }
+        },
+        {
+          "id": "b4",
+          "web": "mr approve 42; mr merge 42",
+          "done": {
+            "predicate": "mrStatus",
+            "args": {
+              "id": 42,
+              "status": "merged"
+            }
+          }
+        },
+        {
+          "id": "b5",
+          "command": "git worktree remove ../revue-mr-42",
+          "done": {
+            "predicate": "worktreeRemoved",
+            "args": {
+              "path": "revue-mr-42"
+            }
+          }
+        },
+        {
+          "id": "b6",
+          "command": "git pull",
+          "done": {
+            "all": [
+              {
+                "predicate": "branchTipIs",
+                "args": {
+                  "name": "main",
+                  "sameAs": "origin/main"
+                }
+              },
+              {
+                "predicate": "workIntact",
+                "args": {
+                  "worktree": "w1"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "screen": "compare",
+    "maquette": "maquettes/A7-MR-Comparer.dc.html"
+  },
+  "_note": "Les textes de chaque étape : clés mission.6.<a|b><n>.title|ex|after|note dans src/i18n."
+}

@@ -1,0 +1,38 @@
+{
+  "id": "puzzle-04",
+  "kind": "puzzle",
+  "titleKey": "puzzle.4.title",
+  "promptKey": "puzzle.4.prompt",
+  "visibleRepos": ["local"],
+  "initialState": {
+    "commits": {
+      "c1": { "id": "c1", "parents": [], "msg": "commit.firstDraft", "author": "human", "files": ["rapport.md"] },
+      "c2": { "id": "c2", "parents": ["c1"], "msg": "wip", "author": "ai", "files": ["rapport.md"] },
+      "c3": { "id": "c3", "parents": ["c2"], "msg": "wip", "author": "ai", "files": ["rapport.md"] },
+      "c4": { "id": "c4", "parents": ["c3"], "msg": "wip", "author": "ai", "files": ["rapport.md"] }
+    },
+    "branches": { "main": { "tip": "c1" }, "ia/chiffres": { "tip": "c4" } },
+    "remotes": {},
+    "worktrees": [
+      { "id": "w1", "path": "rapport-client", "main": true, "branch": "main", "head": "c1", "index": [], "files": { "rapport.md": "clean" } },
+      { "id": "w2", "path": "rapport-ia-chiffres", "main": false, "branch": "ia/chiffres", "head": "c4", "index": [], "files": { "rapport.md": "clean" } }
+    ],
+    "active": "w2",
+    "stash": [],
+    "visibleRepos": ["local"]
+  },
+  "goal": {
+    "describeKey": "puzzle.4.goal",
+    "all": [
+      { "predicate": "commitCountOnBranch", "args": { "branch": "ia/chiffres", "since": "main", "count": 1 } },
+      { "predicate": "noOrphan" }
+    ]
+  },
+  "choices": [
+    { "command": "git rebase -i HEAD~3", "correct": true },
+    { "command": "git reset --hard HEAD~3", "correct": false, "whyKey": "puzzle.4.why.reset" },
+    { "command": "git revert HEAD~3", "correct": false, "whyKey": "puzzle.4.why.revert" },
+    { "command": "git merge main", "correct": false, "whyKey": "puzzle.4.why.merge" }
+  ],
+  "takeawayKey": "puzzle.4.takeaway"
+}

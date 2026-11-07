@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Comegitmix — Variantes de worktrees</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,500;1,300;1,500&family=DM+Sans:wght@400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+button{font-family:'DM Sans',sans-serif;cursor:pointer}
+.abs{position:absolute}
+.panel{position:absolute;left:40px;width:1360px;height:262px;box-sizing:border-box;background:rgba(255,255,255,.75);border:1px solid rgba(40,32,28,.12);border-radius:22px;box-shadow:0 1px 0 rgba(40,32,28,.05),0 12px 28px -12px rgba(40,32,28,.18)}
+.tx{position:absolute;left:28px;top:22px;width:290px;display:flex;flex-direction:column;gap:8px}
+.tx h3{margin:0;font-family:'Cormorant Garamond',serif;font-weight:300;font-size:30px;line-height:1.05}
+.tx p{margin:0;font-size:14px;line-height:1.5}
+.tx .pro,.tx .con{font-size:13px;line-height:1.4;color:#3f352f}
+.tag{align-self:flex-start;font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.1em;text-transform:uppercase;padding:3px 10px;border-radius:999px;background:#DFE2C5;color:#28201c}
+svg text{font-family:'DM Mono',monospace}
+</style>
+</helmet>
+
+<div style="position:relative;width:1440px;height:1000px;background:#f7ede1;color:#28201c;font-family:'DM Sans',sans-serif;overflow:hidden">
+<div class="abs" style="left:900px;top:-80px;width:620px;height:420px;border-radius:58% 42% 51% 49% / 46% 57% 43% 54%;background:radial-gradient(closest-side,#B6E1ED 0%,rgba(182,225,237,0) 100%);opacity:.7"></div>
+
+<div class="abs" style="left:40px;top:28px;right:40px;display:flex;justify-content:space-between;align-items:flex-start">
+  <div>
+    <div style="font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#5f544c;font-weight:500">★ {{t.eyebrow}}</div>
+    <h1 style="margin:6px 0 0;font-family:'Cormorant Garamond',serif;font-weight:300;font-size:44px;line-height:1">{{t.title1}} <em style="font-weight:500;color:#E9722D">{{t.title2}}</em></h1>
+  </div>
+  <div style="display:flex;border:1.5px solid #28201c;border-radius:999px;overflow:hidden">
+    <sc-if value="{{isFr}}" hint-placeholder-val="{{true}}">
+      <button onClick="{{setFr}}" aria-label="Français" style="border:0;padding:6px 14px;font-size:13px;font-weight:700;background:#28201c;color:#f7ede1">FR</button>
+      <button onClick="{{setEn}}" aria-label="English" style="border:0;padding:6px 14px;font-size:13px;font-weight:500;background:transparent;color:#28201c">EN</button>
+    </sc-if>
+    <sc-if value="{{isEn}}" hint-placeholder-val="{{false}}">
+      <button onClick="{{setFr}}" aria-label="Français" style="border:0;padding:6px 14px;font-size:13px;font-weight:500;background:transparent;color:#28201c">FR</button>
+      <button onClick="{{setEn}}" aria-label="English" style="border:0;padding:6px 14px;font-size:13px;font-weight:700;background:#28201c;color:#f7ede1">EN</button>
+    </sc-if>
+  </div>
+</div>
+
+<!-- Variante 1 : bureaux sous les voies -->
+<div class="panel" style="top:112px">
+  <div class="tx"><span class="tag">{{t.tag1}}</span><h3>{{t.v1}}</h3><p>{{t.v1d}}</p><div class="pro">+ {{t.v1p}}</div><div class="con">− {{t.v1c}}</div></div>
+  <svg class="abs" style="left:330px;top:6px" width="1020" height="250" viewBox="0 0 1020 250" role="img" aria-label="Bureaux sous les voies">
+    <path d="M150 52 V138" stroke="#28201c" stroke-width="3" stroke-dasharray="3 9" stroke-linecap="round"/>
+    <path d="M510 33 V138" stroke="#E9722D" stroke-width="3" stroke-dasharray="3 9" stroke-linecap="round"/>
+    <path d="M870 14 V138" stroke="#4aadcc" stroke-width="3" stroke-dasharray="3 9" stroke-linecap="round"/>
+    <path d="M10 66 H150" stroke="#28201c" stroke-width="9" stroke-linecap="round" fill="none"/>
+    <path d="M80 66 L113 33 H510" stroke="#E9722D" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    <path d="M45 66 L75 14 H870" stroke="#4aadcc" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    <circle cx="150" cy="66" r="10" fill="#28201c" stroke="#fff" stroke-width="3"/>
+    <circle cx="510" cy="33" r="10" fill="#E9722D" stroke="#28201c" stroke-width="3"/>
+    <circle cx="870" cy="14" r="10" fill="#4aadcc" stroke="#28201c" stroke-width="3"/>
+    <rect x="20" y="140" width="260" height="96" rx="14" fill="#fff" stroke="rgba(40,32,28,.2)"/>
+    <rect x="20" y="140" width="9" height="96" rx="4" fill="#28201c"/>
+    <text x="44" y="170" font-size="14" font-weight="500" fill="#28201c">rapport-client/</text>
+    <text x="44" y="192" font-size="12" fill="#5f544c">main</text>
+    <rect x="380" y="140" width="260" height="96" rx="14" fill="#fff" stroke="rgba(40,32,28,.2)"/>
+    <rect x="380" y="140" width="9" height="96" rx="4" fill="#E9722D"/>
+    <text x="404" y="170" font-size="14" font-weight="500" fill="#28201c">rapport-ia-resume/</text>
+    <text x="404" y="192" font-size="12" fill="#5f544c">ia/resume</text>
+    <rect x="740" y="140" width="260" height="96" rx="14" fill="#fff" stroke="rgba(40,32,28,.2)"/>
+    <rect x="740" y="140" width="9" height="96" rx="4" fill="#4aadcc"/>
+    <text x="764" y="170" font-size="14" font-weight="500" fill="#28201c">rapport-ia-chiffres/</text>
+    <text x="764" y="192" font-size="12" fill="#5f544c">ia/chiffres</text>
+  </svg>
+</div>
+
+<!-- Variante 2 : le coffre et ses bureaux -->
+<div class="panel" style="top:394px">
+  <div class="tx"><span class="tag">{{t.tag2}}</span><h3>{{t.v2}}</h3><p>{{t.v2d}}</p><div class="pro">+ {{t.v2p}}</div><div class="con">− {{t.v2c}}</div></div>
+  <svg class="abs" style="left:330px;top:6px" width="1020" height="250" viewBox="0 0 1020 250" role="img" aria-label="Le coffre et ses bureaux">
+    <rect x="430" y="12" width="160" height="62" rx="12" fill="#28201c"/>
+    <rect x="440" y="22" width="140" height="42" rx="8" fill="none" stroke="#f7ede1" stroke-width="1.5" stroke-dasharray="4 4"/>
+    <text x="510" y="48" font-size="15" font-weight="500" fill="#f7ede1" text-anchor="middle">.git</text>
+    <path d="M510 74 V108 M150 108 H870" stroke="#28201c" stroke-width="3" stroke-linecap="round" fill="none"/>
+    <path d="M150 108 V140" stroke="#28201c" stroke-width="3" stroke-linecap="round"/>
+    <path d="M510 108 V140" stroke="#E9722D" stroke-width="3" stroke-linecap="round"/>
+    <path d="M870 108 V140" stroke="#4aadcc" stroke-width="3" stroke-linecap="round"/>
+    <rect x="20" y="140" width="260" height="96" rx="14" fill="#fff" stroke="rgba(40,32,28,.2)"/>
+    <rect x="20" y="140" width="260" height="10" rx="5" fill="#28201c"/>
+    <text x="44" y="178" font-size="14" font-weight="500" fill="#28201c">rapport-client/</text>
+    <text x="44" y="200" font-size="12" fill="#5f544c">.git/ (dossier)</text>
+    <rect x="380" y="140" width="260" height="96" rx="14" fill="#fff" stroke="rgba(40,32,28,.2)"/>
+    <rect x="380" y="140" width="260" height="10" rx="5" fill="#E9722D"/>
+    <text x="404" y="178" font-size="14" font-weight="500" fill="#28201c">rapport-ia-resume/</text>
+    <text x="404" y="200" font-size="12" fill="#5f544c">.git (fichier) → coffre</text>
+    <rect x="740" y="140" width="260" height="96" rx="14" fill="#fff" stroke="rgba(40,32,28,.2)"/>
+    <rect x="740" y="140" width="260" height="10" rx="5" fill="#4aadcc"/>
+    <text x="764" y="178" font-size="14" font-weight="500" fill="#28201c">rapport-ia-chiffres/</text>
+    <text x="764" y="200" font-size="12" fill="#5f544c">.git (fichier) → coffre</text>
+  </svg>
+</div>
+
+<!-- Variante 3 : dossier au bout de la voie -->
+<div class="panel" style="top:676px">
+  <div class="tx"><span class="tag">{{t.tag3}}</span><h3>{{t.v3}}</h3><p>{{t.v3d}}</p><div class="pro">+ {{t.v3p}}</div><div class="con">− {{t.v3c}}</div></div>
+  <svg class="abs" style="left:330px;top:6px" width="1020" height="250" viewBox="0 0 1020 250" role="img" aria-label="Dossier au bout de la voie">
+    <path d="M10 220 H640" stroke="#28201c" stroke-width="9" stroke-linecap="round" fill="none"/>
+    <path d="M150 220 L210 160 H520" stroke="#8A9456" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    <path d="M120 220 L180 100 H600" stroke="#E9722D" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    <path d="M80 220 L140 40 H640" stroke="#4aadcc" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    <circle cx="640" cy="220" r="10" fill="#28201c" stroke="#fff" stroke-width="3"/>
+    <circle cx="600" cy="100" r="10" fill="#E9722D" stroke="#28201c" stroke-width="3"/>
+    <circle cx="640" cy="40" r="10" fill="#4aadcc" stroke="#28201c" stroke-width="3"/>
+    <circle cx="520" cy="160" r="10" fill="#8A9456" stroke="#28201c" stroke-width="3"/>
+    <path d="M652 220 H710" stroke="#28201c" stroke-width="3" stroke-dasharray="3 9" stroke-linecap="round"/>
+    <path d="M612 100 H710" stroke="#E9722D" stroke-width="3" stroke-dasharray="3 9" stroke-linecap="round"/>
+    <path d="M652 40 H710" stroke="#4aadcc" stroke-width="3" stroke-dasharray="3 9" stroke-linecap="round"/>
+    <rect x="710" y="196" width="300" height="48" rx="12" fill="#fff" stroke="rgba(40,32,28,.2)"/><rect x="710" y="196" width="9" height="48" rx="4" fill="#28201c"/>
+    <text x="734" y="225" font-size="14" font-weight="500" fill="#28201c">rapport-client/ · main</text>
+    <rect x="710" y="76" width="300" height="48" rx="12" fill="#fff" stroke="rgba(40,32,28,.2)"/><rect x="710" y="76" width="9" height="48" rx="4" fill="#E9722D"/>
+    <text x="734" y="105" font-size="14" font-weight="500" fill="#28201c">rapport-ia-resume/</text>
+    <rect x="710" y="16" width="300" height="48" rx="12" fill="#fff" stroke="rgba(40,32,28,.2)"/><rect x="710" y="16" width="9" height="48" rx="4" fill="#4aadcc"/>
+    <text x="734" y="45" font-size="14" font-weight="500" fill="#28201c">rapport-ia-chiffres/</text>
+    <rect x="710" y="136" width="300" height="48" rx="12" fill="none" stroke="#5f544c" stroke-width="1.5" stroke-dasharray="5 5"/>
+    <text x="734" y="165" font-size="13" fill="#5f544c">{{t.noDesk}}</text>
+    <text x="14" y="204" font-size="13" fill="#28201c">main</text>
+    <text x="214" y="146" font-size="13" fill="#28201c">feature/intro</text>
+    <text x="184" y="86" font-size="13" fill="#28201c">ia/resume</text>
+    <text x="144" y="26" font-size="13" fill="#28201c">ia/chiffres</text>
+  </svg>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"lang":{"editor":"enum","options":["fr","en"],"default":"fr","section":"Langue"},"$preview":{"width":1440,"height":1000}}'>
+class Component extends DCLogic {
+  dict() {
+    return {
+      fr: {
+        eyebrow: 'Zone du bas', title1: 'Trois façons de montrer', title2: 'les worktrees',
+        tag1: 'Proposition de départ', tag2: 'Pour expliquer le .git', tag3: 'Lecture immédiate',
+        v1: '1 · Bureaux sous les voies', v1d: 'Chaque dossier du poste est relié à sa voie par un fil de couleur. L’historique est en haut, le poste en bas.',
+        v1p: 'Respecte la structure voulue : Git en haut, poste en bas.', v1c: 'Les fils traversent la zone du milieu.',
+        v2: '2 · Le coffre et ses bureaux', v2d: 'Un seul .git au centre, relié à chaque dossier. On insiste sur ce qui est partagé.',
+        v2p: 'Explique pourquoi les worktrees sont légers.', v2c: 'Le lien avec la voie exacte est moins direct.',
+        v3: '3 · Dossier au bout de la voie', v3d: 'Le dossier est posé à l’extrémité de sa voie, comme une destination. Une voie sans dossier se voit tout de suite.',
+        v3p: 'On voit d’un coup d’œil qui travaille où.', v3c: 'Casse la séparation haut / bas.',
+        noDesk: 'feature/intro · pas de dossier'
+      },
+      en: {
+        eyebrow: 'Bottom zone', title1: 'Three ways to show', title2: 'worktrees',
+        tag1: 'Starting proposal', tag2: 'To explain .git', tag3: 'Instant reading',
+        v1: '1 · Desks under the lanes', v1d: 'Each folder on the computer is tied to its lane by a coloured thread. History on top, computer below.',
+        v1p: 'Follows the requested structure: Git on top, computer below.', v1c: 'Threads cross the middle zone.',
+        v2: '2 · The vault and its desks', v2d: 'A single .git in the centre, linked to every folder. Emphasis on what is shared.',
+        v2p: 'Explains why worktrees are lightweight.', v2c: 'The link to the exact lane is less direct.',
+        v3: '3 · Folder at the end of the lane', v3d: 'The folder sits at the end of its lane, like a destination. A lane without a folder is obvious.',
+        v3p: 'You see at a glance who works where.', v3c: 'Breaks the top / bottom separation.',
+        noDesk: 'feature/intro · no folder'
+      }
+    };
+  }
+  renderVals() {
+    const lang = (this.state && this.state.lang) || this.props.lang || 'fr';
+    return {
+      t: this.dict()[lang], isFr: lang === 'fr', isEn: lang === 'en',
+      setFr: () => this.setState({ lang: 'fr' }), setEn: () => this.setState({ lang: 'en' })
+    };
+  }
+}
+</script>
+</body>
+</html>

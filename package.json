@@ -1,0 +1,16 @@
+{
+  "name": "comegitmix",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Comegitmix: understand Git by playing (Le Sens de l'IA)",
+  "scripts": {
+    "start": "python3 -m http.server 8080",
+    "test": "node --test \"tests/unit/**/*.test.js\"",
+    "content:check": "node scripts/check-content.mjs",
+    "test:e2e": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.65.0"
+  }
+}

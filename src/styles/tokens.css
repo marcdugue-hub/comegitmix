@@ -1,0 +1,42 @@
+:root {
+  --charbon: #28201c;
+  --orange: #E9722D;
+  --ciel: #4aadcc;
+  --ciel-wash: #B6E1ED;
+  --creme: #f7ede1;
+  --lin: #ede5d6;
+  --sauge: #CDD0AB;
+  --sauge-clair: #DFE2C5;
+  --texte-secondaire: #5f544c;
+  --annotation: #c4551a;
+
+  /* À valider par Marc */
+  --sauge-fonce: #8A9456;
+  --sauge-voie: #C9D08F;
+
+  /* Voies : main puis cycle */
+  --voie-main: var(--charbon);
+  --voie-1: var(--orange);
+  --voie-2: var(--ciel);
+  --voie-3: var(--sauge-fonce);
+  --voie-4: var(--sauge-voie);
+
+  --font-titre: "Cormorant Garamond", serif;
+  --font-ui: "DM Sans", system-ui, sans-serif;
+  --font-mono: "DM Mono", ui-monospace, monospace;
+  --font-note: "Caveat", cursive;
+
+  --opacite-actif: 1;
+  --opacite-inactif: .6;
+}
+
+/* Lettres de statut de fichier (comme dans un IDE) */
+:root {
+  --statut-M-texte: #c4551a;  --statut-M-fond: rgba(233,114,45,.16);   /* modifié */
+  --statut-U-texte: #55612a;  --statut-U-fond: #DFE2C5;                /* nouveau, non suivi */
+  --statut-A-texte: #1a6a88;  --statut-A-fond: #dff1f7;                /* préparé (index) */
+  /* Diff */
+  --diff-del-fond: #f6dccd;  --diff-del-texte: #8a3510;
+  --diff-add-fond: #DFE2C5;  --diff-add-texte: #3f4a1a;
+  --diff-ctx-fond: #fff;     --diff-fold-fond: #f7f3ea;
+}

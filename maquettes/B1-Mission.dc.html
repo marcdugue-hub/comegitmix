@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Comegitmix — Mission atelier</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,500;1,300;1,500&family=DM+Sans:wght@400;500;700&family=DM+Mono:wght@400;500&family=Caveat:wght@500&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:inherit;text-decoration:none}
+button{font-family:'DM Sans',sans-serif;cursor:pointer}
+.abs{position:absolute}
+.mono{font-family:'DM Mono',monospace}
+.dz{position:absolute;left:0;width:1028px;background:#28201c;border:1px solid rgba(247,237,225,.14);border-radius:18px}
+.eb{position:absolute;left:24px;font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:rgba(247,237,225,.7);font-weight:500}
+.sub{position:absolute;left:24px;width:160px;font-size:13px;line-height:1.35;color:rgba(247,237,225,.7)}
+.lane{position:absolute;left:24px;width:165px;display:flex;flex-direction:column;gap:1px}
+.lane b{font-family:'DM Mono',monospace;font-size:13px;font-weight:500;color:#f7ede1}
+.lane span{font-size:13px;color:rgba(247,237,225,.7);line-height:1.25}
+.lb{font-family:'DM Mono',monospace;font-size:11.5px;line-height:1.25;color:rgba(247,237,225,.78);background:#28201c;border-radius:4px}
+.lb b{display:block;font-weight:500;color:#f7ede1}
+.pl{font-family:'DM Mono',monospace;font-size:13px;font-weight:500;display:flex;align-items:center;gap:6px}
+.pl i{font-style:normal;font-size:12px;opacity:.85;border-left:1.5px solid rgba(40,32,28,.4);padding-left:6px}
+.tree{position:absolute;top:36px;width:250px;height:216px;box-sizing:border-box;background:#1e1713;border:1px solid rgba(247,237,225,.16);border-radius:12px;overflow:hidden;font-family:'DM Mono',monospace;font-size:13px;color:#f7ede1}
+.tree .hd{display:flex;align-items:center;gap:8px;height:32px;padding:0 12px;border-bottom:1px solid rgba(247,237,225,.14);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:rgba(247,237,225,.85);font-weight:500}
+.tree .br{height:26px;display:flex;align-items:center;gap:6px;padding:0 12px;font-size:12px;color:rgba(247,237,225,.8)}
+.tree .tr{display:flex;align-items:center;gap:8px;height:26px;padding:0 12px 0 26px}
+.tree .tr em{margin-left:auto;font-style:normal;font-weight:500}
+.tree .note{padding:2px 12px 0 26px;font-family:'DM Sans',sans-serif;font-size:12px;color:rgba(247,237,225,.7);line-height:1.3}
+.chip{position:absolute;height:30px;box-sizing:border-box;border-radius:8px;display:flex;align-items:center;gap:8px;padding:0 12px;font-size:13px;background:#1e1713;border:1px solid rgba(247,237,225,.28);font-family:'DM Mono',monospace;color:#f7ede1}
+.cg{display:flex;flex-wrap:wrap;gap:6px}
+.cg span{display:flex;align-items:center;gap:6px;height:28px;padding:0 10px;border-radius:8px;border:1px solid rgba(247,237,225,.35);font-family:'DM Mono',monospace;font-size:12.5px;color:#f7ede1;box-sizing:border-box}
+.cg span.lk{border-style:dashed;color:rgba(247,237,225,.6)}
+.step{display:flex;align-items:center;gap:12px;height:36px;font-size:14px;color:#f7ede1}
+.step .n{flex:0 0 24px;height:24px;border-radius:50%;box-sizing:border-box;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:12px;font-weight:500}
+svg.ic{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto}
+</style>
+</helmet>
+
+<div style="position:relative;width:1440px;height:900px;background:#1a1411;color:#f7ede1;font-family:'DM Sans',sans-serif;overflow:hidden">
+
+<!-- barre du haut -->
+<div class="abs" style="left:0;top:0;width:1440px;height:48px;background:#120d0b;border-bottom:1px solid rgba(247,237,225,.14);display:flex;align-items:center;justify-content:space-between;padding:0 16px 0 0">
+  <div style="display:flex;align-items:center;height:48px">
+    <div style="width:52px;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:500;line-height:1"><span style="color:#E9722D">i</span><span style="color:#84D0E4">A</span></div>
+    <div style="display:flex;align-items:center;height:48px;padding:0 20px;font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;border-right:1px solid rgba(247,237,225,.14)">Come<em style="font-weight:500;color:#E9722D">git</em>mix</div>
+    <a href="B1-Mission.dc.html" style="display:flex;align-items:center;gap:8px;height:48px;padding:0 20px;font-size:13.5px;background:#1a1411;border-top:2px solid #E9722D;font-weight:500">{{t.tabMission}}</a>
+    <a href="B2-Puzzle.dc.html" style="display:flex;align-items:center;gap:8px;height:48px;padding:0 20px;font-size:13.5px;color:rgba(247,237,225,.75)">{{t.tabPuzzle}}</a>
+    <a href="B3-Sandbox.dc.html" style="display:flex;align-items:center;gap:8px;height:48px;padding:0 20px;font-size:13.5px;color:rgba(247,237,225,.75)">{{t.tabSandbox}}</a>
+  </div>
+  <div style="display:flex;align-items:center;gap:16px">
+    <div class="mono" style="font-size:12.5px;color:rgba(247,237,225,.75)">{{t.progress}}</div>
+    <div style="display:flex;border:1px solid rgba(247,237,225,.4);border-radius:8px;overflow:hidden">
+      <sc-if value="{{isFr}}" hint-placeholder-val="{{true}}">
+        <button onClick="{{setFr}}" aria-label="Français" style="border:0;padding:5px 12px;font-size:13px;font-weight:700;background:#f7ede1;color:#28201c">FR</button>
+        <button onClick="{{setEn}}" aria-label="English" style="border:0;padding:5px 12px;font-size:13px;font-weight:500;background:transparent;color:#f7ede1">EN</button>
+      </sc-if>
+      <sc-if value="{{isEn}}" hint-placeholder-val="{{false}}">
+        <button onClick="{{setFr}}" aria-label="Français" style="border:0;padding:5px 12px;font-size:13px;font-weight:500;background:transparent;color:#f7ede1">FR</button>
+        <button onClick="{{setEn}}" aria-label="English" style="border:0;padding:5px 12px;font-size:13px;font-weight:700;background:#f7ede1;color:#28201c">EN</button>
+      </sc-if>
+    </div>
+  </div>
+</div>
+
+<!-- rail d'icônes -->
+<div class="abs" style="left:0;top:48px;width:52px;height:852px;background:#120d0b;border-right:1px solid rgba(247,237,225,.14);display:flex;flex-direction:column;align-items:center;gap:6px;padding-top:10px;box-sizing:border-box">
+  <div style="width:40px;height:40px;display:flex;align-items:center;justify-content:center;border-left:2px solid #E9722D;color:#f7ede1"><svg class="ic" viewBox="0 0 24 24" style="width:22px;height:22px"><line x1="6" x2="6" y1="3" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg></div>
+  <div style="width:40px;height:40px;display:flex;align-items:center;justify-content:center;color:rgba(247,237,225,.65)"><svg class="ic" viewBox="0 0 24 24" style="width:22px;height:22px"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg></div>
+  <div style="width:40px;height:40px;display:flex;align-items:center;justify-content:center;color:rgba(247,237,225,.65)"><svg class="ic" viewBox="0 0 24 24" style="width:22px;height:22px"><path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></svg></div>
+</div>
+
+<!-- panneau latéral : mission -->
+<div class="abs" style="left:52px;top:48px;width:320px;height:852px;background:#231b17;border-right:1px solid rgba(247,237,225,.14);box-sizing:border-box;padding:18px 18px 14px;display:flex;flex-direction:column;gap:12px;overflow:hidden">
+  <div class="mono" style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:rgba(247,237,225,.7);font-weight:500">{{t.eyebrow}}</div>
+  <h2 style="margin:0;font-family:'Cormorant Garamond',serif;font-weight:300;font-size:30px;line-height:1.05;color:#f7ede1">{{t.title1}} <em style="font-weight:500;color:#E9722D">{{t.title2}}</em></h2>
+  <div style="display:flex;gap:10px;align-items:flex-start">
+    <img src="/_blob/19b4599bc9dac48645a34b326ed12da7" alt="" style="width:56px;height:56px;flex:0 0 56px">
+    <div style="background:#1e1713;border:1px solid rgba(247,237,225,.2);border-radius:4px 14px 14px 14px;padding:10px 12px;font-size:13.5px;line-height:1.5;color:#f7ede1">{{t.bubble}}</div>
+  </div>
+  <div style="display:flex;flex-direction:column">
+    <div class="step"><div class="n" style="background:#f7ede1;color:#28201c"><svg class="ic" viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M20 6 9 17l-5-5"/></svg></div><span style="color:rgba(247,237,225,.7);text-decoration:line-through">{{t.s1}}</span></div>
+    <div class="step" style="font-weight:700"><div class="n" style="background:#E9722D;color:#28201c">2</div><span>{{t.s2}}</span></div>
+    <div class="step"><div class="n" style="border:1.5px solid rgba(247,237,225,.6)">3</div><span>{{t.s3}}</span></div>
+    <div class="step"><div class="n" style="border:1.5px solid rgba(247,237,225,.6)">4</div><span>{{t.s4}}</span></div>
+  </div>
+  <div style="background:#120d0b;border:1px solid rgba(247,237,225,.2);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:8px">
+    <div class="mono" style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:rgba(247,237,225,.7)">{{t.cmdLabel}}</div>
+    <div class="mono" style="font-size:13px;line-height:1.5;word-break:break-all"><span style="color:#E9722D">$</span> git worktree add ../rapport-ia-chiffres -b ia/chiffres</div>
+    <div style="font-size:13px;line-height:1.4;color:rgba(247,237,225,.78)">{{t.cmdExplain}}</div>
+    <div style="display:flex;gap:8px;margin-top:2px">
+      <button style="border:0;border-radius:8px;background:#E9722D;color:#28201c;font-weight:700;font-size:13.5px;padding:8px 20px">{{t.run}}</button>
+      <button style="border:1px solid rgba(247,237,225,.45);border-radius:8px;background:transparent;color:#f7ede1;font-weight:500;font-size:13.5px;padding:7px 16px">{{t.hint}}</button>
+    </div>
+  </div>
+  <div>
+    <div class="mono" style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:rgba(247,237,225,.7);margin-bottom:8px">{{t.palette}}</div>
+    <div class="cg">
+      <span><svg class="ic" viewBox="0 0 24 24" style="color:#84D0E4"><line x1="6" x2="6" y1="3" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg>branch</span>
+      <span><svg class="ic" viewBox="0 0 24 24" style="color:#84D0E4"><circle cx="12" cy="12" r="3"/><line x1="3" x2="9" y1="12" y2="12"/><line x1="15" x2="21" y1="12" y2="12"/></svg>commit</span>
+      <span><svg class="ic" viewBox="0 0 24 24" style="color:#84D0E4"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>worktree</span>
+      <span class="lk"><svg class="ic" viewBox="0 0 24 24"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>diff</span>
+      <span class="lk"><svg class="ic" viewBox="0 0 24 24"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>merge</span>
+      <span class="lk"><svg class="ic" viewBox="0 0 24 24"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>push</span>
+    </div>
+  </div>
+</div>
+
+<!-- scène -->
+<div class="abs" style="left:392px;top:62px;width:1028px;height:818px">
+  <div class="dz" style="top:0;height:136px"></div>
+  <div class="dz" style="top:148px;height:322px"></div>
+  <div class="dz" style="top:482px;height:56px;border-radius:14px"></div>
+  <div class="dz" style="top:550px;height:268px"></div>
+
+  <div class="eb" style="top:16px">{{t.zGit}}</div>
+  <div class="sub" style="top:38px">{{t.zGitSub}}</div>
+  <div class="eb" style="top:164px">{{t.zLanes}}</div>
+  <div class="sub" style="top:186px">{{t.zLanesSub}}</div>
+  <div class="eb" style="top:492px">{{t.zIndex}}</div>
+  <div class="sub" style="top:511px;white-space:nowrap">{{t.zIndexSub}}</div>
+  <div class="eb" style="top:566px">{{t.zDisk}}</div>
+  <div class="sub mono" style="top:588px">workspace · 2 {{t.folders}}</div>
+
+  <!-- cartes Git -->
+  <div class="abs" style="left:210px;top:18px;width:340px;height:100px;box-sizing:border-box;border:1.5px dashed rgba(247,237,225,.4);border-radius:12px;padding:12px 16px;display:flex;flex-direction:column;gap:4px">
+    <div style="display:flex;align-items:center;gap:8px;font-size:14px"><svg class="ic" viewBox="0 0 24 24"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span class="mono" style="font-weight:500">origin</span><span style="color:rgba(247,237,225,.75)">· {{t.remote}}</span></div>
+    <div style="font-size:13px;color:rgba(247,237,225,.75);line-height:1.4">{{t.remoteDesc}}</div>
+    <div style="margin-top:auto;font-size:12.5px;color:#f7ede1">{{t.remoteLock}}</div>
+  </div>
+  <div class="abs" style="left:570px;top:18px;width:426px;height:100px;box-sizing:border-box;border:1.5px solid rgba(247,237,225,.7);border-radius:12px;padding:12px 16px;display:flex;flex-direction:column;gap:4px">
+    <div style="font-size:14px;font-weight:500">{{t.local}}</div>
+    <div style="display:flex;gap:30px;align-items:baseline">
+      <div style="display:flex;align-items:baseline;gap:6px"><span style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:34px;line-height:1">6</span><span style="font-size:13px;color:rgba(247,237,225,.75)">{{t.stCommits}}</span></div>
+      <div style="display:flex;align-items:baseline;gap:6px"><span style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:34px;line-height:1">2</span><span style="font-size:13px;color:rgba(247,237,225,.75)">{{t.stBranches}}</span></div>
+      <div style="display:flex;align-items:baseline;gap:6px"><span style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:34px;line-height:1">2</span><span style="font-size:13px;color:rgba(247,237,225,.75)">{{t.stDesks}}</span></div>
+    </div>
+    <div style="margin-top:auto;font-size:12.5px;color:rgba(247,237,225,.8);display:flex;align-items:center;gap:6px"><svg class="ic" viewBox="0 0 24 24" style="color:#84D0E4"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>{{t.oneGit}}</div>
+  </div>
+
+  <!-- étiquettes de voies + lignes de séparation -->
+  <div class="abs" style="left:210px;top:260px;width:790px;border-top:1px solid rgba(247,237,225,.1)"></div>
+  <div class="abs" style="left:210px;top:340px;width:790px;border-top:1px solid rgba(247,237,225,.1)"></div>
+  <div class="lane" style="top:203px"><b>ia/chiffres</b><span>{{t.laneC}}</span></div>
+  <div class="lane" style="top:283px"><b>ia/resume</b><span>{{t.laneR}}</span></div>
+  <div class="lane" style="top:363px"><b>main</b><span>{{t.laneM}}</span></div>
+
+  <!-- liens dossier ↔ voie -->
+  <sc-for list="{{links}}" as="k" hint-placeholder-count="3"><div style="{{k.style}}"></div></sc-for>
+  <!-- barres de voies -->
+  <sc-for list="{{bars}}" as="b" hint-placeholder-count="5"><div style="{{b.style}}"></div></sc-for>
+  <!-- commits -->
+  <sc-for list="{{dots}}" as="d" hint-placeholder-count="9"><div style="{{d.style}}"></div></sc-for>
+  <sc-for list="{{labels}}" as="l" hint-placeholder-count="6"><div class="lb" style="{{l.style}}"><b>{{l.hash}}</b>{{l.msg}}</div></sc-for>
+  <sc-for list="{{pills}}" as="p" hint-placeholder-count="3"><div class="pl" style="{{p.style}}">{{p.text}}<i>{{p.head}}</i></div></sc-for>
+
+  <!-- index -->
+  <div class="chip" style="left:360px;top:494px;border-color:#CDD0AB"><span style="color:#CDD0AB;font-weight:500">A</span>resume.md<span style="font-family:'DM Sans',sans-serif;color:rgba(247,237,225,.75)">· {{t.staged}}</span></div>
+  <div class="chip" style="left:640px;top:494px"><span style="color:#E9722D;font-weight:500">M</span>plan.md<span style="font-family:'DM Sans',sans-serif;color:rgba(247,237,225,.75)">· {{t.modified}}</span></div>
+
+  <!-- poste : espace de travail façon explorateur -->
+  <div class="tree" style="left:210px">
+    <div class="hd"><svg class="ic" viewBox="0 0 24 24"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>rapport-client</div>
+    <div class="br"><span style="width:10px;height:10px;border-radius:50%;background:#f7ede1;display:inline-block"></span>main · {{t.d1}}</div>
+    <div class="tr"><svg class="ic" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg>plan.md<em style="color:#E9722D">M</em></div>
+    <div class="tr"><svg class="ic" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg>intro.md</div>
+    <div class="tr"><svg class="ic" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg>chapitres.md</div>
+    <div class="tr"><svg class="ic" viewBox="0 0 24 24" style="color:#84D0E4"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>.git/</div>
+    <div class="note">{{t.realRepo}}</div>
+  </div>
+  <div class="tree" style="left:478px">
+    <div class="hd" style="color:#E9722D"><svg class="ic" viewBox="0 0 24 24"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg><span style="color:#f7ede1">rapport-ia-resume</span></div>
+    <div class="br"><span style="width:10px;height:10px;border-radius:50%;background:#E9722D;display:inline-block"></span>ia/resume · {{t.d2}}</div>
+    <div class="tr"><svg class="ic" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg>resume.md<em style="color:#CDD0AB">A</em></div>
+    <div class="tr"><svg class="ic" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg>plan.md</div>
+    <div class="tr"><svg class="ic" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg>intro.md</div>
+    <div class="tr"><svg class="ic" viewBox="0 0 24 24" style="color:#84D0E4"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg>.git</div>
+    <div class="note">{{t.gitFile}}</div>
+  </div>
+  <div class="tree" style="left:746px;border:1.5px dashed rgba(132,208,228,.8);background:transparent">
+    <div class="hd"><svg class="ic" viewBox="0 0 24 24"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>rapport-ia-chiffres</div>
+    <div class="br"><span style="width:10px;height:10px;border-radius:50%;border:2px dashed #84D0E4;box-sizing:border-box;display:inline-block"></span>ia/chiffres · {{t.d3}}</div>
+    <div class="tr" style="color:rgba(247,237,225,.7)"><svg class="ic" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg>plan.md</div>
+    <div class="tr" style="color:rgba(247,237,225,.7)"><svg class="ic" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg>intro.md</div>
+    <div class="tr" style="color:rgba(247,237,225,.7)"><svg class="ic" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg>chapitres.md</div>
+    <div class="tr" style="color:rgba(247,237,225,.7)"><svg class="ic" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg>.git</div>
+  </div>
+</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"lang":{"editor":"enum","options":["fr","en"],"default":"fr","section":"Langue"},"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  dict() {
+    return {
+      fr: {
+        tabMission: 'Mission 3', tabPuzzle: 'Puzzle', tabSandbox: 'Bac à sable', progress: '3 / 6',
+        eyebrow: 'Mission · 12 min', title1: 'Deux assistants,', title2: 'un seul projet',
+        bubble: 'Vos deux assistants IA veulent travailler en même temps. Dans un même dossier, ils s’écraseraient. Donnons à chacun son bureau et sa voie.',
+        s1: 'Un bureau pour l’assistant 1', s2: 'Un bureau pour l’assistant 2', s3: 'Relire son travail avec diff', s4: 'Fusionner ce qui est bon',
+        cmdLabel: 'Prochaine commande', cmdExplain: 'Crée un nouveau dossier, relié au même .git, sur une nouvelle voie.',
+        run: 'Lancer', hint: 'Indice', palette: 'Commandes débloquées',
+        zGit: 'Dans Git', zGitSub: 'Ce que Git retient', zLanes: 'Les voies', zLanesSub: 'Une voie par branche',
+        zIndex: 'L’index', zIndexSub: 'Prêt à partir', zDisk: 'Sur votre poste', folders: 'dossiers',
+        remote: 'Dépôt distant', remoteDesc: 'La copie partagée avec l’équipe. Pas encore utilisée.', remoteLock: 'Se débloque à la mission 5',
+        local: 'Dépôt local · .git', stCommits: 'commits', stBranches: 'branches', stDesks: 'bureaux',
+        oneGit: 'Un seul .git pour tous les bureaux',
+        laneM: 'Version de référence', laneR: 'Assistant 1 · résumé', laneC: 'Assistant 2 · chiffres',
+        staged: 'préparé', modified: 'modifié',
+        d1: 'votre dossier', d2: 'bureau 1', d3: 'à créer',
+        realRepo: 'Le vrai dépôt vit ici.', gitFile: 'Un simple fichier qui pointe vers le .git de rapport-client.',
+        note: 'Un bureau = un vrai dossier'
+      },
+      en: {
+        tabMission: 'Mission 3', tabPuzzle: 'Puzzle', tabSandbox: 'Sandbox', progress: '3 / 6',
+        eyebrow: 'Mission · 12 min', title1: 'Two assistants,', title2: 'one project',
+        bubble: 'Your two AI assistants want to work at the same time. In one folder they would overwrite each other. Let’s give each one a desk and a lane.',
+        s1: 'A desk for assistant 1', s2: 'A desk for assistant 2', s3: 'Review its work with diff', s4: 'Merge what’s good',
+        cmdLabel: 'Next command', cmdExplain: 'Creates a new folder, linked to the same .git, on a new lane.',
+        run: 'Run', hint: 'Hint', palette: 'Unlocked commands',
+        zGit: 'Inside Git', zGitSub: 'What Git remembers', zLanes: 'The lanes', zLanesSub: 'One lane per branch',
+        zIndex: 'The index', zIndexSub: 'Ready to go', zDisk: 'On your computer', folders: 'folders',
+        remote: 'Remote repository', remoteDesc: 'The copy shared with the team. Not used yet.', remoteLock: 'Unlocks in mission 5',
+        local: 'Local repository · .git', stCommits: 'commits', stBranches: 'branches', stDesks: 'desks',
+        oneGit: 'One single .git for every desk',
+        laneM: 'Reference version', laneR: 'Assistant 1 · summary', laneC: 'Assistant 2 · figures',
+        staged: 'staged', modified: 'modified',
+        d1: 'your folder', d2: 'desk 1', d3: 'to create',
+        realRepo: 'The real repository lives here.', gitFile: 'Just a file pointing to rapport-client’s .git.',
+        note: 'One desk = one real folder'
+      }
+    };
+  }
+  bar(x1, x2, y, color, dashed) {
+    const bg = dashed ? 'repeating-linear-gradient(90deg,' + color + ' 0 7px,transparent 7px 20px)' : color;
+    return { style: 'position:absolute;left:' + x1 + 'px;top:' + (y - 5) + 'px;width:' + (x2 - x1) + 'px;height:10px;border-radius:5px;background:' + bg };
+  }
+  diag(x1, y1, x2, y2, color, dashed) {
+    const L = Math.hypot(x2 - x1, y2 - y1), a = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
+    const bg = dashed ? 'repeating-linear-gradient(90deg,' + color + ' 0 7px,transparent 7px 20px)' : color;
+    return { style: 'position:absolute;left:' + x1 + 'px;top:' + (y1 - 5) + 'px;width:' + L + 'px;height:10px;border-radius:5px;background:' + bg + ';transform-origin:0 50%;transform:rotate(' + a + 'deg)' };
+  }
+  dot(x, y, color, tip, ghost) {
+    const r = tip ? 14 : 11;
+    return { style: 'position:absolute;left:' + (x - r) + 'px;top:' + (y - r) + 'px;width:' + (2 * r) + 'px;height:' + (2 * r) + 'px;box-sizing:border-box;border-radius:50%;border:4px ' + (ghost ? 'dashed' : 'solid') + ' ' + color + ';background:' + (tip ? color : '#28201c') };
+  }
+  label(x, y, hash, msg) {
+    return { hash, msg, style: 'position:absolute;left:' + (x - 32) + 'px;top:' + (y + 17) + 'px;width:64px;text-align:center' };
+  }
+  link(x, y1, y2, color) {
+    return { style: 'position:absolute;left:' + (x - 1.5) + 'px;top:' + y1 + 'px;height:' + (y2 - y1) + 'px;border-left:3px dashed ' + color };
+  }
+  pill(x, y, text, head, bg, fg, ghost) {
+    return { text, head, style: 'position:absolute;left:' + x + 'px;top:' + y + 'px;height:26px;box-sizing:border-box;border-radius:6px;padding:0 10px;background:' + bg + ';color:' + fg + (ghost ? ';border:1.5px dashed #84D0E4' : '') };
+  }
+  renderVals() {
+    const lang = (this.state && this.state.lang) || this.props.lang || 'fr';
+    const cream = '#f7ede1', or = '#E9722D', sky = '#84D0E4';
+    const bars = [
+      this.bar(210, 335, 380, cream),
+      this.diag(283, 380, 363, 300, or),
+      this.bar(363, 603, 300, or),
+      this.diag(283, 380, 363, 220, sky, true),
+      this.bar(363, 871, 220, sky, true)
+    ];
+    const dots = [
+      this.dot(230, 380, cream), this.dot(283, 380, cream), this.dot(335, 380, cream, true),
+      this.dot(363, 300, or), this.dot(480, 300, or), this.dot(603, 300, or, true),
+      this.dot(871, 220, sky, false, true)
+    ];
+    const tt = this.dict()[lang];
+    const labels = [
+      this.label(230, 380, 'a1c04e2', 'init'), this.label(283, 380, 'b7d19f0', lang === 'fr' ? 'plan' : 'outline'), this.label(335, 380, 'c93e5a8', 'intro'),
+      this.label(363, 300, 'd02b7c1', lang === 'fr' ? 'résumé v1' : 'summary v1'), this.label(480, 300, 'e41f8d6', 'v2'), this.label(603, 300, 'f58a3b9', 'v3')
+    ];
+    const links = [
+      this.link(335, 396, 586, cream), this.link(603, 316, 586, or), this.link(871, 236, 586, sky)
+    ];
+    const pills = [
+      this.pill(359, 367, 'main', 'HEAD', cream, '#28201c'),
+      this.pill(625, 287, 'ia/resume', 'HEAD', or, '#28201c'),
+      this.pill(893, 207, 'ia/chiffres', '', 'transparent', cream, true)
+    ];
+    return {
+      t: tt, isFr: lang === 'fr', isEn: lang === 'en',
+      setFr: () => this.setState({ lang: 'fr' }), setEn: () => this.setState({ lang: 'en' }),
+      bars, dots, labels, links, pills
+    };
+  }
+}
+</script>
+</body>
+</html>
