@@ -6,7 +6,7 @@ repos: [local]
 ---
 
 ## Prompt
-Créez la branche ia/plan et placez votre dossier dessus, en une seule commande.
+L'assistant doit travailler sur le plan sans marcher sur main. Créez la branche ia/plan et placez-vous dessus, en une seule commande.
 
 ## Setup
 ```git-setup
@@ -16,12 +16,12 @@ git commit -m "init"
 
 ## Choices
 - [x] git switch -c ia/plan
-- [ ] git branch ia/plan — crée la voie mais votre dossier reste sur main.
-- [ ] git switch ia/plan — la branche n'existe pas encore.
-- [ ] git worktree add ia/plan — il manque le chemin du dossier.
+- [ ] git branch ia/plan — la voie existe, mais vous restez sur main, devant la porte fermée.
+- [ ] git switch ia/plan — impossible de rejoindre une voie qui n'existe pas encore.
+- [ ] git worktree add ia/plan — il manque l'adresse du nouveau dossier.
 
 ## Goal
 Votre dossier est sur la nouvelle voie ia/plan.
 
 ## Takeaway
-switch -c crée la branche et s'y place.
+switch -c : on crée la voie et on s'y met, en un geste.

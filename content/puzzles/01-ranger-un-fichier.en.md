@@ -6,7 +6,7 @@ repos: [local]
 ---
 
 ## Prompt
-You want only intro.md to go into the next commit.
+Two files changed, but only intro.md is presentable. Send intro.md alone in the next commit; plan.md is still a rough draft.
 
 ## Setup
 ```git-setup
@@ -17,12 +17,12 @@ git commit -m "init"
 
 ## Choices
 - [x] git add intro.md
-- [ ] git add . — git add . stages every file, plan.md included.
-- [ ] git commit -am "intro" — -a also saves plan.md.
-- [ ] git restore intro.md — restore throws away your changes.
+- [ ] git add . — the dot means “everything”: plan.md, rough draft and all, would go too.
+- [ ] git commit -am "intro" — -a also drags plan.md along, ready or not.
+- [ ] git restore intro.md — restore throws your changes away: intro.md goes back to how it was, and your work evaporates.
 
 ## Goal
-intro.md staged, plan.md still M.
+intro.md staged, plan.md still M (modified, but not in the snapshot).
 
 ## Takeaway
-add chooses, file by file, what goes into the snapshot.
+add builds the snapshot file by file: only what is staged goes in.

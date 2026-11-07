@@ -6,7 +6,7 @@ repos: [local]
 ---
 
 ## Prompt
-Vous avez du travail en cours et devez relire la branche ia/graphiques sans toucher à votre dossier.
+Votre dossier est plein de travail en cours, et on vous demande de relire les graphiques de l'IA sur la branche ia/graphiques. Relisez-les sans toucher à votre dossier.
 
 ## Setup
 ```git-setup
@@ -23,12 +23,12 @@ git switch main
 
 ## Choices
 - [x] git worktree add ../revue ia/graphiques
-- [ ] git switch ia/graphiques — votre dossier change de contenu pendant toute la revue.
-- [ ] git stash — utile avant un switch, mais ne permet pas de relire seul.
-- [ ] git worktree add ../revue -b ia/graphiques — -b crée une nouvelle branche, or elle existe déjà.
+- [ ] git switch ia/graphiques — tout votre dossier change de contenu pendant la revue : adieu vos brouillons.
+- [ ] git stash — bon réflexe avant un switch, mais seul, il ne vous donne rien à relire.
+- [ ] git worktree add ../revue -b ia/graphiques — -b crée une nouvelle branche ; celle-ci existe déjà, Git refusera.
 
 ## Goal
-Un dossier revue sur ia/graphiques ; votre dossier garde ses M.
+Un dossier revue sur ia/graphiques ; votre dossier garde ses M, intacts.
 
 ## Takeaway
-Avec du travail en cours, relisez dans un worktree.
+Avec du travail en cours, relisez dans un worktree : un second bureau, un seul projet.

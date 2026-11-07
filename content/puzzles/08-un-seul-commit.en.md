@@ -6,7 +6,7 @@ repos: [local]
 ---
 
 ## Prompt
-On ia/essai, only the “typo fixed” commit interests you. Copy it onto main.
+On ia/essai, the AI fixed a typo, then launched into a dubious experiment. Only the “typo fixed” commit interests you: copy it onto main, without the experiment.
 
 ## Setup
 ```git-setup
@@ -22,12 +22,12 @@ git switch main
 
 ## Choices
 - [x] git cherry-pick ia/essai~1
-- [ ] git merge ia/essai — merge also brings in the abandoned attempt.
-- [ ] git rebase ia/essai — rebase moves main onto the whole lane.
-- [ ] git cherry-pick ia/essai — that is the last commit, the abandoned attempt.
+- [ ] git merge ia/essai — merge brings back the whole lane, dubious experiment included.
+- [ ] git rebase ia/essai — rebase puts main behind the whole lane, experiment included.
+- [ ] git cherry-pick ia/essai — the last commit of the lane is precisely the abandoned experiment.
 
 ## Goal
-main received the fix, not the attempt.
+main received the fix, and nothing else.
 
 ## Takeaway
-cherry-pick copies a single commit.
+cherry-pick copies a single commit: pick the cherry, leave the cake.

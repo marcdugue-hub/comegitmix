@@ -6,7 +6,7 @@ repos: [local]
 ---
 
 ## Prompt
-Donnez à un nouvel assistant son propre dossier et sa propre branche ia/sources, sans nouveau dépôt.
+Un nouvel assistant arrive, et il lui faut son propre bureau : un dossier à lui, sur sa branche ia/sources, sans copier tout le projet.
 
 ## Setup
 ```git-setup
@@ -16,12 +16,12 @@ git commit -m "init"
 
 ## Choices
 - [x] git worktree add ../rapport-ia-sources -b ia/sources
-- [ ] git clone . ../rapport-ia-sources — clone copie tout le dépôt : deux .git.
-- [ ] git branch ia/sources — une branche sans dossier.
-- [ ] git switch -c ia/sources — votre propre dossier change de branche.
+- [ ] git clone . ../rapport-ia-sources — clone photocopie tout le projet : deux .git, deux historiques qui divergeront.
+- [ ] git branch ia/sources — une voie, mais pas de bureau pour y travailler.
+- [ ] git switch -c ia/sources — c'est votre bureau qui déménage sur la nouvelle voie.
 
 ## Goal
-Un nouveau dossier sur la branche ia/sources, même .git.
+Un nouveau dossier sur la branche ia/sources, avec le même .git.
 
 ## Takeaway
-worktree add = un dossier de plus, relié au même dépôt.
+worktree add : un bureau de plus, relié au même projet.

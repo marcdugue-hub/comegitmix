@@ -6,7 +6,7 @@ repos: [local]
 ---
 
 ## Prompt
-You have work in progress and need to review the ia/graphiques branch without touching your folder.
+Your folder is full of work in progress, and you are asked to review the AI's charts on the ia/graphiques branch. Review them without touching your folder.
 
 ## Setup
 ```git-setup
@@ -23,12 +23,12 @@ git switch main
 
 ## Choices
 - [x] git worktree add ../revue ia/graphiques
-- [ ] git switch ia/graphiques — your folder changes content for the whole review.
-- [ ] git stash — useful before a switch, but it does not let you review on its own.
-- [ ] git worktree add ../revue -b ia/graphiques — -b creates a new branch, but this one already exists.
+- [ ] git switch ia/graphiques — your whole folder changes content during the review: goodbye, rough drafts.
+- [ ] git stash — a good reflex before a switch, but on its own it gives you nothing to review.
+- [ ] git worktree add ../revue -b ia/graphiques — -b creates a new branch; this one already exists, so Git will refuse.
 
 ## Goal
-A revue folder on ia/graphiques; your folder keeps its M files.
+A revue folder on ia/graphiques; your folder keeps its M files, untouched.
 
 ## Takeaway
-With work in progress, review in a worktree.
+With work in progress, review in a worktree: a second desk, a single project.

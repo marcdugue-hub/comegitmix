@@ -19,7 +19,7 @@ desk: intact, intact, intact, intact, intact, intact
 
 ## Trap
 `fatal: 'ia/graphiques' is already used by worktree at '…/rapport-ia-graphiques'`
-A branch can be open in only one folder at a time. If the assistant already opened it in its desk, go and review in that desk (`git worktree list` shows it).
+A branch can be open in only one folder at a time. If the assistant already opened it in its desk, go and review in that desk (`git worktree list` tells you which one).
 
 ## MR or PR?
-Merge request (GitLab) and pull request (GitHub) are the same thing: a request to merge, waiting for review.
+Merge request (GitLab) and pull request (GitHub): two names for the same thing, a request to merge that is waiting for its review.

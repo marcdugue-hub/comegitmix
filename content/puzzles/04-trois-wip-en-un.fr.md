@@ -6,7 +6,7 @@ repos: [local]
 ---
 
 ## Prompt
-L'IA a laissé trois commits « wip ». Fusionnez-les en un seul avant de partager.
+L'IA a enregistré trois fois son travail, avec le titre « wip » (« travail en cours ») pour tout commentaire. Avant de montrer ça à l'équipe, fusionnez ces trois commits en un seul.
 
 ## Setup
 ```git-setup
@@ -24,12 +24,12 @@ git commit -m "wip"
 
 ## Choices
 - [x] git rebase -i HEAD~3
-- [ ] git reset --hard HEAD~3 — reset --hard efface le travail au lieu de le regrouper.
-- [ ] git revert HEAD~3 — revert ajoute un commit d'annulation, il ne regroupe rien.
-- [ ] git merge main — merge intègre une autre voie, il ne nettoie pas celle-ci.
+- [ ] git reset --hard HEAD~3 — reset --hard efface le travail au lieu de le regrouper. L'IA ne vous le pardonnerait pas.
+- [ ] git revert HEAD~3 — revert ajoute un commit d'annulation : vous auriez quatre commits, pas un.
+- [ ] git merge main — merge rapproche deux voies ; il ne range pas celle-ci.
 
 ## Goal
-Un seul commit propre sur la voie ia/chiffres.
+Un seul commit propre sur la voie ia/chiffres, au lieu de trois « wip ».
 
 ## Takeaway
-rebase -i permet de regrouper (squash) plusieurs commits en un avant de partager.
+rebase -i regroupe (squash) plusieurs commits en un seul : on range avant de partager.

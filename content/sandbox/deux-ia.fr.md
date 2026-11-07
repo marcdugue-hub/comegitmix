@@ -2,7 +2,7 @@
 title: Deux assistants IA
 repos: [local]
 ---
-Votre dossier et deux bureaux d'assistants IA, chacun sur sa voie.
+Votre dossier et deux assistants IA, chacun à son bureau et sur sa voie : l'un rédige le résumé, l'autre jongle avec les chiffres. Ils travaillent en même temps et ne se marchent pas dessus, c'est le but.
 
 ## Setup
 ```git-setup

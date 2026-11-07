@@ -6,7 +6,7 @@ repos: [local]
 ---
 
 ## Prompt
-Le travail de ia/resume est validé. Intégrez-le dans main (vous êtes sur main).
+Vous avez relu le résumé de l'IA : c'est bon. Ramenez le travail de ia/resume dans main (vous êtes déjà sur main).
 
 ## Setup
 ```git-setup
@@ -22,12 +22,12 @@ git switch main
 
 ## Choices
 - [x] git merge ia/resume
-- [ ] git switch ia/resume — vous changez de voie, sans rien intégrer.
-- [ ] git rebase ia/resume — rebase déplace votre voie, ce n'est pas l'usage ici.
-- [ ] git push ia/resume — push envoie en ligne.
+- [ ] git switch ia/resume — vous allez visiter la voie de l'IA, sans rien en rapporter.
+- [ ] git rebase ia/resume — rebase déménage votre voie ailleurs ; ici on veut juste rapporter le résultat.
+- [ ] git push ia/resume — push envoie en ligne, mais ne fusionne rien chez vous.
 
 ## Goal
-main contient le travail de ia/resume.
+main contient désormais le travail de ia/resume.
 
 ## Takeaway
-merge rapatrie une voie dans celle où vous êtes.
+merge rapporte une voie dans celle où vous vous trouvez.

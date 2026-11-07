@@ -5,7 +5,7 @@ repos: [local, origin]
 unlocks: [rebase, squash, cherry-pick]
 ---
 
-> duo: L'assistant a laissé une histoire brouillonne : des « wip », une branche partie d'une vieille version, une correction utile perdue ailleurs. Rangeons tout ça avant de partager.
+> duo: Vendredi, 15 h. Avant d'envoyer le rapport à Maison Pivert, un peu de rangement. L'assistant « chiffres » a laissé trois commits « wip » (pour work in progress, travail en cours), sa voie part d'une vieille version, et une correction utile traîne sur une branche d'essai.
 
 ## Setup
 ```git-setup
@@ -39,28 +39,30 @@ git switch ia/chiffres
 command: git rebase -i HEAD~3
 check: commits ia/chiffres since main = 1
 Le rebase interactif liste les 3 derniers commits : gardez le premier (pick) et fondez les deux autres dedans (squash).
-after: Trois ronds se sont fondus en un seul. Même contenu, histoire plus lisible.
+after: Trois ronds se sont fondus en un seul. Même contenu, et une histoire qui se lit enfin.
 note: Même travail, moins de bruit
 
 ### 2. Repartir de la dernière version de main
 command: git rebase main
-La voie de l'assistant partait d'une vieille version. Le rebase la fait repartir du dernier commit de main.
+La voie de l'assistant partait d'une vieille version de main. Le rebase la fait repartir du dernier commit de main, comme si elle venait de commencer.
 after: La voie ia/chiffres part maintenant du bout de main : plus de retard.
 
 ### 3. Récupérer un seul commit utile
 before: @cd rapport-client
 command: git switch main
-after: Vous êtes sur main.
+La correction de faute est sur la voie ia/essai. Pour la copier sur main, on se place d'abord sur main.
+after: Vous êtes sur main, prêt pour la cueillette.
 
 ### 4. Prendre la correction, pas l'essai
 command: git cherry-pick ia/essai~1
 accepts: git cherry-pick *
-cherry-pick copie un seul commit d'une autre voie sur la vôtre.
-after: La correction du résumé est copiée sur main. L'essai abandonné reste sur sa voie.
+cherry-pick, « cueillir la cerise » : on copie un seul commit d'une autre voie sur la vôtre, et on laisse le reste sur l'arbre.
+after: La correction du résumé est copiée sur main. L'essai abandonné reste sur sa voie, où il ne gêne personne.
 
 ### 5. Mettre de côté un travail en cours
-before: @travail intro.md
+before: @work intro.md
 command: git stash
+Vous retouchez encore l'intro, mais elle n'est pas prête pour l'envoi : on la range dans le tiroir.
 after: intro.md est rangé dans le stash : votre dossier est propre.
 
 ### 6. Ranger un bureau fini
@@ -68,9 +70,9 @@ before:
 - git worktree add ../rapport-ia-essai ia/essai
 command: git worktree remove ../rapport-ia-essai
 Le bureau de l'essai ne sert plus : on supprime le dossier. La branche, elle, reste dans le .git.
-after: La tuile a disparu, la voie ia/essai est toujours là.
+after: La tuile a disparu, la voie ia/essai est toujours là, au cas où quelqu'un la regretterait.
 
 ## End
-summary: Une histoire courte et claire est plus facile à relire, pour vous comme pour l'équipe.
+summary: Une histoire courte et claire est plus facile à relire, pour vous, pour Stéphane et pour Maison Pivert. Le rapport peut partir, bon week-end.
 takeaway: squash regroupe, rebase fait repartir, cherry-pick copie un seul commit. Ne réécrivez pas une histoire déjà partagée.
 next: sandbox deux-ia

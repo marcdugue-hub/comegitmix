@@ -2,7 +2,7 @@
 title: Solo
 repos: [local]
 ---
-Trois commits sur main et deux fichiers modifiés.
+Trois commits sur main et deux fichiers modifiés : un projet bien parti, et du travail qui attend d'être enregistré.
 
 ## Setup
 ```git-setup

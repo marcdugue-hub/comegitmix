@@ -2,7 +2,7 @@
 title: Two AI assistants
 repos: [local]
 ---
-Your folder and two AI assistant desks, each on its lane.
+Your folder and two AI assistants, each at its own desk and on its own lane: one writes the summary, the other juggles the figures. They work at the same time and do not step on each other's toes, which is the point.
 
 ## Setup
 ```git-setup

@@ -2,7 +2,7 @@
 title: Solo
 repos: [local]
 ---
-Three commits on main and two modified files.
+Three commits on main and two modified files: a project off to a good start, and work waiting to be saved.
 
 ## Setup
 ```git-setup

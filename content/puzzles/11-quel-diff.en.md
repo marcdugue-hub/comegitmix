@@ -6,7 +6,7 @@ repos: [local]
 ---
 
 ## Prompt
-Which command shows exactly what will go into the next commit?
+Before saving, you want to proofread exactly what will go into the next commit, line by line. Which command?
 
 ## Setup
 ```git-setup
@@ -18,12 +18,12 @@ git add intro.md
 
 ## Choices
 - [x] git diff --staged
-- [ ] git diff — shows what is not staged yet (plan.md).
-- [ ] git status — lists the files, without the lines.
-- [ ] git log — shows past history.
+- [ ] git diff — shows what is not staged yet (plan.md), so the opposite.
+- [ ] git status — gives the list of files, not their content.
+- [ ] git log — tells the past, not what is about to leave.
 
 ## Goal
 The diff screen open in “staged” mode.
 
 ## Takeaway
-git diff --staged = what is in the index.
+git diff --staged: proofreading what is staged.

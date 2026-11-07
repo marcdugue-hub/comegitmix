@@ -2,7 +2,7 @@
 title: Équipe
 repos: [local, origin, upstream]
 ---
-Le projet d'origine, votre fork, une MR ouverte par un assistant et un collègue qui vient de pousser.
+Le projet d'origine, votre copie personnelle (le fork), une demande de fusion (MR) ouverte par un assistant, et un collègue qui vient de pousser ses changements. Bienvenue en équipe : il y a toujours quelqu'un qui a fait quelque chose pendant que vous lisiez ceci.
 
 ## Setup
 ```git-setup

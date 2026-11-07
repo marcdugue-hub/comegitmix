@@ -6,7 +6,7 @@ repos: [local]
 ---
 
 ## Prompt
-Vous voulez que seul intro.md parte dans le prochain commit.
+Deux fichiers ont bougé, mais seul intro.md est présentable. Faites partir intro.md seul dans le prochain commit ; plan.md est encore en brouillon.
 
 ## Setup
 ```git-setup
@@ -17,12 +17,12 @@ git commit -m "init"
 
 ## Choices
 - [x] git add intro.md
-- [ ] git add . — git add . prépare tous les fichiers, plan.md compris.
-- [ ] git commit -am "intro" — -a enregistre aussi plan.md.
-- [ ] git restore intro.md — restore annule vos modifications.
+- [ ] git add . — le point veut dire « tout » : plan.md, brouillon compris, partirait aussi.
+- [ ] git commit -am "intro" — -a embarque aussi plan.md, prêt ou pas.
+- [ ] git restore intro.md — restore jette vos modifications : intro.md redevient comme avant, et votre travail s'évapore.
 
 ## Goal
-intro.md préparé, plan.md toujours en M.
+intro.md préparé, plan.md toujours en M (modifié, mais pas dans la photo).
 
 ## Takeaway
-add choisit fichier par fichier ce qui entre dans la photo.
+add compose la photo fichier par fichier : seul ce qui est préparé y entre.

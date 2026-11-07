@@ -6,7 +6,7 @@ repos: [local]
 ---
 
 ## Prompt
-Give a new assistant its own folder and its own ia/sources branch, without a new repository.
+A new assistant arrives and needs a desk of its own: its own folder, on its own ia/sources branch, without copying the whole project.
 
 ## Setup
 ```git-setup
@@ -16,12 +16,12 @@ git commit -m "init"
 
 ## Choices
 - [x] git worktree add ../rapport-ia-sources -b ia/sources
-- [ ] git clone . ../rapport-ia-sources — clone copies the whole repository: two .git.
-- [ ] git branch ia/sources — a branch without a folder.
-- [ ] git switch -c ia/sources — your own folder changes branch.
+- [ ] git clone . ../rapport-ia-sources — clone photocopies the whole project: two .git, two histories that will drift apart.
+- [ ] git branch ia/sources — a lane, but no desk to work at.
+- [ ] git switch -c ia/sources — it is your own desk that moves onto the new lane.
 
 ## Goal
-A new folder on the ia/sources branch, same .git.
+A new folder on the ia/sources branch, with the same .git.
 
 ## Takeaway
-worktree add = one more folder, linked to the same repository.
+worktree add: one more desk, linked to the same project.

@@ -19,7 +19,7 @@ desk: intact, intact, intact, intact, intact, intact
 
 ## Piège
 `fatal: 'ia/graphiques' is already used by worktree at '…/rapport-ia-graphiques'`
-Une branche ne peut être ouverte que dans un seul dossier. Si l'assistant l'a déjà ouverte dans son bureau, allez relire dans ce bureau (`git worktree list` le montre).
+Une branche ne peut être ouverte que dans un seul dossier à la fois. Si l'assistant l'a déjà ouverte dans son bureau, allez relire dans ce bureau (`git worktree list` vous dit lequel).
 
 ## MR ou PR ?
-Merge request (GitLab) et pull request (GitHub) : c'est la même chose, une demande de fusion à relire.
+Merge request (GitLab) et pull request (GitHub) : deux noms pour la même chose, une demande de fusion qui attend sa relecture.

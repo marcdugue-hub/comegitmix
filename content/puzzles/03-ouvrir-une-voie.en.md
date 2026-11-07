@@ -6,7 +6,7 @@ repos: [local]
 ---
 
 ## Prompt
-Create the ia/plan branch and move your folder onto it, in a single command.
+The assistant should work on the outline without trampling main. Create the ia/plan branch and move onto it, in a single command.
 
 ## Setup
 ```git-setup
@@ -16,12 +16,12 @@ git commit -m "init"
 
 ## Choices
 - [x] git switch -c ia/plan
-- [ ] git branch ia/plan — creates the lane, but your folder stays on main.
-- [ ] git switch ia/plan — the branch does not exist yet.
-- [ ] git worktree add ia/plan — the folder path is missing.
+- [ ] git branch ia/plan — the lane exists, but you are still on main, standing at the closed door.
+- [ ] git switch ia/plan — you cannot join a lane that does not exist yet.
+- [ ] git worktree add ia/plan — the address of the new folder is missing.
 
 ## Goal
 Your folder is on the new ia/plan lane.
 
 ## Takeaway
-switch -c creates the branch and moves onto it.
+switch -c: create the lane and step onto it, in one move.

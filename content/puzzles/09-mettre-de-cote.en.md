@@ -6,7 +6,7 @@ repos: [local]
 ---
 
 ## Prompt
-You need to switch branches but intro.md is not ready. Set it aside without saving it.
+A colleague asks you to look at another branch, right now. Your intro.md is half written. Set it aside without saving it, until you come back.
 
 ## Setup
 ```git-setup
@@ -17,12 +17,12 @@ git commit -m "init"
 
 ## Choices
 - [x] git stash
-- [ ] git commit -am "wip" — you save work that is not ready.
-- [ ] git restore intro.md — you lose your changes.
-- [ ] git add intro.md — the index is not a hiding place.
+- [ ] git commit -am "wip" — you save work that is not ready, and it will stay in the history.
+- [ ] git restore intro.md — your changes go straight to the bin.
+- [ ] git add intro.md — the index prepares the next snapshot; it is not a hiding place.
 
 ## Goal
-Clean folder, one entry in the stash.
+Clean folder, one entry in the stash (the drawer).
 
 ## Takeaway
-stash puts work in progress away; stash pop brings it back.
+stash puts work in progress in a drawer; stash pop takes it back out.

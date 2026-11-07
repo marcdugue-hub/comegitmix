@@ -6,7 +6,7 @@ repos: [local]
 ---
 
 ## Prompt
-Le dernier commit, déjà partagé, est faux. Annulez-le sans réécrire l'histoire.
+Le dernier commit, déjà partagé avec l'équipe, contient une erreur. Annulez-le sans faire disparaître l'histoire : vos collègues l'ont déjà lue.
 
 ## Setup
 ```git-setup
@@ -19,12 +19,12 @@ git commit -m "erreur"
 
 ## Choices
 - [x] git revert HEAD
-- [ ] git reset --hard HEAD~1 — reset réécrit une histoire déjà partagée.
-- [ ] git restore resume.md — restore agit sur le fichier, pas sur le commit.
-- [ ] git commit --amend — amend réécrit le dernier commit.
+- [ ] git reset --hard HEAD~1 — reset efface le commit, alors que d'autres l'ont déjà : au prochain échange, tout le monde est perdu.
+- [ ] git restore resume.md — restore touche le fichier, pas le commit : l'erreur resterait dans l'histoire.
+- [ ] git commit --amend — amend remplace le dernier commit : c'est réécrire l'histoire, justement.
 
 ## Goal
-Un commit d'annulation ajouté après l'erreur.
+Un commit d'annulation ajouté après l'erreur : l'erreur reste visible, et corrigée.
 
 ## Takeaway
-revert annule en avançant ; l'histoire garde la trace.
+revert annule en avançant : rien n'est effacé, tout est expliqué.

@@ -2,7 +2,7 @@
 title: Conflict ready to resolve
 repos: [local]
 ---
-Two lanes changed the same file, plan.md. You are on main, just before bringing in the AI's lane: type git merge ia/resume to see the conflict, then choose which version to keep.
+You and the AI rewrote the same line of plan.md, each on your own, without telling the other. Result: two delivery dates. You are on main, just before bringing in the AI's lane: type git merge ia/resume to watch Git hesitate, then choose which version to keep.
 
 ## Setup
 ```git-setup

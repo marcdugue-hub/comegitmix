@@ -6,7 +6,7 @@ repos: [local]
 ---
 
 ## Prompt
-The work on ia/resume is approved. Bring it into main (you are on main).
+You have read the AI's summary and it is good. Bring the work from ia/resume into main (you are already on main).
 
 ## Setup
 ```git-setup
@@ -22,12 +22,12 @@ git switch main
 
 ## Choices
 - [x] git merge ia/resume
-- [ ] git switch ia/resume — you change lanes without bringing anything in.
-- [ ] git rebase ia/resume — rebase moves your lane; that is not what you want here.
-- [ ] git push ia/resume — push sends to the online repository.
+- [ ] git switch ia/resume — you go and visit the AI's lane, bringing nothing back.
+- [ ] git rebase ia/resume — rebase moves your lane elsewhere; here you just want to bring the result back.
+- [ ] git push ia/resume — push sends online, but merges nothing on your side.
 
 ## Goal
-main contains the work from ia/resume.
+main now contains the work from ia/resume.
 
 ## Takeaway
-merge brings a lane into the one you are on.
+merge brings a lane back into the one you are standing on.

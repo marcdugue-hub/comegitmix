@@ -6,7 +6,7 @@ repos: [local]
 ---
 
 ## Prompt
-Quelle commande montre exactement ce qui partira dans le prochain commit ?
+Avant de valider, vous voulez relire exactement ce qui partira dans le prochain commit, ligne par ligne. Quelle commande ?
 
 ## Setup
 ```git-setup
@@ -18,12 +18,12 @@ git add intro.md
 
 ## Choices
 - [x] git diff --staged
-- [ ] git diff — montre ce qui n'est pas encore préparé (plan.md).
-- [ ] git status — liste les fichiers, sans les lignes.
-- [ ] git log — montre l'histoire passée.
+- [ ] git diff — montre ce qui n'est pas encore préparé (plan.md), donc l'inverse.
+- [ ] git status — donne la liste des fichiers, pas leur contenu.
+- [ ] git log — raconte le passé, pas ce qui va partir.
 
 ## Goal
 L'écran de diff ouvert en mode « préparé ».
 
 ## Takeaway
-git diff --staged = ce qui est dans l'index.
+git diff --staged : la relecture de ce qui est préparé.

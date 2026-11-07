@@ -6,7 +6,7 @@ repos: [local]
 ---
 
 ## Prompt
-Sur ia/essai, seul le commit « faute corrigée » vous intéresse. Copiez-le sur main.
+Sur ia/essai, l'IA a corrigé une faute, puis s'est lancée dans un essai douteux. Seul le commit « faute corrigée » vous intéresse : copiez-le sur main, sans l'essai.
 
 ## Setup
 ```git-setup
@@ -22,12 +22,12 @@ git switch main
 
 ## Choices
 - [x] git cherry-pick ia/essai~1
-- [ ] git merge ia/essai — merge rapporte aussi l'essai abandonné.
-- [ ] git rebase ia/essai — rebase déplace main sur toute la voie.
-- [ ] git cherry-pick ia/essai — c'est le dernier commit, l'essai abandonné.
+- [ ] git merge ia/essai — merge rapporte toute la voie, essai douteux compris.
+- [ ] git rebase ia/essai — rebase replace main derrière toute la voie, essai compris.
+- [ ] git cherry-pick ia/essai — le dernier commit de la voie, c'est justement l'essai abandonné.
 
 ## Goal
-main a reçu la correction, pas l'essai.
+main a reçu la correction, et rien d'autre.
 
 ## Takeaway
-cherry-pick copie un seul commit.
+cherry-pick copie un seul commit : on prend la cerise, pas le gâteau.

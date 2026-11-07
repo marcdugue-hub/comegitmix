@@ -2,7 +2,7 @@
 title: Team
 repos: [local, origin, upstream]
 ---
-The original project, your fork, an MR opened by an assistant and a colleague who just pushed.
+The original project, your personal copy (the fork), a merge request (MR) opened by an assistant, and a colleague who just pushed their changes. Welcome to teamwork: someone has always done something while you were reading this.
 
 ## Setup
 ```git-setup

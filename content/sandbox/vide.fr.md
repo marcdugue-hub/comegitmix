@@ -2,7 +2,7 @@
 title: Vide
 repos: [local]
 ---
-Un dossier et quelques fichiers, aucun commit. Tout est à faire.
+Un dossier, quelques fichiers, aucun commit : la page blanche. Tout est à faire, rien ne peut mal tourner.
 
 ## Setup
 ```git-setup

@@ -6,7 +6,7 @@ repos: [local]
 ---
 
 ## Prompt
-intro.md is staged. Save it.
+intro.md is ready and sitting on the counter (staged). All that is left is to press the shutter: save it.
 
 ## Setup
 ```git-setup
@@ -18,12 +18,12 @@ git add intro.md
 
 ## Choices
 - [x] git commit -m "Intro"
-- [ ] git add intro.md — it is already staged.
-- [ ] git push — push sends commits that already exist to the online repository.
-- [ ] git stash — stash sets work aside; it saves nothing in the history.
+- [ ] git add intro.md — it is already staged; staging it again changes nothing.
+- [ ] git push — push sends existing commits online. There is no new one to send yet.
+- [ ] git stash — stash puts work in a drawer: nothing enters the history.
 
 ## Goal
-One more commit on main.
+One more commit on main: the snapshot is taken.
 
 ## Takeaway
-commit saves what is in the index.
+commit takes the snapshot of what is staged, not one file more.

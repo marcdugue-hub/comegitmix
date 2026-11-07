@@ -2,7 +2,7 @@
 title: Empty
 repos: [local]
 ---
-A folder and a few files, no commit. Everything to do.
+A folder, a few files, no commit: the blank page. Everything to do, nothing that can go wrong.
 
 ## Setup
 ```git-setup
