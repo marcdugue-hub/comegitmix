@@ -11,9 +11,9 @@ export const MODES = ['branches', 'work', 'staged'];
 const MINUS = '−';
 
 /** The Git command shown at the top for a mode. */
-export function diffCommand(mode, a, b) {
+export function diffCommand(mode, a, b, threeDot = false) {
   if (mode === 'staged') return 'git diff --staged';
-  if (mode === 'branches') return `git diff ${a} ${b}`;
+  if (mode === 'branches') return threeDot ? `git diff ${a}...${b}` : `git diff ${a} ${b}`;
   return 'git diff';
 }
 
@@ -27,27 +27,32 @@ export function defaultLanes(state, deskId = null) {
   return { a, b };
 }
 
-function endpoints(mode, a, b) {
+function endpoints(mode, a, b, threeDot = false) {
   if (mode === 'branches') {
+    if (threeDot) return { from: { text: t('diff.from.base', { a }), tone: 'plain' }, to: { text: b, tone: b === 'main' ? 'dark' : 'orange' } };
     return { from: { text: a, tone: a === 'main' ? 'dark' : 'sky' }, to: { text: b, tone: b === 'main' ? 'dark' : 'orange' } };
   }
   if (mode === 'staged') return { from: { text: t('diff.from.lastCommit'), tone: 'plain' }, to: { text: t('diff.from.index'), tone: 'index' } };
   return { from: { text: t('diff.from.index'), tone: 'index' }, to: { text: t('diff.to.folder'), tone: 'plain' } };
 }
 
-/** Computes everything the screen shows for a UI state { mode, a, b, desk }. */
-export function diffModel(state, { mode, a, b, desk = null }) {
+/**
+ * Computes everything the screen shows for a UI state { mode, a, b, threeDot?, desk }.
+ * threeDot (git diff a...b): only what b brings since it left a (from their common ancestor).
+ */
+export function diffModel(state, { mode, a, b, threeDot = false, desk = null }) {
   const canCompare = Boolean(a && b);
+  const three = Boolean(threeDot && mode === 'branches');
   const result = mode === 'branches' && !canCompare
     ? { files: [] }
-    : engineDiff(state, { mode, worktreeId: desk, a, b });
+    : engineDiff(state, { mode, worktreeId: desk, a, b, threeDot: three });
   const files = result.error ? [] : result.files;
   return {
-    mode, a, b, files,
+    mode, a, b, files, threeDot: three,
     error: result.error || null,
     canCompare,
-    command: diffCommand(mode, a, b),
-    ...endpoints(mode, a, b),
+    command: diffCommand(mode, a, b, three),
+    ...endpoints(mode, a, b, three),
     adds: files.reduce((n, f) => n + f.adds, 0),
     dels: files.reduce((n, f) => n + f.dels, 0),
     changedFiles: files.filter((f) => f.rows.length).length,
@@ -57,6 +62,7 @@ export function diffModel(state, { mode, a, b, desk = null }) {
 function sentence(model) {
   if (model.mode === 'branches') {
     if (!model.canCompare) return t('diff.needTwoLanes');
+    if (model.threeDot) return t(model.files.length ? 'explain.diff.threeDot' : 'explain.diff.threeDot.empty', { a: model.a, b: model.b });
     return t(model.files.length ? 'explain.diff.branches' : 'explain.diff.branches.empty', { a: model.a, b: model.b });
   }
   if (!model.files.length) return t(`explain.diff.${model.mode}.empty`);
@@ -189,7 +195,7 @@ export function diffScreenHtml(state, ui) {
 
 /**
  * Opens the diff screen over `container` (the scene).
- * opts: { state, mode?, a?, b?, desk?, path?, view?, onClose? }
+ * opts: { state, mode?, a?, b?, threeDot?, desk?, path?, view?, onClose? }
  * Returns { update(state), close() }.
  */
 export function openDiffScreen(container, opts) {
@@ -197,6 +203,7 @@ export function openDiffScreen(container, opts) {
   const ui = {
     a: opts.a || lanes.a,
     b: opts.b || lanes.b,
+    threeDot: Boolean(opts.threeDot && opts.a && opts.b),
     desk: opts.desk || null,
     mode: MODES.includes(opts.mode) ? opts.mode : opts.a && opts.b ? 'branches' : 'work',
     view: opts.view === 'unified' ? 'unified' : 'side',

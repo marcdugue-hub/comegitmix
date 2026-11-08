@@ -133,7 +133,10 @@ export function renderScene(container, state, options = {}) {
   root.setAttribute('role', 'region');
   root.innerHTML =
     `<div class="scene-frames"></div>` +
-    `<svg class="scene-svg" xmlns="${SVG_NS}" viewBox="0 0 1012 796" width="1012" height="796" aria-hidden="true" focusable="false"><g class="lanes-layer"></g><g class="wires-layer"></g><g class="fx-layer"></g></svg>` +
+    `<svg class="scene-svg" xmlns="${SVG_NS}" viewBox="0 0 1012 796" width="1012" height="796" aria-hidden="true" focusable="false">` +
+    `<defs><mask id="${id}-wire-gaps" maskUnits="userSpaceOnUse" x="0" y="0" width="1012" height="796">` +
+    `<rect x="-20" y="-20" width="1052" height="836" fill="#fff"/><g class="wire-gaps"></g></mask></defs>` +
+    `<g class="lanes-layer"></g><g class="wires-layer" mask="url(#${id}-wire-gaps)"></g><g class="fx-layer"></g></svg>` +
     `<div class="scene-layer git-layer"></div>` +
     `<div class="scene-layer lanes-overlay"></div>` +
     `<div class="scene-layer index-layer"></div>` +
@@ -146,6 +149,7 @@ export function renderScene(container, state, options = {}) {
   const lanesLayer = q('.lanes-layer');
   const wiresLayer = q('.wires-layer');
   const fxLayer = q('.fx-layer');
+  const wireGaps = q('.wire-gaps');
   const gitLayer = q('.git-layer');
   const lanesOverlay = q('.lanes-overlay');
   const indexLayer = q('.index-layer');
@@ -195,6 +199,7 @@ export function renderScene(container, state, options = {}) {
     lanesOverlay.innerHTML = lanesOverlayHtml(layout, current, o);
     syncKeyed(doc, indexLayer, indexItems(current, layout, o), { managed: ['role', 'aria-label', 'data-desk'] });
     syncKeyed(doc, tilesLayer, tileItems(current, layout, o), { managed: ['data-action', 'role', 'aria-label', 'data-desk'] });
+    updateWireGaps();
     noteLayer.innerHTML = opts.note ? `<div class="scene-note">${esc(opts.note)}</div>` : '';
 
     const items = [];
@@ -218,6 +223,34 @@ export function renderScene(container, state, options = {}) {
       }
     }
     return prevLayout;
+  }
+
+  /**
+   * Wire gaps: the dotted wires cross zone ③ on their way down to the tiles. Where they would run over the
+   * text of an index strip (chips, "nothing staged", stash), the mask cuts them so the text stays readable.
+   * Measured from the DOM after each draw (offset* are in scene pixels, the SVG uses the same frame).
+   */
+  function updateWireGaps() {
+    const rects = [];
+    for (const strip of indexLayer.children) {
+      const sx = strip.offsetLeft || 0;
+      const sy = strip.offsetTop || 0;
+      const sw = strip.offsetWidth || 0;
+      for (const child of strip.children) {
+        const w = child.offsetWidth || 0;
+        const h = child.offsetHeight || 0;
+        if (!w || !h) continue;
+        const x = sx + child.offsetLeft - 4;
+        const right = Math.min(sx + child.offsetLeft + w + 4, sx + sw);
+        if (right <= x) continue;
+        rects.push(`<rect x="${x}" y="${sy + child.offsetTop - 3}" width="${right - x}" height="${h + 6}" rx="6" fill="#000"/>`);
+      }
+    }
+    const html = rects.join('');
+    if (wireGaps.__html !== html) {
+      wireGaps.innerHTML = html;
+      wireGaps.__html = html;
+    }
   }
 
   function toggleDir(desk, dir, force) {
@@ -248,6 +281,8 @@ export function renderScene(container, state, options = {}) {
   const unsubscribe = onChange(() => draw());
 
   draw();
+  // web fonts change the width of the index chips: measure the wire gaps again once they are loaded
+  if (doc.fonts && doc.fonts.ready && typeof doc.fonts.ready.then === 'function') doc.fonts.ready.then(() => { if (root.isConnected) updateWireGaps(); });
 
   return {
     root,

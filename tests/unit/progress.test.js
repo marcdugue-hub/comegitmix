@@ -10,7 +10,7 @@ const stored = (s) => JSON.parse(s.data[STORAGE_KEY]);
 
 test('empty storage gives a valid empty progress', () => {
   const p = createProgress({ storage: memory() });
-  assert.deepEqual(p.get(), { v: VERSION, missions: {}, puzzles: {}, sandbox: null, last: null });
+  assert.deepEqual(p.get(), { v: VERSION, missions: {}, puzzles: {}, sandbox: null, last: null, prefs: { details: false } });
   assert.equal(p.hasProgress(), false);
 });
 
@@ -53,7 +53,7 @@ test('a different stored version resets progress but keeps the language', () => 
   const p = createProgress({ storage: s });
   assert.deepEqual(p.get().missions, {});
   p.markMissionDone('new');
-  assert.deepEqual(stored(s), { v: VERSION, lang: 'fr', missions: { new: true }, puzzles: {}, sandbox: null, last: null });
+  assert.deepEqual(stored(s), { v: VERSION, lang: 'fr', missions: { new: true }, puzzles: {}, sandbox: null, last: null, prefs: { details: false } });
 });
 
 test('garbage in storage is ignored', () => {
@@ -83,4 +83,22 @@ test('reset forgets progress and keeps the language', () => {
   p.reset();
   assert.equal(p.hasProgress(), false);
   assert.equal(stored(s).lang, 'en');
+});
+
+test('the "More details" preference persists, survives reset and ignores junk', () => {
+  const s = memory();
+  const p = createProgress({ storage: s });
+  assert.equal(p.getDetails(), false);
+  p.setDetails(true);
+  assert.equal(createProgress({ storage: s }).getDetails(), true);
+  assert.equal(p.hasProgress(), false);
+  p.reset();
+  assert.equal(p.getDetails(), true);
+  p.setDetails(false);
+  assert.equal(p.getDetails(), false);
+  assert.equal(normalize({ prefs: { details: 'yes' } }).prefs.details, false);
+  assert.equal(normalize({ prefs: 'x' }).prefs.details, false);
+  const broken = createProgress({ storage: () => { throw new Error('blocked'); } });
+  assert.doesNotThrow(() => broken.setDetails(true));
+  assert.equal(broken.getDetails(), false);
 });

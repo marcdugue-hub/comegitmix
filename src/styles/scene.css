@@ -132,7 +132,7 @@
 .wire { fill: none; stroke-width: 3; stroke-dasharray: 3 9; stroke-linecap: butt; stroke-linejoin: round; }
 .wire.is-ghost { opacity: .55; }
 .lane-label { position: absolute; left: 24px; width: 160px; display: flex; flex-direction: column; gap: 1px; pointer-events: none; }
-.lane-label b { font-family: var(--font-mono); font-size: 13px; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.lane-label b { font-family: var(--font-mono); font-size: 13px; line-height: 18px; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .lane-label span { font-size: 13px; line-height: 1.25; color: var(--texte-secondaire); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .lane-label.is-compact b { font-size: 12px; }
 .lane-label.is-ghost b { color: var(--statut-A-texte); }
@@ -186,7 +186,8 @@ button.scene-chip:hover { filter: brightness(.96); }
 /* zone ④ desks: folder tiles with their file tree */
 .tile {
   position: absolute; top: 606px; height: 184px; box-sizing: border-box; overflow: hidden;
-  padding: 12px 14px 0 24px; border-radius: 14px; background: var(--blanc);
+  display: flex; flex-direction: column;
+  padding: 10px 14px 4px 24px; border-radius: 14px; background: var(--blanc);
   border: 1px solid color-mix(in srgb, var(--charbon) 14%, transparent); box-shadow: var(--ombre-tuile);
 }
 .tile[data-action] { cursor: pointer; }
@@ -194,21 +195,31 @@ button.scene-chip:hover { filter: brightness(.96); }
 .tile.is-ghost { border: 2px dashed var(--ciel); background: color-mix(in srgb, var(--blanc) 55%, transparent); opacity: .55; pointer-events: none; color: var(--texte-secondaire); }
 .tile-band { position: absolute; left: 0; top: 0; bottom: 0; width: 9px; background: var(--lane); }
 .tile.is-ghost .tile-band { opacity: .55; }
+.tile-head, .tile-desc { flex: 0 0 auto; }
 .tile-head { display: flex; align-items: center; gap: 8px; min-width: 0; font-family: var(--font-mono); font-size: 14px; font-weight: 500; }
 .tile-head .tile-name { flex: 1 1 auto; min-width: 0; padding: 0; border: 0; background: transparent; text-align: left; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: inherit; color: inherit; }
 .tile-head span.tile-name { flex: 1 1 auto; }
 .tile-here { flex: 0 0 auto; font-family: var(--font-ui); font-size: 11.5px; font-weight: 700; line-height: 18px; padding: 0 8px; border-radius: var(--rayon-pastille); background: var(--lane); color: var(--charbon); }
 .tile[style*="--voie-main"] .tile-here { color: var(--creme); }
 .tile-ai { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; flex: 0 0 22px; padding: 0; border-radius: 6px; border: 1.5px solid var(--charbon); background: var(--lane); color: var(--charbon); }
-.tile-desc { display: flex; align-items: center; min-width: 0; margin: 2px 0 6px; font-size: 13px; line-height: 1.3; color: var(--texte-secondaire); white-space: nowrap; overflow: hidden; }
+.tile-desc { display: flex; align-items: center; min-width: 0; margin: 2px 0 4px; font-size: 13px; line-height: 1.3; color: var(--texte-secondaire); white-space: nowrap; overflow: hidden; }
 .tile-desc { gap: 5px; }
 .tile-note { flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
 .tile-branch { color: var(--charbon); font-size: 12.5px; flex: 0 0 auto; max-width: 60%; overflow: hidden; text-overflow: ellipsis; }
-.tree-list { height: 116px; overflow-y: auto; margin: 0 -8px 0 0; padding: 0 6px 0 0; list-style: none; }
+/* the tree takes the rest of the tile and scrolls; soft shadows at the top / bottom edge say "more rows" */
+.tree-list {
+  flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; margin: 0 -8px 0 0; padding: 0 6px 0 0; list-style: none;
+  scrollbar-width: thin; scrollbar-color: var(--trait-fort) transparent;
+  background:
+    linear-gradient(var(--blanc) 40%, transparent) top / 100% 18px no-repeat local,
+    linear-gradient(transparent, var(--blanc) 60%) bottom / 100% 18px no-repeat local,
+    radial-gradient(farthest-side at 50% 0, color-mix(in srgb, var(--charbon) 22%, transparent), transparent) top / 100% 9px no-repeat scroll,
+    radial-gradient(farthest-side at 50% 100%, color-mix(in srgb, var(--charbon) 22%, transparent), transparent) bottom / 100% 9px no-repeat scroll;
+}
 .tree-empty { font-size: 13px; font-style: italic; color: var(--texte-secondaire); }
-.tree-row { display: flex; align-items: center; gap: 6px; height: 26px; padding-left: calc(var(--depth, 0) * 16px); font-family: var(--font-mono); font-size: 13px; }
+.tree-row { display: flex; align-items: center; gap: 6px; height: 24px; padding-left: calc(var(--depth, 0) * 16px); font-family: var(--font-mono); font-size: 13px; }
 .tree-main {
-  display: flex; align-items: center; gap: 7px; flex: 1 1 auto; min-width: 0; height: 26px; padding: 0 2px;
+  display: flex; align-items: center; gap: 7px; flex: 1 1 auto; min-width: 0; height: 24px; padding: 0 2px;
   border: 0; border-radius: 6px; background: transparent; color: inherit; font: inherit; text-align: left; white-space: nowrap; overflow: hidden;
 }
 button.tree-main:hover { background: var(--survol); }

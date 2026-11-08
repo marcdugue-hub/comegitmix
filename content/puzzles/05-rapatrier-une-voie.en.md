@@ -18,12 +18,14 @@ git switch -c ia/resume
 git commit -m "summary"
 @author human
 git switch main
+@work intro.md
+git commit -m "Notes of the day"
 ```
 
 ## Choices
 - [x] git merge ia/resume
 - [ ] git switch ia/resume — you go and visit the AI's lane, bringing nothing back.
-- [ ] git rebase ia/resume — rebase moves your lane elsewhere; here you just want to bring the result back.
+- [ ] git rebase ia/resume — rebase moves your commits (here “Notes of the day”) behind the AI's and rewrites your history; here you just want to bring the result back.
 - [ ] git push ia/resume — push sends online, but merges nothing on your side.
 
 ## Goal

@@ -135,3 +135,18 @@ test("applyStatic fills data-i18n and data-i18n-attr", () => {
   assert.equal(b.attrs["aria-label"], "Hello Q");
   assert.equal(b.attrs.title, "Seulement FR");
 });
+
+test("tn picks the singular form by language plural rules", async () => {
+  setup({ nav: "fr-FR" });
+  i18n.setDictionary("fr", { "f": "{n} fichiers", "f.one": "{n} fichier" });
+  i18n.setDictionary("en", { "f": "{n} files", "f.one": "{n} file" });
+  assert.equal(i18n.tn("f", 1), "1 fichier");
+  assert.equal(i18n.tn("f", 0), "0 fichier");
+  assert.equal(i18n.tn("f", 3), "3 fichiers");
+  await i18n.setLang("en");
+  assert.equal(i18n.tn("f", 1), "1 file");
+  assert.equal(i18n.tn("f", 0), "0 files");
+  assert.equal(i18n.tn("f", 2), "2 files");
+  i18n.setDictionary("en", { "g": "{n} things" });
+  assert.equal(i18n.tn("g", 1), "1 things");
+});

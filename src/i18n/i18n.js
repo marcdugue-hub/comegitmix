@@ -123,6 +123,24 @@ export function t(key, params) {
 }
 
 /**
+ * Translates a count: uses "<key>.one" (or another plural category such as "<key>.few") when the language's
+ * plural rule picks it and the key exists, else "<key>". `n` is passed as the {n} parameter.
+ * French counts 0 and 1 as "one", English only 1.
+ */
+export function tn(key, n, params = {}) {
+  let cat = "other";
+  try {
+    cat = new Intl.PluralRules(getLang()).select(Number(n));
+  } catch {
+    cat = Number(n) === 1 ? "one" : "other";
+  }
+  const lang = getLang();
+  const variant = `${key}.${cat}`;
+  const has = cat !== "other" && typeof (dictionaries[lang]?.[variant] ?? dictionaries[FALLBACK]?.[variant]) === "string";
+  return t(has ? variant : key, { ...params, n });
+}
+
+/**
  * Fills static markup:
  *   data-i18n="key"                         -> textContent
  *   data-i18n-attr="aria-label:key;title:k" -> attributes

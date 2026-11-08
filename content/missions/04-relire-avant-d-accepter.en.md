@@ -66,8 +66,8 @@ after: The two lanes join: main now contains the assistant's work.
 
 ### 7. After all, undo part of it
 command: git revert ia/resume
-Ms Pivert calls: she preferred the old summary. revert adds a commit that cancels the previous one, without rewriting history: ideal when the work is already shared.
-after: A new “undo” dot appeared. The history keeps a trace of everything, change of mind included.
+Ms Pivert calls: she preferred the old summary. git revert ia/resume takes the last commit of that lane, “résumé v2”, and adds a new commit on main that does exactly the opposite. v1 stays in place and nothing is rewritten: ideal when the work is already shared.
+after: A new “undo” dot appeared on main: it removes the changes of the assistant's v2 (resume.md and sources.md). The original commit is still there. The history keeps a trace of everything, change of mind included.
 note: reset goes back, revert undoes by moving forward
 
 ## End

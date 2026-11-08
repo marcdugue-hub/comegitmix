@@ -13,7 +13,7 @@ import { renderInline } from '../content/markdown.js';
 import { parseWebAction } from '../engine/remote.js';
 import { getDesk, activeDesk, findFile } from '../engine/state.js';
 import { createTerminal } from './terminal.js';
-import { openPopover } from './popovers.js';
+import { createScenePopovers, handlePopoverAction, detailLines, detailsItemsHtml, bindDetailsHover } from './scene-tools.js';
 import { icon } from './icons.js';
 import { mountCompare } from './mission-compare.js';
 import {
@@ -110,6 +110,8 @@ function mountPlay(wrap, { file, ids, numbering, aiItems, catalogue: cat, id, pa
   let hintOpen = false;
   let overlay = null;
   let alive = true;
+  let detailsOn = Boolean(ctx.progress && ctx.progress.getDetails && ctx.progress.getDetails());
+  let details = []; // raw output lines of the last command ("More details")
 
   if (startIndex > 0 && session.index > 0) {
     const prev = session.part.steps[session.index - 1];
@@ -136,7 +138,25 @@ function mountPlay(wrap, { file, ids, numbering, aiItems, catalogue: cat, id, pa
     placeholder: t('term.inputLabel'),
   });
 
+  terminal.setDetails(detailsOn);
+
   const scene = renderScene(stage, session.state, { ...sceneOptions(), onAction });
+  const popovers = createScenePopovers({
+    getState: () => session.state,
+    run: (command) => play(command, typeof command === 'string' ? { typed: command } : {}),
+    activate: (deskId) => {
+      const d = getDesk(session.state, deskId);
+      if (d && d.id !== session.state.active) play({ name: 'cd', args: [d.path] });
+    },
+  });
+  const unbindDetails = bindDetailsHover(panelBottom, (hl) => scene.setOptions({ highlight: hl || sceneOptions().highlight }));
+
+  function setDetails(on) {
+    detailsOn = Boolean(on);
+    if (ctx.progress && ctx.progress.setDetails) ctx.progress.setDetails(detailsOn);
+    terminal.setDetails(detailsOn);
+    renderPanel();
+  }
 
   function sceneOptions() {
     const step = currentStep(session);
@@ -184,7 +204,7 @@ function mountPlay(wrap, { file, ids, numbering, aiItems, catalogue: cat, id, pa
     closeOverlay();
     const state = session.state;
     const d = desk || state.active;
-    overlay = openDiffScreen(stage, { state, mode: target.mode, a: target.a, b: target.b, desk: d, path, onClose: () => { overlay = null; } });
+    overlay = openDiffScreen(stage, { state, mode: target.mode, a: target.a, b: target.b, threeDot: Boolean(target.threeDot), desk: d, path, onClose: () => { overlay = null; } });
   }
 
   function openConflict(deskId, path) {
@@ -234,6 +254,7 @@ function mountPlay(wrap, { file, ids, numbering, aiItems, catalogue: cat, id, pa
       explanation: result.explanation ? esc(msg(result.explanation)) : '',
       error: result.error ? msg(result.error) : '',
       warning: result.warning ? msg(result.warning) : '',
+      output: detailLines(result).map((l) => l.text).join('\n'),
     });
   }
 
@@ -250,6 +271,7 @@ function mountPlay(wrap, { file, ids, numbering, aiItems, catalogue: cat, id, pa
     const step = out.step;
     if (!keepOverlay) closeOverlay();
     if (r) printResult(typed || labelOf(command, r), r);
+    details = detailLines(r);
     if (out.completed) {
       happened = md(step.after) || esc(msg(r.explanation)) || md(extraText);
       note = step.note || null;
@@ -281,6 +303,11 @@ function mountPlay(wrap, { file, ids, numbering, aiItems, catalogue: cat, id, pa
     if (events.some((e) => e.type === 'log.shown')) {
       const lt = logTarget(command);
       openLog(lt ? lt.branch : null);
+      return;
+    }
+    const shown = r.output && r.output.kind === 'show' ? r.output.commit : null;
+    if (events.some((e) => e.type === 'commit.shown') && shown && shown.parents && shown.parents[0]) {
+      openDiff({ mode: 'branches', a: shown.parents[0], b: shown.id });
       return;
     }
     if (out.completed && step) {
@@ -361,16 +388,8 @@ function mountPlay(wrap, { file, ids, numbering, aiItems, catalogue: cat, id, pa
         }
         break;
       }
-      case 'mr': {
-        const items = ['approve', 'merge'].map((verb) => ({
-          label: t(`web.${verb}`, { n: action.id }),
-          icon: verb === 'approve' ? 'badge-check' : 'git-pull-request-arrow',
-          onSelect: () => play({ name: 'mr', args: [verb, action.id] }),
-        }));
-        openPopover(action.anchor, { title: t('missionScreen.mrTitle', { n: action.id }), items });
-        break;
-      }
       default:
+        handlePopoverAction(popovers, action);
         break;
     }
   }
@@ -384,6 +403,7 @@ function mountPlay(wrap, { file, ids, numbering, aiItems, catalogue: cat, id, pa
     closeOverlay();
     session = next;
     hintOpen = false;
+    details = [];
     const prev = session.index > 0 ? session.part.steps[session.index - 1] : null;
     happened = prev ? md(prev.after) : '';
     note = prev ? prev.note : null;
@@ -552,6 +572,8 @@ function mountPlay(wrap, { file, ids, numbering, aiItems, catalogue: cat, id, pa
     panelTop.innerHTML = partsHtml() + headHtml() + duoHtml() + workHtml() + stepsHtml() + main;
     panelBottom.innerHTML =
       (happened ? `<div class="mission-happened" aria-live="polite"><div class="eyebrow">${esc(t('ui.happened'))}</div><div>${happened}</div></div>` : '') +
+      (detailsOn && details.length ? `<ul class="sb-details mission-details" role="list" aria-label="${esc(t('sandbox.details.label'))}" data-testid="mission-details">${detailsItemsHtml(details)}</ul>` : '') +
+      `<div class="mission-controls"><button type="button" class="btn btn--small btn--ghost sb-details-btn" data-act="details" aria-pressed="${detailsOn}" data-testid="details">${esc(t(detailsOn ? 'ui.lessDetails' : 'ui.moreDetails'))}</button></div>` +
       paletteHtml();
   }
 
@@ -573,6 +595,7 @@ function mountPlay(wrap, { file, ids, numbering, aiItems, catalogue: cat, id, pa
       case 'prev': goto(Math.max(0, session.index - 1)); break;
       case 'restart': switchPart(session.partIndex); break;
       case 'part': switchPart(Number(el.dataset.part)); break;
+      case 'details': setDetails(!detailsOn); break;
       default: break;
     }
   }
@@ -585,6 +608,7 @@ function mountPlay(wrap, { file, ids, numbering, aiItems, catalogue: cat, id, pa
   return () => {
     alive = false;
     closeOverlay();
+    unbindDetails();
     terminal.destroy();
     scene.destroy();
   };

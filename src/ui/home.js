@@ -32,6 +32,17 @@ export function nextId(ids, isDone) {
   return ids.find((id) => !isDone(id)) ?? ids[0];
 }
 
+/** True for a mission file that is a comparison screen (mode: compare), not a mission of its own. */
+const isCompare = (titles, id) => titles.mission[id]?.mode === 'compare';
+
+/** Numbers of the real missions (comparison screens get none). Pure. */
+export function realMissionNumbers(ids, isExtra) {
+  const numbers = {};
+  let n = 0;
+  for (const id of ids) if (!isExtra(id)) numbers[id] = ++n;
+  return { numbers, total: n };
+}
+
 /** Titles of every mission and puzzle for the current language. Missing files are simply absent. */
 async function loadTitles(loader, summary, lang) {
   const titles = { mission: {}, puzzle: {} };
@@ -44,8 +55,9 @@ async function loadTitles(loader, summary, lang) {
     if (r.status !== 'fulfilled') return;
     const [kind, id] = jobs[i];
     const front = r.value.data?.front || {};
-    titles[kind][id] = { title: front.title || id, duration: front.duration, fallback: r.value.fallback };
+    titles[kind][id] = { title: front.title || id, duration: front.duration, fallback: r.value.fallback, mode: r.value.data?.mode };
   });
+  titles.loaded = true;
   return titles;
 }
 
@@ -76,14 +88,16 @@ function modeCards({ summary, progress, titles }) {
     puzzle: nextPuzzle ? buildHash({ name: 'puzzle', id: nextPuzzle }) : '#/',
     sandbox: buildHash({ name: 'sandbox' }),
   };
-  const count = { mission: summary.missions.length, puzzle: summary.puzzles.length };
+  const missions = realMissionNumbers(summary.missions.map((m) => m.id), (id) => isCompare(titles, id));
+  // the count of missions is known once the files are read (a comparison screen is not counted)
+  const count = { mission: titles.loaded ? missions.total : null, puzzle: summary.puzzles.length };
   return el('div', { class: 'home-cards' }, MODES.map((m) => el('a', {
     class: `home-card home-card--${m.name}${m.priority ? ' is-priority' : ''}`, href: target[m.name],
   }, [
     svg(icon(m.icon, { size: 40 })),
     el('h2', {}, [t(`nav.${m.name}`)]),
     el('p', {}, [t(`home.${m.name}.text`)]),
-    el('p', { class: 'eyebrow' }, [t(`home.${m.name}.meta`, { n: count[m.name] ?? 0 })]),
+    el('p', { class: 'eyebrow' }, [count[m.name] === null ? '\u00a0' : t(`home.${m.name}.meta`, { n: count[m.name] ?? 0 })]),
     el('span', { class: 'btn btn--dark home-card-cta' }, [t(`home.${m.name}.cta`), svg(icon('chevron-right', { size: 16 }))]),
   ])));
 }
@@ -91,11 +105,12 @@ function modeCards({ summary, progress, titles }) {
 function missionList({ summary, progress, titles }) {
   const ids = summary.missions.map((m) => m.id);
   const next = nextId(ids, (id) => progress.isMissionDone(id));
+  const { numbers } = realMissionNumbers(ids, (id) => isCompare(titles, id));
   const items = summary.missions.map((m, i) => {
     const info = titles.mission[m.id];
     const done = progress.isMissionDone(m.id);
     const row = el('a', { class: `home-row${done ? ' is-done' : ''}`, href: buildHash({ name: 'mission', id: m.id }) }, [
-      el('span', { class: 'home-row-n mono' }, [String(i + 1)]),
+      el('span', { class: 'home-row-n mono' }, [titles.loaded ? String(numbers[m.id] ?? '') : String(i + 1)]),
       el('span', { class: 'home-row-title' }, [info?.title || m.id]),
     ]);
     if (info?.fallback) row.appendChild(fallbackBadge());

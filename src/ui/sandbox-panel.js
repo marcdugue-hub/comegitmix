@@ -6,7 +6,7 @@ import { t, getLang } from '../i18n/i18n.js';
 import { registerScreen, replace } from '../router.js';
 import { apply } from '../engine/apply.js';
 import { parse } from '../engine/parse.js';
-import { activeDesk, getDesk, findFile, isAncestor, resolveRev, commitsBetween } from '../engine/state.js';
+import { activeDesk, getDesk, findFile, resolveRev, commitsBetween } from '../engine/state.js';
 import { toSetup, commandText } from '../engine/to-setup.js';
 import { createStore } from '../store.js';
 import { renderScene } from '../render/scene.js';
@@ -16,12 +16,13 @@ import { renderLog } from '../render/log-view.js';
 import { commitText, esc } from '../render/screens-util.js';
 import { createTerminal } from './terminal.js';
 import { openPicker } from './pickers.js';
-import { openPopover, showToast, closeActiveLayer } from './popovers.js';
+import { showToast, closeActiveLayer } from './popovers.js';
+import { createScenePopovers, handlePopoverAction, detailLines, detailsItemsHtml, bindDetailsHover } from './scene-tools.js';
 import { openRebaseEditor } from './rebase-editor.js';
 import { icon } from './icons.js';
 import {
-  paletteGroups, paletteLabel, planCommand, suggestLines, commandIcon, historyText, outputLines, encodeStart, decodeStart,
-  storableCommands, aiText, say, deskFolderFor,
+  paletteGroups, paletteLabel, planCommand, suggestLines, commandIcon, historyText, encodeStart, decodeStart,
+  storableCommands, aiText, say,
 } from './sandbox-model.js';
 import { buildStart } from './sandbox-starts.js';
 
@@ -121,6 +122,7 @@ export function mountSandbox(container, params) {
   }, { 'aria-expanded': 'false', hidden: true });
   const whyP = el('p', { class: 'sb-why', hidden: true });
   const detailsList = el('ul', { class: 'sb-details', role: 'list', 'aria-label': t('sandbox.details.label'), hidden: true });
+  bindDetailsHover(detailsList, (hl) => setHighlight(hl));
   const happened = el('section', { class: 'sb-happened', 'aria-live': 'polite' }, [
     el('div', { class: 'gl' }, [t('ui.whatHappened')]), explainP, aiP, whyBtn, whyP, detailsList,
   ]);
@@ -150,6 +152,7 @@ export function mountSandbox(container, params) {
   // ---------------------------------------------------------------- helpers
   const state = () => session.store.getState();
   const deskOf = (ref) => getDesk(state(), ref);
+  const popovers = createScenePopovers({ getState: state, run: (cmd) => run(cmd), activate: (id) => activate(id) });
 
   function setStartLabel() {
     startBtn.replaceChildren(el('span', {}, [session && session.title ? session.title : t('sandbox.start.pasted')]), svg('chevron-down', { size: 14 }));
@@ -160,8 +163,9 @@ export function mountSandbox(container, params) {
     terminal.setPrompt(`${d.path} (${d.branch || t('desk.detached')}) $`);
   }
 
-  function setDetails(on) {
+  function setDetails(on, { save = true } = {}) {
     detailsOn = Boolean(on);
+    if (save && progress && progress.setDetails) progress.setDetails(detailsOn);
     detailsBtn.setAttribute('aria-pressed', String(detailsOn));
     detailsBtn.textContent = t(detailsOn ? 'ui.lessDetails' : 'ui.moreDetails');
     terminal.setDetails(detailsOn);
@@ -191,7 +195,7 @@ export function mountSandbox(container, params) {
     if (entry.note) parts.push(esc(t(entry.note.key, entry.note.params)));
     if (entry.ai) parts.push(`<em>${esc(entry.ai)}</em>`);
     if (parts.length) out.explanation = parts.join(' ');
-    const lines = r.output ? outputLines(r.output, r.state) : [];
+    const lines = detailLines(r);
     if (lines.length) out.output = lines.map((l) => l.text).join('\n');
     terminal.print(out);
   }
@@ -216,16 +220,8 @@ export function mountSandbox(container, params) {
     whyBtn.setAttribute('aria-expanded', 'false');
     whyP.textContent = hasWhy ? t(whyKey) : '';
     // raw output mapped to the scene
-    const lines = r.output ? outputLines(r.output, r.state) : [];
-    detailsList.replaceChildren(...lines.map((l) => {
-      const li = el('li', { class: 'mono' }, [l.text]);
-      if (l.hl) {
-        li.classList.add('is-mapped');
-        li.addEventListener('mouseenter', () => setHighlight(l.hl));
-        li.addEventListener('mouseleave', () => setHighlight(null));
-      }
-      return li;
-    }));
+    const lines = detailLines(r);
+    detailsList.innerHTML = detailsItemsHtml(lines);
     detailsList.hidden = !detailsOn || !lines.length;
   }
 
@@ -333,16 +329,19 @@ export function mountSandbox(container, params) {
     const desk = event.desk || state().active;
     let a = null;
     let b = null;
+    let threeDot = false;
     if (pair) ({ a, b } = pair);
     else if (event.mode === 'branches' && parsed && parsed.args) {
       const args = parsed.args.filter((x) => !/^-/.test(x));
-      if (args.length === 1 && /\.\.\.?/.test(args[0])) [a, b] = args[0].split(/\.\.\.?/);
-      else [a, b] = args;
+      if (args.length === 1 && /\.\.\.?/.test(args[0])) {
+        threeDot = args[0].includes('...');
+        [a, b] = args[0].split(/\.\.\.?/).map((x) => x || 'HEAD');
+      } else [a, b] = args;
     }
     const path = pendingDiffPath;
     pendingDiffPath = null;
     const handle = openDiffScreen(stage, {
-      state: state(), mode: event.mode === 'conflict' ? 'work' : event.mode, a: a || undefined, b: b || undefined, desk, path,
+      state: state(), mode: event.mode === 'conflict' ? 'work' : event.mode, a: a || undefined, b: b || undefined, threeDot: threeDot || Boolean(event.threeDot), desk, path,
       onClose: () => { if (overlay && overlay.handle === handle) overlay = null; },
     });
     overlay = { kind: 'diff', handle };
@@ -584,102 +583,10 @@ export function mountSandbox(container, params) {
       case 'ai-work':
         aiWork(a.desk);
         break;
-      case 'commit':
-        commitPopover(a.id, a.anchor);
-        break;
-      case 'branch':
-        branchPopover(a.name, a.remote, a.anchor);
-        break;
-      case 'mr':
-        mrPopover(a.id, a.anchor);
-        break;
-      case 'stash':
-        stashPopover(a.desk, a.anchor);
-        break;
       default:
+        handlePopoverAction(popovers, a);
         break;
     }
-  }
-
-  function commitPopover(id, anchor) {
-    const s = state();
-    const c = s.commits[id];
-    if (!c) return;
-    const desk = activeDesk(s);
-    const inHead = desk.head ? isAncestor(s, id, desk.head) : false;
-    const body = `<p class="sb-pop-meta">${icon(c.author === 'ai' ? 'star' : 'users', { size: 14 })} ${esc(t(c.author === 'ai' ? 'log.author.ai' : 'log.author.human'))} · <span class="mono">${esc(id)}</span></p>` +
-      `<p class="sb-pop-files mono">${esc((c.files || []).join(', '))}</p>`;
-    openPopover(anchor, {
-      title: commitText(c),
-      body,
-      items: [
-        { label: t('sandbox.commit.diff'), icon: 'diff', onSelect: () => run(`git show ${id}`) },
-        { label: t('sandbox.commit.cherryPick'), icon: 'cherry', disabled: inHead, onSelect: () => run(`git cherry-pick ${id}`) },
-        { label: t('sandbox.commit.reset'), icon: 'rotate-ccw', disabled: !inHead || id === desk.head, onSelect: () => run(`git reset ${id}`) },
-        { label: t('sandbox.commit.revert'), icon: 'history', disabled: !inHead || c.parents.length !== 1, onSelect: () => run(`git revert ${id}`) },
-        { label: t('sandbox.commit.newDesk'), icon: 'folder-plus', onSelect: () => run(`git worktree add ../${deskFolderFor(s, id)} ${id}`) },
-      ],
-    });
-  }
-
-  function branchPopover(name, remote, anchor) {
-    const s = state();
-    const desk = activeDesk(s);
-    const local = remote ? name.replace(/^[^/]+\//, '') : name;
-    const current = !remote && desk.branch === name;
-    const onDesk = s.worktrees.some((w) => w.branch === local);
-    const from = desk.branch || 'HEAD';
-    const items = [
-      { label: t('sandbox.branch.switch'), icon: 'arrow-right-left', disabled: current, onSelect: () => run(`git switch ${local}`) },
-      { label: t('sandbox.branch.merge', { into: from }), icon: 'git-merge', disabled: current, onSelect: () => run(`git merge ${name}`) },
-      { label: t('sandbox.branch.rebase', { name }), icon: 'move-horizontal', disabled: current, onSelect: () => run(`git rebase ${name}`) },
-      { label: t('sandbox.branch.compare'), icon: 'diff', disabled: current, onSelect: () => run(`git diff ${from} ${name}`) },
-    ];
-    if (!remote) {
-      items.push({ label: t('sandbox.branch.newDesk'), icon: 'folder-plus', disabled: onDesk, onSelect: () => run(`git worktree add ../${deskFolderFor(s, name)} ${name}`) });
-      items.push({ label: t('sandbox.branch.delete'), icon: 'x', disabled: onDesk, onSelect: () => run(`git branch -d ${name}`) });
-    }
-    openPopover(anchor, { title: name, items });
-  }
-
-  function mrPopover(id, anchor) {
-    const s = state();
-    let mr = null;
-    for (const r of Object.values(s.remotes || {})) mr = mr || (r.mrs || []).find((m) => m.id === id);
-    if (!mr) return;
-    const ref = (b) => (s.remoteRefs && s.remoteRefs[`origin/${b}`] ? `origin/${b}` : s.branches[b] ? b : null);
-    openPopover(anchor, {
-      title: `!${mr.id} · ${mr.titleKey ? t(mr.titleKey, mr.titleParams || {}) : mr.title}`,
-      body: `<p class="sb-pop-meta">${esc(t(`mr.status.${mr.status}`))} · <span class="mono">${esc(mr.source)} → ${esc(mr.target)}</span></p>`,
-      items: [
-        { label: t('sandbox.mr.approve'), icon: 'badge-check', disabled: mr.status !== 'open', onSelect: () => run({ name: 'mr', args: ['approve', mr.id], options: {} }) },
-        { label: t('sandbox.mr.merge'), icon: 'git-pull-request-arrow', disabled: mr.status !== 'approved', onSelect: () => run({ name: 'mr', args: ['merge', mr.id], options: {} }) },
-        {
-          label: t('sandbox.mr.diff'), icon: 'diff', disabled: mr.status === 'merged',
-          onSelect: () => {
-            const a = ref(mr.target);
-            const b = ref(mr.source);
-            if (a && b) run(`git diff ${a} ${b}`);
-            else showToast(t('sandbox.mr.fetchFirst'), { kind: 'info' });
-          },
-        },
-      ],
-    });
-  }
-
-  function stashPopover(deskId, anchor) {
-    const desk = deskOf(deskId);
-    if (!desk) return;
-    const go = (cmd) => () => { activate(deskId); run(cmd); };
-    openPopover(anchor, {
-      title: t('stash.label', { folder: desk.path, n: desk.stash.length }),
-      items: [
-        { label: t('sandbox.stash.pop'), icon: 'archive', disabled: !desk.stash.length, onSelect: go('git stash pop') },
-        { label: t('sandbox.stash.apply'), icon: 'archive', disabled: !desk.stash.length, onSelect: go('git stash apply') },
-        { label: t('sandbox.stash.drop'), icon: 'x', disabled: !desk.stash.length, onSelect: go('git stash drop') },
-        { label: t('sandbox.stash.list'), icon: 'list-checks', onSelect: go('git stash list') },
-      ],
-    });
   }
 
   // ---------------------------------------------------------------- history, undo, redo, reset
@@ -881,7 +788,7 @@ export function mountSandbox(container, params) {
     groups = paletteGroups(json);
     aiItems = items;
     renderPalette();
-    setDetails(detailsOn);
+    setDetails(progress && progress.getDetails ? progress.getDetails() : detailsOn, { save: false });
     const saved = progress ? progress.getSandbox() : null;
     const savedSrc = saved ? decodeStart(saved.start) : null;
     let src = null;

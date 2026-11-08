@@ -108,7 +108,8 @@ export function lanesOverlayHtml(layout, state, opts = {}) {
   for (const l of layout.lanes) {
     const name = l.kind === 'detached' ? 'HEAD' : l.kind === 'anon' ? '' : l.name;
     const desc = laneDescription(l, state, o);
-    const top = twoLines ? l.y - 18 : l.y - 9;
+    // the lane name sits on the lane line (its 18px line is centred on y); the description goes below
+    const top = l.y - 9;
     out.push(
       `<div class="lane-label${twoLines ? '' : ' is-compact'}${l.ghost ? ' is-ghost' : ''}" style="top:${px(top)}px">` +
         (name ? `<b>${esc(name)}</b>` : '') +

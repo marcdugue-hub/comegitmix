@@ -94,6 +94,8 @@
 }
 .mission-happened .eyebrow { font-size: 11px; margin-bottom: 3px; }
 .mission-happened-error { color: var(--annotation); }
+.mission-controls { display: flex; flex-wrap: wrap; gap: 6px; }
+.mission-details { max-height: 140px; }
 
 /* ---- Palette ---- */
 .mission-palette .eyebrow { margin-bottom: 6px; }

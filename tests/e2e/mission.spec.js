@@ -125,3 +125,21 @@ test('comparison screen lists both parts with the desk chips', async ({ page }) 
   await expect(page).toHaveURL(/06-relire-une-mr\?part=A&step=1/);
   await expect(page.locator('.mission-panel')).toBeVisible();
 });
+
+test('More details shows the raw output, is remembered, and the scene popovers work in a mission', async ({ page }) => {
+  await freshStart(page);
+  await page.goto('/#/mission/01-premiere-photo');
+  await page.locator('.mission-panel [data-testid="details"]').click();
+  await page.locator('.mission-card [data-act="run"]').click();
+  await expect(page.locator('[data-testid="mission-details"] li').first()).toBeVisible();
+  await expect(page.locator('.mission-terminal .terminal-output').first()).toBeVisible();
+  const stored = await page.evaluate(() => JSON.parse(localStorage.getItem('comegitmix:v1')).prefs);
+  expect(stored.details).toBe(true);
+  // commit popover from the scene
+  await page.locator('.commit-hit').first().click();
+  await expect(page.locator('[role="menu"]')).toBeVisible();
+  await page.keyboard.press('Escape');
+  // the preference is restored in the sandbox
+  await page.goto('/#/sandbox?start=solo');
+  await expect(page.locator('.sb-panel [data-testid="details"]')).toHaveAttribute('aria-pressed', 'true');
+});

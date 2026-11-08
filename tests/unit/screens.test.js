@@ -139,3 +139,33 @@ test('log view: newest first, author markers, merge commit, branch chips', () =>
   assert.ok(logHtml(lanesState(), { branch: 'ia/resume' }).includes('shorter summary'));
   assert.ok(!logHtml(lanesState(), { branch: 'main' }).includes('shorter summary'));
 });
+
+test('log view: "1 file" in the singular, "n files" otherwise', async () => {
+  let s = lanesState();
+  s = apply(s, { name: 'touch', args: ['plan.md'], options: {} }).state;
+  s = apply(s, 'git commit -am "one file"').state;
+  const html = logHtml(s, {});
+  assert.match(html, /log-files">1 file</);
+  assert.match(html, /log-files">2 files</);
+  await setLang('fr');
+  assert.match(logHtml(s, {}), /log-files">1 fichier</);
+  await setLang('en');
+});
+
+test('diff screen, three dots: only what the branch brings since it left main', () => {
+  let s = lanesState();
+  s = apply(s, { name: 'touch', args: ['resume.md'], options: {} }).state;
+  s = apply(s, 'git commit -am "main moves on"').state;
+  assert.equal(diffCommand('branches', 'main', 'ia/resume', true), 'git diff main...ia/resume');
+  const two = diffModel(s, { mode: 'branches', a: 'main', b: 'ia/resume' });
+  const three = diffModel(s, { mode: 'branches', a: 'main', b: 'ia/resume', threeDot: true });
+  assert.equal(three.threeDot, true);
+  assert.equal(three.command, 'git diff main...ia/resume');
+  assert.notDeepEqual(two.files.map((f) => f.rows), three.files.map((f) => f.rows));
+  // the line main added after the fork is not shown as removed by the branch
+  const resume = three.files.find((f) => f.path === 'resume.md');
+  assert.ok(!resume.rows.some((r) => r.lk === 'del' && /r\d/.test(r.lt)));
+  const html = diffScreenHtml(s, ui({ mode: 'branches', threeDot: true }));
+  assert.ok(html.includes(EN['diff.from.base'].replace('{a}', 'main')));
+  assert.ok(html.includes(EN['explain.diff.threeDot'].replace('{b}', 'ia/resume').replace('{a}', 'main')));
+});

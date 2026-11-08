@@ -4,7 +4,8 @@
 //
 // Stored shape:
 //   { v: 1, lang?, missions: { [id]: true }, puzzles: { [id]: stars 0..3 },
-//     sandbox: { start: string|null, commands: string[]|object[] } | null, last: "#/…" | null }
+//     sandbox: { start: string|null, commands: string[]|object[] } | null, last: "#/…" | null,
+//     prefs: { details: boolean } }
 // A stored `v` different from VERSION resets everything except `lang`. A missing `v` (language only) is fine.
 
 export const STORAGE_KEY = 'comegitmix:v1';
@@ -30,7 +31,7 @@ const cleanMap = (o, ok) => {
 export function normalize(raw) {
   const src = isPlain(raw) ? raw : {};
   const stale = src.v !== undefined && src.v !== VERSION;
-  const out = { v: VERSION, missions: {}, puzzles: {}, sandbox: null, last: null };
+  const out = { v: VERSION, missions: {}, puzzles: {}, sandbox: null, last: null, prefs: { details: false } };
   if (typeof src.lang === 'string') out.lang = src.lang;
   if (stale) return out;
   out.missions = cleanMap(src.missions, (v) => v === true);
@@ -39,6 +40,7 @@ export function normalize(raw) {
     out.sandbox = { start: typeof src.sandbox.start === 'string' ? src.sandbox.start : null, commands: src.sandbox.commands };
   }
   if (typeof src.last === 'string' && src.last.startsWith('#/')) out.last = src.last;
+  if (isPlain(src.prefs) && src.prefs.details === true) out.prefs.details = true;
   return out;
 }
 
@@ -86,6 +88,9 @@ export function createProgress({ storage } = {}) {
     /** Last visited screen as a hash route ("#/mission/…"), used by Resume. */
     getLast: () => read().last,
     setLast: (hash) => update((d) => { d.last = typeof hash === 'string' && hash.startsWith('#/') && hash !== '#/' ? hash : null; }),
+    /** "More details" mode (raw command output), shared by the sandbox and the missions. */
+    getDetails: () => read().prefs.details === true,
+    setDetails: (on) => update((d) => { d.prefs.details = Boolean(on); }),
     /** True when there is anything worth resuming. */
     hasProgress() {
       const d = read();

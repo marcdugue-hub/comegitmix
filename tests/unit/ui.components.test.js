@@ -126,3 +126,21 @@ git commit -m "c"`).state;
   const res = apply(s, { name: "rebase", args: ["HEAD~3"], options: { i: true, plan: enginePlan } });
   assert.equal(res.error, null, JSON.stringify(res.error));
 });
+
+test("home: comparison screens are not counted as missions", async () => {
+  const { realMissionNumbers } = await import("../../src/ui/home.js");
+  const ids = ["01-a", "06-b", "06b-compare", "07-c"];
+  const r = realMissionNumbers(ids, (id) => id === "06b-compare");
+  assert.equal(r.total, 3);
+  assert.deepEqual(r.numbers, { "01-a": 1, "06-b": 2, "07-c": 3 });
+});
+
+test("scene tools: More details lines keep their scene mapping as escaped JSON", async () => {
+  const { detailsItemsHtml, detailLines } = await import("../../src/ui/scene-tools.js");
+  const html = detailsItemsHtml([{ text: "a <b>", hl: { files: [{ desk: "w1", path: "x\"y" }] } }, { text: "plain" }]);
+  assert.match(html, /<li class="mono is-mapped" data-hl="\{&quot;files&quot;/);
+  assert.match(html, /a &lt;b&gt;/);
+  assert.match(html, /<li class="mono">plain<\/li>/);
+  assert.deepEqual(detailLines(null), []);
+  assert.deepEqual(detailLines({ output: null }), []);
+});

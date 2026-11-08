@@ -21,6 +21,8 @@
 - 10-un-dossier-pour-l-ia
 - 11-quel-diff
 - 12-relire-sans-deranger
+- 13-un-bureau-pour-l-ia
+- 14-tiroir-aller-retour
 
 # Sandbox
 - vide

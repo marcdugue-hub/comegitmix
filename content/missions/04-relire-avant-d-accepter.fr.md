@@ -66,8 +66,8 @@ after: Les deux voies se rejoignent : main contient maintenant le travail de l'a
 
 ### 7. Finalement, défaire une partie
 command: git revert ia/resume
-Appel de Mme Pivert : elle préférait l'ancien résumé. revert ajoute un commit qui annule le précédent, sans réécrire l'histoire : idéal quand le travail est déjà partagé.
-after: Un nouveau rond « annulation » est apparu. L'histoire garde la trace de tout, même des changements d'avis.
+Appel de Mme Pivert : elle préférait l'ancien résumé. git revert ia/resume prend le dernier commit de cette voie, « résumé v2 », et ajoute sur main un nouveau commit qui fait exactement l'inverse. La v1 reste en place, et rien n'est réécrit : idéal quand le travail est déjà partagé.
+after: Un nouveau rond « annulation » est apparu sur main : il retire les changements de la v2 de l'assistant (resume.md et sources.md). Le commit d'origine est toujours là. L'histoire garde la trace de tout, même des changements d'avis.
 note: reset recule, revert annule en avançant
 
 ## End

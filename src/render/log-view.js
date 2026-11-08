@@ -1,5 +1,5 @@
 // Readable commit list: newest first, author marker (AI / human), message. Pure rendering of `git log` output.
-import { t } from '../i18n/i18n.js';
+import { t, tn } from '../i18n/i18n.js';
 import { icon } from '../ui/icons.js';
 import { apply } from '../engine/apply.js';
 import { esc, commitText } from './screens-util.js';
@@ -29,7 +29,7 @@ export function logHtml(state, opts = {}) {
   <span class="log-msg">${esc(commitText(c))}</span>
   ${merge ? `<span class="badge badge--pill log-merge">${icon('git-merge', { size: 12 })} ${t('log.merge')}</span>` : ''}
   ${tips}
-  <span class="log-files">${t('log.files', { n: c.files.length })}</span>
+  <span class="log-files">${tn('log.files', c.files.length)}</span>
   <span class="log-id">${esc(c.id)}</span>
 </li>`;
   });

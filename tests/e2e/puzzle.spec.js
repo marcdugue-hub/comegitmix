@@ -1,33 +1,6 @@
 // Puzzle screen: one choice puzzle (wrong answer, retry, right answer, stars saved) and one typed puzzle.
 import { test, expect } from '@playwright/test';
 
-const TYPED = `---
-title: Un dossier pour relire
-type: typed
----
-
-## Prompt
-Ouvrez un dossier de revue sur la voie ia/x.
-
-## Setup
-\`\`\`git-setup
-@files plan.md
-git commit -m "init"
-git branch ia/x
-\`\`\`
-
-## Solution
-solution: git worktree add ../revue ia/x
-check:
-- desk revue on ia/x
-
-## Goal
-Un dossier revue ouvert sur ia/x.
-
-## Takeaway
-worktree add ouvre un dossier de plus.
-`;
-
 const progressOf = (page) => page.evaluate(() => JSON.parse(localStorage.getItem('comegitmix:v1') || '{}'));
 
 test.beforeEach(async ({ page }) => {
@@ -67,15 +40,9 @@ test('choice puzzle: a wrong answer is explained, the right one earns stars and 
 });
 
 test('typed puzzle: the terminal plays commands, reset works, the right command solves it', async ({ page }) => {
-  for (const lang of ['fr', 'en']) {
-    await page.route(`**/content/puzzles/99-typed-demo.${lang}.md`, (route) => route.fulfill({
-      status: lang === 'fr' ? 200 : 404, contentType: 'text/markdown', body: TYPED,
-    }));
-  }
-  await page.goto('#/puzzle/99-typed-demo');
+  await page.goto('#/puzzle/13-un-bureau-pour-l-ia');
   const field = page.locator('.terminal-field');
   await expect(field).toBeVisible();
-  await expect(page.locator('.badge-fallback')).toBeVisible(); // English asked, French served
 
   // a wrong move: the scene changes, the terminal answers, no success
   await field.fill('git worktree add ../autre -b ia/y');
@@ -95,12 +62,12 @@ test('typed puzzle: the terminal plays commands, reset works, the right command 
   await field.press('Enter');
   await expect(page.locator('.terminal-error')).toBeVisible();
 
-  await field.fill('git worktree add ../revue ia/x');
+  await field.fill('git worktree add ../rapport-ia-graphiques -b ia/graphiques');
   await field.press('Enter');
   await expect(page.locator('.puzzle-feedback.is-right')).toBeVisible();
   await expect(page.locator('.puzzle-takeaway')).toContainText('worktree add');
   // 1 wrong move + 1 hint -> 1 star
   await expect(page.locator('.puzzle-stars--final')).toHaveAttribute('aria-label', /^1 /);
-  expect((await progressOf(page)).puzzles['99-typed-demo']).toBe(1);
+  expect((await progressOf(page)).puzzles['13-un-bureau-pour-l-ia']).toBe(1);
   await expect(field).toBeDisabled();
 });
