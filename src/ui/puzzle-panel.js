@@ -2,7 +2,7 @@
 // Logic (states, evaluation, stars) lives in puzzle-logic.js; the scene comes from render/scene.js; the terminal
 // (typed puzzles) from ui/terminal.js. mount(container, { id, ctx: { loader, summary, progress } }) -> unmount.
 import { t, getLang } from '../i18n/i18n.js';
-import { registerScreen, navigate, buildHash } from '../router.js';
+import { registerScreen, navigate, buildHash, refresh } from '../router.js';
 import { apply } from '../engine/apply.js';
 import { renderScene } from '../render/scene.js';
 import { esc } from '../render/html.js';
@@ -241,14 +241,10 @@ export function mountPuzzle(container, { id, ctx }) {
       if (!result.error && isSolved(data, { state: S.state, goal, initial, last: { command, result } })) solve();
       else renderBody();
     }
+    // Reset = start the puzzle over: the screen is mounted again from the initial scene,
+    // with a fresh terminal, timer and stars (it is not an undo).
     function resetTyped() {
-      S.state = initial;
-      S.notYet = false;
-      closeDiff();
-      scene.update(initial, []);
-      if (terminal) terminal.clear();
-      renderBody();
-      if (terminal) terminal.focus();
+      refresh();
     }
 
     // ---- choice puzzles ----

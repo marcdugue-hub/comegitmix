@@ -55,7 +55,10 @@ test('typed puzzle: the terminal plays commands, reset works, the right command 
   await page.locator('[data-action-name="hint"]').click();
   await expect(page.locator('.puzzle-hint')).toContainText('git worktree');
   await page.locator('[data-action-name="reset"]').click();
+  // reset starts the puzzle over: empty terminal, no hint, stars back to 3
   await expect(page.locator('.terminal-entry')).toHaveCount(0);
+  await expect(page.locator('.puzzle-hint')).toHaveCount(0);
+  await expect(page.locator('.puzzle-stars--live')).toHaveAttribute('aria-label', /^3 /);
 
   // an unknown command is only an error message
   await field.fill('git nope');
@@ -66,8 +69,8 @@ test('typed puzzle: the terminal plays commands, reset works, the right command 
   await field.press('Enter');
   await expect(page.locator('.puzzle-feedback.is-right')).toBeVisible();
   await expect(page.locator('.puzzle-takeaway')).toContainText('worktree add');
-  // 1 wrong move + 1 hint -> 1 star
-  await expect(page.locator('.puzzle-stars--final')).toHaveAttribute('aria-label', /^1 /);
-  expect((await progressOf(page)).puzzles['13-un-bureau-pour-l-ia']).toBe(1);
+  // the wrong move and the hint were before the reset: full 3 stars
+  await expect(page.locator('.puzzle-stars--final')).toHaveAttribute('aria-label', /^3 /);
+  expect((await progressOf(page)).puzzles['13-un-bureau-pour-l-ia']).toBe(3);
   await expect(field).toBeDisabled();
 });
