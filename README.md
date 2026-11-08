@@ -7,7 +7,7 @@ A game by **Le Sens de l'IA**.
 **Play online:** https://marcdugue-hub.github.io/comegitmix/
 
 ## Three modes
-- **Mission** — seven guided stories (10 to 15 minutes each) with the human / AI duo.
+- **Mission** — seven guided stories (2 to 5 minutes each) with the human / AI duo.
 - **Puzzle** — quick challenges: a starting situation, a goal, find the right command.
 - **Sandbox** — free play: type commands or click in the scene, undo, start again. Nothing can break.
 
