@@ -1,3 +1,6 @@
+# A human foreword by the author
+Being a coach and accompanying teams in some SDD project, one of the difficulties I have seen is that non developper now have to use git ... and, like myself, pretty much understand nothing in their use of git. Ok your AI sub-brain will do all the heavy lifting, but it's still convenient to have a little understanding of what happen in the process. Here comes what you need for that as a coach : a little serious game to go through (some) of those tricky git commands. 
+
 # Comegitmix
 
 Understand Git by playing. A small, visual serious game that shows what Git commands really do — especially the ones that let an AI work on several topics in parallel (branches, worktrees, merge requests). Made for people who are not developers but work with developers. French and English.
@@ -38,6 +41,6 @@ npm run test:e2e                     # end-to-end tests (Playwright, Chromium)
 - [`docs/ROADMAP.md`](docs/ROADMAP.md) — what is done and what is next.
 
 ## Licence
-© Le Sens de l'IA. All rights reserved, unless Marc decides otherwise.
+© Le Sens de l'IA, 2026. All rights reserved, but feel free to do whatever you need with it. If you think that this is useful, say "hi and thanks" on LinkedIn and it will make my day :) 
 
 The fonts in `assets/fonts/` (Cormorant Garamond, DM Sans, DM Mono, Caveat) are distributed under the SIL Open Font License; their licence files are next to them.
