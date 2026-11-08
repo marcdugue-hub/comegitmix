@@ -65,7 +65,7 @@ test('typed puzzle: the terminal plays commands, reset works, the right command 
   await field.press('Enter');
   await expect(page.locator('.terminal-error')).toBeVisible();
 
-  await field.fill('git worktree add ../rapport-ia-graphiques -b ia/graphiques');
+  await field.fill('git worktree add ../graphiques -b ia/graphiques');
   await field.press('Enter');
   await expect(page.locator('.puzzle-feedback.is-right')).toBeVisible();
   await expect(page.locator('.puzzle-takeaway')).toContainText('worktree add');

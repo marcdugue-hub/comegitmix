@@ -5,7 +5,7 @@ repos: [local]
 ---
 
 ## Prompt
-Stéphane veut que l'IA travaille sur les graphiques sans toucher à votre dossier. Créez-lui un dossier à part, ../rapport-ia-graphiques, sur une nouvelle branche ia/graphiques.
+Stéphane veut que l'IA travaille sur les graphiques sans toucher à votre dossier. Créez-lui un dossier à part, ../graphiques, sur une nouvelle branche ia/graphiques.
 
 ## Setup
 ```git-setup
@@ -14,9 +14,9 @@ git commit -m "init"
 ```
 
 ## Solution
-solution: git worktree add ../rapport-ia-graphiques -b ia/graphiques
+solution: git worktree add ../graphiques -b ia/graphiques
 check:
-- desk rapport-ia-graphiques on ia/graphiques
+- desk graphiques on ia/graphiques
 
 ## Goal
 Un nouveau dossier sur la branche ia/graphiques, relié au même .git.

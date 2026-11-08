@@ -339,7 +339,8 @@ export function computeLayout(state, opts = {}) {
   // desks: tile slots and pins (the tip of a desk lane goes above the centre of its tile)
   const allDesks = [...desks.map((w) => ({ ...w, ghost: false })), ...g.ghostDesks];
   const slots = tileSlots(allDesks.length);
-  const tiles = allDesks.map((w, i) => ({ desk: w.id || `ghost:${w.path}`, path: w.path, x: slots[i].x, w: slots[i].w, cx: slots[i].cx, ghost: !!w.ghost }));
+  // a goal desk may share its id with a real desk (ids are per state): key ghosts by path
+  const tiles = allDesks.map((w, i) => ({ desk: w.ghost ? `ghost:${w.path}` : w.id, path: w.path, x: slots[i].x, w: slots[i].w, cx: slots[i].cx, ghost: !!w.ghost }));
   const deskLane = (w) => {
     if (w.branch) {
       const l = w.ghost
@@ -580,7 +581,7 @@ export function computeLayout(state, opts = {}) {
     } else {
       l.path = `M${r1(l.x1)} ${r1(y)} H${r1(Math.max(l.x1 + 1, l.tipX))}`;
     }
-    l.desks = allDesks.filter((w) => deskLane(w) === l).map((w) => w.id || `ghost:${w.path}`);
+    l.desks = allDesks.filter((w) => deskLane(w) === l).map((w) => (w.ghost ? `ghost:${w.path}` : w.id));
     l.head = l.kind === 'branch' && heads.has(l.name);
   }
   // edges

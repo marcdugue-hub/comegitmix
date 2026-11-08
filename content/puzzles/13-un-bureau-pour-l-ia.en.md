@@ -5,7 +5,7 @@ repos: [local]
 ---
 
 ## Prompt
-Stéphane wants the AI to work on the charts without touching your folder. Create a separate folder for it, ../rapport-ia-graphiques, on a new branch ia/graphiques.
+Stéphane wants the AI to work on the charts without touching your folder. Create a separate folder for it, ../graphiques, on a new branch ia/graphiques.
 
 ## Setup
 ```git-setup
@@ -14,9 +14,9 @@ git commit -m "init"
 ```
 
 ## Solution
-solution: git worktree add ../rapport-ia-graphiques -b ia/graphiques
+solution: git worktree add ../graphiques -b ia/graphiques
 check:
-- desk rapport-ia-graphiques on ia/graphiques
+- desk graphiques on ia/graphiques
 
 ## Goal
 A new folder on the ia/graphiques branch, linked to the same .git.

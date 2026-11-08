@@ -150,6 +150,16 @@ test('ghost (goal) state adds dashed lanes and tiles without touching the curren
   assert.ok(L.wires.some((w) => w.ghost));
 });
 
+test('a goal desk sharing its id with a different real desk gets its own tile key', () => {
+  const base = setup(BASE.join('\n'));
+  const state = apply(base, 'git worktree add ../autre -b ia/y').state;
+  const goal = apply(base, 'git worktree add ../graphiques -b ia/graphiques').state;
+  const L = computeLayout(state, { ghost: goal });
+  const keys = L.tiles.map((t) => t.desk);
+  assert.equal(new Set(keys).size, keys.length);
+  assert.ok(L.tiles.some((t) => t.ghost && t.path === 'graphiques' && t.desk === 'ghost:graphiques'));
+});
+
 test('many generations fold the oldest commits', () => {
   const lines = [...BASE];
   for (let i = 0; i < 30; i++) lines.push('@work plan.md', `git commit -m "n${i}"`);
