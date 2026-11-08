@@ -15,18 +15,18 @@ git switch -c feature/intro
 git commit -m "intro"
 git switch main
 @author ai
-git worktree add ../rapport-ia-resume -b ia/agent-1
-@cd rapport-ia-resume
+git worktree add ../rpt-ia-resume -b ia/agent-1
+@cd rpt-ia-resume
 @work resume.md
 git commit -m "résumé v1"
 @work resume.md
 git add resume.md
-@cd rapport-client
-git worktree add ../rapport-ia-chiffres -b ia/agent-2
-@cd rapport-ia-chiffres
+@cd rpt-client
+git worktree add ../rpt-ia-stats -b ia/agent-2
+@cd rpt-ia-stats
 @work chiffres.xlsx
 git commit -m "chiffres"
 @work chiffres.xlsx
 @author human
-@cd rapport-client
+@cd rpt-client
 ```

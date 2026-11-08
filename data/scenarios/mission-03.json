@@ -48,7 +48,7 @@
     "worktrees": [
       {
         "id": "w1",
-        "path": "rapport-client",
+        "path": "rpt-client",
         "main": true,
         "branch": "main",
         "head": "c2",
@@ -82,7 +82,7 @@
       "id": "s2",
       "titleKey": "mission.3.step2.title",
       "explainKey": "mission.3.step2.explain",
-      "command": "git worktree add ../rapport-ia-chiffres -b ia/chiffres",
+      "command": "git worktree add ../rpt-ia-stats -b ia/chiffres",
       "hintKey": "mission.3.step2.hint",
       "done": {
         "all": [
@@ -95,7 +95,7 @@
           {
             "predicate": "worktreeOnBranch",
             "args": {
-              "path": "rapport-ia-chiffres",
+              "path": "rpt-ia-stats",
               "branch": "ia/chiffres"
             }
           }
@@ -106,12 +106,12 @@
       "id": "s3",
       "titleKey": "mission.3.step3.title",
       "explainKey": "mission.3.step3.explain",
-      "command": "git worktree add ../rapport-ia-resume -b ia/resume",
+      "command": "git worktree add ../rpt-ia-resume -b ia/resume",
       "hintKey": "mission.3.step3.hint",
       "done": {
         "predicate": "worktreeOnBranch",
         "args": {
-          "path": "rapport-ia-resume",
+          "path": "rpt-ia-resume",
           "branch": "ia/resume"
         }
       }

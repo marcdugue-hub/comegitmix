@@ -17,12 +17,12 @@ All missions are open; the order below is the **recommended** order, shown in th
 | 6 | Review an MR | Review an assistant's work proposed online (MR), first by switching branch, then in a worktree, and compare. | `fetch`, `stash`, `switch`, `diff A...B`, approve/merge (site), `worktree add <path> <branch>`, `worktree remove`, `pull` |
 | 7 | A readable history | Clean up before sharing, tidy up, remove a finished desk. | `rebase -i`, squash, `cherry-pick`, `stash`, `worktree remove` |
 
-Mission 3 is the one in `maquettes/Main.dc.html`: "Two assistants, one project", shown there as mission 3/6 (the mockup predates mission 6), command `git worktree add ../rapport-ia-chiffres -b ia/chiffres`.
+Mission 3 is the one in `maquettes/Main.dc.html`: "Two assistants, one project", shown there as mission 3/6 (the mockup predates mission 6), command `git worktree add ../rpt-ia-stats -b ia/chiffres`.
 
 ### Mission 3 in detail (model for the others)
-1. *The starting point*: a folder `rapport-client`, branch `main`, 2 commits. → step done when the initial state is shown.
-2. *A second desk for the "figures" AI*: `git worktree add ../rapport-ia-chiffres -b ia/chiffres`. Predicate: worktree `rapport-ia-chiffres` on branch `ia/chiffres`.
-3. *A third desk for the "summary" AI*: `git worktree add ../rapport-ia-resume -b ia/resume`.
+1. *The starting point*: a folder `rpt-client`, branch `main`, 2 commits. → step done when the initial state is shown.
+2. *A second desk for the "figures" AI*: `git worktree add ../rpt-ia-stats -b ia/chiffres`. Predicate: worktree `rpt-ia-stats` on branch `ia/chiffres`.
+3. *A third desk for the "summary" AI*: `git worktree add ../rpt-ia-resume -b ia/resume`.
 4. *See where things stand*: `git worktree list`. Predicate: last command = `worktree list`.
 End message: "Three folders, a single history. Each moves forward on its lane without disturbing the others."
 
@@ -69,7 +69,7 @@ Rule: same file changed on both sides = conflict (`docs/SANDBOX.md` §7.1). A mi
 ## Mission 6 — Review an MR (addition)
 Mockups: `maquettes/A5-MR-Branche.dc.html` (part A), `A6-MR-Worktree.dc.html` (part B), `A7-MR-Comparer.dc.html` (review screen). Content: `content/missions/` (mission 6 and its review screen 6b).
 
-Situation: an AI assistant has pushed `ia/graphiques` and opened **MR !42** towards `main`. You are in `rapport-client` with two files in **M** (your work in progress). The mission has two parts, played one after the other; an "A · On a branch / B · In a worktree" selector at the top of the panel switches between them.
+Situation: an AI assistant has pushed `ia/graphiques` and opened **MR !42** towards `main`. You are in `rpt-client` with two files in **M** (your work in progress). The mission has two parts, played one after the other; an "A · On a branch / B · In a worktree" selector at the top of the panel switches between them.
 
 **Part A — on a branch (7 steps)**: `git status` → `git stash` (the M files disappear, a "stash@{0}" chip appears in zone ③) → `git fetch origin` (the MR's lane becomes solid, chip `origin/ia/graphiques`) → `git switch ia/graphiques` (**your folder's content changes**, the wire goes to the blue lane with an elbow) → `git diff main...ia/graphiques` (review card, link to the diff screen) → approve on the site (the MR card becomes "Approved") → `git switch main && git stash pop` (back, the M files return).
 Takeaway: "It works, but your desk was disturbed for the whole review."

@@ -29,7 +29,7 @@ const SESSION = [
   { name: 'ai', args: [], options: { commit: false } },
   'git stash',
   { name: 'assistant', args: [], options: { message: 'The AI did things' } },
-  'cd ../rapport-client',
+  'cd ../rpt-client',
   'git switch main',
   'git merge ia/resume',
   { name: 'resolve', args: ['w1', 'plan.md', 'theirs'], options: {} },

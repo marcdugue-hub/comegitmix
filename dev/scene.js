@@ -12,8 +12,8 @@ git commit -m "init"
 git commit -m "outline"
 @work intro.md
 git commit -m "intro"
-git worktree add ../rapport-ia-resume -b ia/resume
-@cd rapport-ia-resume
+git worktree add ../rpt-ia-resume -b ia/resume
+@cd rpt-ia-resume
 @author ai
 @work resume.md
 git commit -m "summary v1"
@@ -24,7 +24,7 @@ git commit -m "v3"
 @work resume.md
 git add resume.md
 @author human
-@cd rapport-client
+@cd rpt-client
 @work plan.md
 `;
 
@@ -38,20 +38,20 @@ git switch -c feature/intro
 git commit -m "intro"
 git switch main
 @author ai
-git worktree add ../rapport-ia-resume -b ia/agent-1
-@cd rapport-ia-resume
+git worktree add ../rpt-ia-resume -b ia/agent-1
+@cd rpt-ia-resume
 @work resume.md
 git commit -m "summary v1"
 @work resume.md
 git add resume.md
-@cd rapport-client
-git worktree add ../rapport-ia-chiffres -b ia/agent-2
-@cd rapport-ia-chiffres
+@cd rpt-client
+git worktree add ../rpt-ia-stats -b ia/agent-2
+@cd rpt-ia-stats
 @work chiffres.xlsx
 git commit -m "figures"
 @work chiffres.xlsx
 @author human
-@cd rapport-client
+@cd rpt-client
 `;
 
 const TEAM = `
@@ -81,21 +81,21 @@ git commit -m "init"
 @work plan.md
 git commit -m "plan"
 git branch old/idea
-git worktree add ../rapport-ia-a -b ia/a
-git worktree add ../rapport-ia-b -b ia/b
-git worktree add ../rapport-ia-c -b ia/c
-@cd rapport-ia-a
+git worktree add ../rpt-ia-a -b ia/a
+git worktree add ../rpt-ia-b -b ia/b
+git worktree add ../rpt-ia-c -b ia/c
+@cd rpt-ia-a
 @work resume.md
 git commit -m "a1"
-@cd rapport-ia-b
+@cd rpt-ia-b
 @work intro.md
 git commit -m "b1"
 @work intro.md
 git commit -m "b2"
-@cd rapport-ia-c
+@cd rpt-ia-c
 @work chapitres/ch1.md
 git commit -m "c1"
-@cd rapport-client
+@cd rpt-client
 @work intro.md
 git commit -m "intro"
 git merge ia/a
@@ -125,7 +125,7 @@ const STATES = {
   mission3: () => ({ state: setup(MISSION3), opts: { lockedRepos: { origin: 5 }, note: 'One desk = one real folder on your computer' } }), // i18n-ok (dev)
   mission3preview: () => {
     const s = setup(MISSION3);
-    const p = apply(s, 'git worktree add ../rapport-ia-chiffres -b ia/chiffres').state;
+    const p = apply(s, 'git worktree add ../rpt-ia-stats -b ia/chiffres').state;
     return { state: s, opts: { lockedRepos: { origin: 5 }, previewState: p } };
   },
   sandbox: () => ({ state: setup(DEUX_IA) }),

@@ -55,7 +55,7 @@
   "mission.3.step2.hint": "Start with git worktree add, then the path of the new folder, then -b and the branch name.",
   "mission.3.step3.title": "A desk for the “summary” AI",
   "mission.3.step3.explain": "Same idea for a second AI: another folder, another branch, the same repository.",
-  "mission.3.step3.hint": "Same command, with ../rapport-ia-resume and the branch ia/resume.",
+  "mission.3.step3.hint": "Same command, with ../rpt-ia-resume and the branch ia/resume.",
   "mission.3.step4.title": "See where things stand",
   "mission.3.step4.explain": "git worktree list shows each folder and the branch it has open.",
   "mission.3.outro": "Three folders, one history. Each moves forward on its own lane without getting in the others' way.",

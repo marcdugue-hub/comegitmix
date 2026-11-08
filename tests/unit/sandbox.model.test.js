@@ -74,7 +74,7 @@ test('argument requirements: add offers changed files, branch asks a name, workt
   const wt = planCommand('worktree-add', s);
   assert.equal(activeSteps(wt, []).length, 1);
   assert.equal(activeSteps(wt, ['\u0000new']).length, 2);
-  assert.equal(wt.build(['\u0000new', 'ia/demo']), 'git worktree add ../rapport-client-demo -b ia/demo');
+  assert.equal(wt.build(['\u0000new', 'ia/demo']), 'git worktree add ../rpt-client-demo -b ia/demo');
   const reset = planCommand('reset', solo);
   assert.equal(reset.steps.length, 2);
   assert.match(reset.build([reset.steps[0].options[0].value, 'hard']), /^git reset --hard c\d+$/);
@@ -84,7 +84,7 @@ test('argument requirements: add offers changed files, branch asks a name, workt
 
 test('helpers: folder names, branch names, joins, AI text', () => {
   const s = start('deux-ia');
-  assert.equal(deskFolderFor(s, 'ia/x'), 'rapport-client-x');
+  assert.equal(deskFolderFor(s, 'ia/x'), 'rpt-client-x');
   assert.match(nextBranchName(s), /^feature\//);
   assert.equal(joinFiles(['a']), 'a');
   assert.match(joinFiles(['a', 'b', 'c']), /^a, b .+ c$/);
@@ -98,7 +98,7 @@ test('suggestions complete commands, branches, files and folders as whole lines'
   assert.ok(suggestLines('git sw', s).includes('git switch'));
   assert.ok(suggestLines('git switch ', s).includes('git switch ia/agent-1'));
   assert.ok(suggestLines('git merge feat', s).includes('git merge feature/intro'));
-  assert.ok(suggestLines('cd ', s).includes('cd ../rapport-ia-resume'));
+  assert.ok(suggestLines('cd ', s).includes('cd ../rpt-ia-resume'));
   assert.ok(suggestLines('git add ', start('solo')).some((l) => l.startsWith('git add ')));
   assert.ok(suggestLines('git switch ', s).length <= 6);
 });
@@ -110,7 +110,7 @@ test('history labels and icons', () => {
   assert.equal(commandIcon({ name: 'ai', args: [] }), 'star');
   assert.equal(commandIcon('nonsense words'), 'terminal');
   assert.equal(typeof historyText({ name: 'click', args: ['w1', 'plan.md'] }, s), 'string');
-  assert.equal(historyText({ name: 'switch', args: ['main'], options: {}, desk: 'w2' }, s), 'git switch main (rapport-ia-resume)');
+  assert.equal(historyText({ name: 'switch', args: ['main'], options: {}, desk: 'w2' }, s), 'git switch main (rpt-ia-resume)');
 });
 
 test('raw output lines are mapped to scene elements', () => {

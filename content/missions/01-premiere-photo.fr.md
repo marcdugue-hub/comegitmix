@@ -23,7 +23,7 @@ after: intro.md porte un M (modifié) : vous l'avez retouché depuis la dernièr
 
 ### 2. Travailler sur un autre fichier
 command: (cliquez plan.md dans votre dossier)
-check: file rapport-client/plan.md M
+check: file rpt-client/plan.md M
 Cliquer un fichier, c'est dire « j'ai travaillé dessus ». Cette fois, c'est le plan.
 after: Deux fichiers modifiés, et aucune photo prise pour l'instant.
 

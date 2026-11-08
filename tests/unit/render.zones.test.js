@@ -33,15 +33,15 @@ const M3 = `@files plan.md intro.md resume.md chapitres/ch1.md chapitres/ch2.md
 git commit -m "init"
 @work plan.md
 git commit -m "outline"
-git worktree add ../rapport-ia-resume -b ia/resume
-@cd rapport-ia-resume
+git worktree add ../rpt-ia-resume -b ia/resume
+@cd rpt-ia-resume
 @work resume.md
 git commit -m "v1"
 @work resume.md
 @work intro.md
 @work plan.md
 git add resume.md intro.md plan.md
-@cd rapport-client
+@cd rpt-client
 @work plan.md
 @work chapitres/ch1.md
 @new nouveau-1.md`;

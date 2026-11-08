@@ -24,7 +24,7 @@ function history(n, kind) {
   for (let i = 1; i < n; i++) {
     const name = `ia/t${i}`;
     if (i <= 3) {
-      lines.push(`git worktree add ../rapport-t${i} -b ${name}`);
+      lines.push(`git worktree add ../rpt-t${i} -b ${name}`);
       desks.push(i);
     } else if (kind === 'stacked' && i === 4) lines.push(`git branch ${name} ia/t1`);
     else lines.push(`git branch ${name}`);
@@ -32,12 +32,12 @@ function history(n, kind) {
   }
   for (let i = 1; i < n; i++) {
     const name = `ia/t${i}`;
-    if (i <= 3) lines.push(`@cd rapport-t${i}`);
-    else lines.push('@cd rapport-client', `git switch ${name}`);
+    if (i <= 3) lines.push(`@cd rpt-t${i}`);
+    else lines.push('@cd rpt-client', `git switch ${name}`);
     for (let k = 0; k < 1 + (i % 3); k++) lines.push(`@work resume.md`, `git commit -m "t${i}.${k}"`);
     if (i > 3) lines.push('git switch main');
   }
-  lines.push('@cd rapport-client');
+  lines.push('@cd rpt-client');
   if (kind === 'merged' && n > 1) lines.push('git merge ia/t1 -m "merge"');
   return setup(lines.join('\n'));
 }
@@ -69,7 +69,7 @@ test('layout is deterministic (same input, clone, repeated calls)', () => {
 
 test('mission 3: desk lane tips sit above their tiles, wires are straight dashed verticals', () => {
   const state = setup(
-    [...BASE, '@work intro.md', 'git commit -m "intro"', 'git worktree add ../rapport-ia-resume -b ia/resume', '@cd rapport-ia-resume', '@work resume.md', 'git commit -m "v1"', '@cd rapport-client'].join('\n'),
+    [...BASE, '@work intro.md', 'git commit -m "intro"', 'git worktree add ../rpt-ia-resume -b ia/resume', '@cd rpt-ia-resume', '@work resume.md', 'git commit -m "v1"', '@cd rpt-client'].join('\n'),
   );
   const L = computeLayout(state);
   const slots = tileSlots(2);
@@ -96,7 +96,7 @@ test('a branch without a desk has no wire; a fresh branch is an empty lane', () 
 });
 
 test('wire falls back to an elbow when the tip is not above the tile', () => {
-  const state = setup([...BASE, 'git worktree add ../rapport-b -b ia/b', '@work intro.md', 'git commit -m "x"', '@work intro.md', 'git commit -m "y"', '@work intro.md', 'git commit -m "z"', '@work intro.md', 'git commit -m "w"'].join('\n'));
+  const state = setup([...BASE, 'git worktree add ../rpt-b -b ia/b', '@work intro.md', 'git commit -m "x"', '@work intro.md', 'git commit -m "y"', '@work intro.md', 'git commit -m "z"', '@work intro.md', 'git commit -m "w"'].join('\n'));
   const L = computeLayout(state);
   const main = L.wires.find((w) => w.desk === state.worktrees[0].id);
   assert.equal(main.elbow, true);
@@ -143,10 +143,10 @@ test('remote: online-only MR lane is dashed, origin/main is a chip', () => {
 
 test('ghost (goal) state adds dashed lanes and tiles without touching the current ones', () => {
   const state = setup(BASE.join('\n'));
-  const goal = apply(state, 'git worktree add ../rapport-ia -b ia/x').state;
+  const goal = apply(state, 'git worktree add ../rpt-ia -b ia/x').state;
   const L = computeLayout(state, { ghost: goal });
   assert.ok(L.lanes.some((l) => l.ghost && l.name === 'ia/x'));
-  assert.ok(L.tiles.some((t) => t.ghost && t.path === 'rapport-ia'));
+  assert.ok(L.tiles.some((t) => t.ghost && t.path === 'rpt-ia'));
   assert.ok(L.wires.some((w) => w.ghost));
 });
 

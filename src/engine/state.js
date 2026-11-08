@@ -28,7 +28,7 @@ export function fail(key, params = {}) {
  * A fresh repository: one main desk (the original folder, holding `.git`),
  * on an unborn branch (no commit yet), with no file.
  */
-export function createState({ folder = 'rapport-client', branch = 'main', author = 'human', visibleRepos = ['local'] } = {}) {
+export function createState({ folder = 'rpt-client', branch = 'main', author = 'human', visibleRepos = ['local'] } = {}) {
   return {
     version: STATE_VERSION,
     seq: { commit: 0, desk: 1, stash: 0, edit: 0 },
@@ -66,7 +66,7 @@ export function deserialize(text) {
 // Names and desks
 // ---------------------------------------------------------------------------
 
-/** "../rapport-ia-resume/" -> "rapport-ia-resume". */
+/** "../rpt-ia-resume/" -> "rpt-ia-resume". */
 export function folderName(p) {
   const parts = String(p).replace(/\\/g, '/').split('/').filter((s) => s && s !== '.' && s !== '..');
   return parts.length ? parts[parts.length - 1] : String(p);

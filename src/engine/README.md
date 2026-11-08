@@ -39,7 +39,7 @@ Plain JSON (round-trips through `JSON.stringify`). Never mutate a state you did 
   "worktrees": [                           // desks, in display order; worktrees[0] is the original folder
     {
       "id": "w1",                          // stable id (w1, w2…), never reused while alive
-      "path": "rapport-client",            // folder name (no "../")
+      "path": "rpt-client",            // folder name (no "../")
       "main": true,                        // original folder: holds .git (the others point to it)
       "branch": "main",                    // null = detached HEAD
       "head": "c3",                        // null = no commit yet (unborn branch)
@@ -185,7 +185,7 @@ A colleague commit has `colleague: true`. Engine messages: `msg.colleague`, `msg
 ### Make the AI work (`ai.js`)
 - `{ name: 'ai', args: [] | [desk], options: { files?, commit = true, message? } }`: changes 1–3 files (deterministic: `pickAiFiles(desk, state.seq.ai)`) or `files` (step `ai-files:`), then stages exactly those and commits with `author: 'ai'` (`message`, or `msgKey: 'msg.aiWork'`). `commit: false` leaves them M.
   `output = { kind: 'ai', desk, files, textIndex, commit }`: the UI shows the step's `ai-text:` or `aiWork.items[textIndex % items.length]` from `content/ai-work.<lang>.md`, and passes that text as `message` when it wants it as the commit message.
-- `{ name: 'assistant', options: { topic? } }` "New assistant": `git worktree add ../rapport-ia-<topic> -b ia/<topic>` (topics `AI_TOPICS`), then `ai` on it.
+- `{ name: 'assistant', options: { topic? } }` "New assistant": `git worktree add ../rpt-ia-<topic> -b ia/<topic>` (topics `AI_TOPICS`), then `ai` on it.
 - `{ name: 'ai-mr', args: [] | [desk], options: { title?, target = 'main' } }` "The AI opens an MR": push the desk branch to origin, open an MR (`titleKey: 'mr.aiTitle'` when no title).
 
 ### Setup replay (`setup.js`)

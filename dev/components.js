@@ -13,7 +13,7 @@ const COMMANDS = ['git status', 'git add .', 'git commit -m ""', 'git switch mai
 const BRANCHES = ['main', 'ia/resume', 'ia/graphiques', 'feature/intro', 'feature/annexes', 'fix/typo', 'ia/tests', 'ia/plan'];
 
 const term = createTerminal(document.getElementById('term'), {
-  prompt: 'rapport-client (main) $',
+  prompt: 'rpt-client (main) $',
   suggest: (text) => (text ? COMMANDS.filter((c) => c.startsWith(text) && c !== text) : COMMANDS.slice(0, 4)),
   onSubmit(text) {
     if (text === 'clear') return term.clear();

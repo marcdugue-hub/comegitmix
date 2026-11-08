@@ -20,14 +20,14 @@ git commit -m "intro"
 ## Steps
 
 ### 1. Un bureau pour l'assistant « résumé »
-command: git worktree add ../rapport-ia-resume -b ia/resume
+command: git worktree add ../rpt-ia-resume -b ia/resume
 hint: git worktree add, puis le chemin du nouveau dossier, puis -b et le nom de la branche.
 Un worktree est un dossier de plus, relié au même dépôt (le .git, la mémoire du projet). L'IA y travaille sur sa propre branche, sans toucher à votre dossier.
-after: Un nouveau dossier rapport-ia-resume est apparu, relié à la voie orange. Il n'y a toujours qu'un seul .git.
+after: Un nouveau dossier rpt-ia-resume est apparu, relié à la voie orange. Il n'y a toujours qu'un seul .git.
 note: Un bureau = un vrai dossier sur votre ordinateur
 
 ### 2. Un bureau pour l'assistant « chiffres »
-command: git worktree add ../rapport-ia-chiffres -b ia/chiffres
+command: git worktree add ../rpt-ia-stats -b ia/chiffres
 Même chose pour l'assistant « chiffres », celui qui recompte tout deux fois : un autre dossier, une autre branche, le même dépôt.
 after: Trois dossiers, trois voies, un seul .git. Le bureau s'agrandit, la mémoire reste commune.
 

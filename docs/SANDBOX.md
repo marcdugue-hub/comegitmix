@@ -9,7 +9,7 @@ The sandbox is the heart of the software: a **simulated, visible Git** where you
 ├ Left panel (368 px) ──────────────┬ Scene (4 zones) ──────────────────────────────────────────────┤
 │ Start: "Two AI assistants" ▾      │ ① In Git      upstream · origin (MR) · local                  │
 │ ┌ terminal ─────────────────────┐ │ ② The lanes   branches, commits, chips, HEAD                  │
-│ │ rapport-client (main) $ _     │ │ ③ The index   one strip per desk (+ stash)                    │
+│ │ rpt-client (main) $ _     │ │ ③ The index   one strip per desk (+ stash)                    │
 │ └───────────────────────────────┘ │ ④ On your machine  one folder per worktree, file tree         │
 │ What just happened                │                                                               │
 │ Palette (6 groups)                │                                                               │
@@ -56,7 +56,7 @@ Every action, however it is triggered, **displays the equivalent Git command** i
 
 ## 4. Making an AI work (the game's theme)
 - On every tile whose branch starts with `ia/`: a **"Make the AI work"** button. The AI modifies 1 to 3 files (M, animation) then makes a commit marked AI. A "without commit" option leaves the files in M (you can then review them with `git diff`). The "what the AI did" text is picked from a small list of generic texts kept in `content/` (never hard-coded), unless a mission provides its own text.
-- **"New assistant"** button: picks a topic (`ia/<topic>`), creates the branch and the desk (`git worktree add ../rapport-ia-<topic> -b ia/<topic>`), then makes it work.
+- **"New assistant"** button: picks a topic (`ia/<topic>`), creates the branch and the desk (`git worktree add ../rpt-ia-<topic> -b ia/<topic>`), then makes it work.
 - **"The AI opens an MR"** button (if `origin` is visible): pushes the branch and creates an MR.
 - AI commits are visible in `log` and `blame` (colour and "AI" label).
 

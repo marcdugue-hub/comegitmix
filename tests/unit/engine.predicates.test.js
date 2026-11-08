@@ -48,25 +48,25 @@ test('commandIds maps commands to the ids of data/commands.json', () => {
 test('files, index, stash, work-intact', () => {
   const initial = setup(START);
   const ctx = { state: initial, initial };
-  assert.ok(check('file rapport-client/plan.md M', ctx));
-  assert.ok(check('file rapport-client/notes.md U', ctx));
-  assert.ok(check('file rapport-client/intro.md clean', ctx));
-  assert.ok(!check('file rapport-client/plan.md staged', ctx));
-  assert.ok(check('index rapport-client empty', ctx));
+  assert.ok(check('file rpt-client/plan.md M', ctx));
+  assert.ok(check('file rpt-client/notes.md U', ctx));
+  assert.ok(check('file rpt-client/intro.md clean', ctx));
+  assert.ok(!check('file rpt-client/plan.md staged', ctx));
+  assert.ok(check('index rpt-client empty', ctx));
   const staged = play(initial, ['git add plan.md notes.md']).state;
   const c2 = { state: staged, initial };
-  assert.ok(check('file rapport-client/plan.md staged', c2));
-  assert.ok(!check('file rapport-client/plan.md M', c2), 'M means modified and not staged');
-  assert.ok(check('file rapport-client/notes.md A', c2));
-  assert.ok(check('index rapport-client contains notes.md', c2));
-  assert.ok(!check('index rapport-client empty', c2));
-  assert.ok(check('work-intact rapport-client', { state: initial, initial }));
-  assert.ok(check('work-intact rapport-client', c2), 'staging keeps the content');
-  assert.ok(!check('work-intact rapport-client', { state: play(initial, [{ name: 'touch', args: ['plan.md'] }]).state, initial }));
+  assert.ok(check('file rpt-client/plan.md staged', c2));
+  assert.ok(!check('file rpt-client/plan.md M', c2), 'M means modified and not staged');
+  assert.ok(check('file rpt-client/notes.md A', c2));
+  assert.ok(check('index rpt-client contains notes.md', c2));
+  assert.ok(!check('index rpt-client empty', c2));
+  assert.ok(check('work-intact rpt-client', { state: initial, initial }));
+  assert.ok(check('work-intact rpt-client', c2), 'staging keeps the content');
+  assert.ok(!check('work-intact rpt-client', { state: play(initial, [{ name: 'touch', args: ['plan.md'] }]).state, initial }));
   const stashed = play(initial, ['git stash']).state;
-  assert.ok(check('stash rapport-client = 1', { state: stashed }));
-  assert.ok(!check('work-intact rapport-client', { state: stashed, initial }));
-  assert.ok(workIntact(initial, play(stashed, ['git stash pop']).state, 'rapport-client'));
+  assert.ok(check('stash rpt-client = 1', { state: stashed }));
+  assert.ok(!check('work-intact rpt-client', { state: stashed, initial }));
+  assert.ok(workIntact(initial, play(stashed, ['git stash pop']).state, 'rpt-client'));
 });
 
 test('branches, desks, refs, commits since', () => {
@@ -85,7 +85,7 @@ test('branches, desks, refs, commits since', () => {
   assert.ok(!check('desk revue on main', { state: s }));
   s = play(s, ['git worktree remove ../revue']).state;
   assert.ok(check('desk revue removed', { state: s }));
-  assert.ok(check('active desk rapport-client', { state: s }));
+  assert.ok(check('active desk rpt-client', { state: s }));
   assert.ok(!check('nope = main', { state: s }));
 });
 
@@ -108,17 +108,17 @@ test('MR status, diff shown, command, error, no conflict, resolved', () => {
   const c = setup(`@files plan.md\ngit commit -m "init"\ngit switch -c ia/x\n@work plan.md\ngit commit -m "x"\ngit switch main\n@work plan.md\ngit commit -m "y"`);
   const m = after(c, 'git merge ia/x');
   assert.ok(check('error conflict', m));
-  assert.ok(check('file rapport-client/plan.md conflict', m));
+  assert.ok(check('file rpt-client/plan.md conflict', m));
   assert.ok(!check('no conflict', m));
   const r = play(m.state, [{ name: 'resolve', args: ['plan.md', 'ia/x'] }]).state;
   assert.ok(check('no conflict', { state: r }));
-  assert.ok(check('resolved rapport-client/plan.md ia/x', { state: r }));
-  assert.ok(!check('resolved rapport-client/plan.md main', { state: r }));
+  assert.ok(check('resolved rpt-client/plan.md ia/x', { state: r }));
+  assert.ok(!check('resolved rpt-client/plan.md main', { state: r }));
 });
 
 test('checkAll reports the failing phrases with their line', () => {
   const s = setup(START);
-  const res = checkAll([{ text: 'file rapport-client/plan.md M', line: 3 }, { text: 'branch nope exists', line: 4 }, { text: 'not a phrase', line: 5 }], { state: s });
+  const res = checkAll([{ text: 'file rpt-client/plan.md M', line: 3 }, { text: 'branch nope exists', line: 4 }, { text: 'not a phrase', line: 5 }], { state: s });
   assert.equal(res.ok, false);
   assert.deepEqual(res.failed.map((f) => f.line), [4, 5]);
   assert.ok(checkAll([], { state: s }).ok);

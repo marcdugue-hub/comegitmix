@@ -20,14 +20,14 @@ git commit -m "intro"
 ## Steps
 
 ### 1. A desk for the “summary” assistant
-command: git worktree add ../rapport-ia-resume -b ia/resume
+command: git worktree add ../rpt-ia-resume -b ia/resume
 hint: git worktree add, then the path of the new folder, then -b and the branch name.
 A worktree is one more folder linked to the same repository (the .git, the project's memory). The AI works there on its own branch, without touching your folder.
-after: A new folder rapport-ia-resume appeared, linked to the orange lane. There is still only one .git.
+after: A new folder rpt-ia-resume appeared, linked to the orange lane. There is still only one .git.
 note: One desk = one real folder on your computer
 
 ### 2. A desk for the “figures” assistant
-command: git worktree add ../rapport-ia-chiffres -b ia/chiffres
+command: git worktree add ../rpt-ia-stats -b ia/chiffres
 Same idea for the “figures” assistant, the one that counts everything twice: another folder, another branch, the same repository.
 after: Three folders, three lanes, one single .git. More desks, one shared memory.
 

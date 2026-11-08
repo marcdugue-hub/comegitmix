@@ -45,7 +45,7 @@ function unstagedFiles(desk) {
 }
 const fileHint = (f) => t(f.status === 'conflict' ? 'letter.conflict' : f.status === 'U' ? (f.staged ? 'letter.A' : 'letter.U') : f.status === 'D' ? 'letter.D' : f.staged ? 'status.staged' : 'letter.M');
 
-/** Folder name for a new desk on `branch` ("rapport-client" + "ia/x" -> "rapport-client-x"). */
+/** Folder name for a new desk on `branch` ("rpt-client" + "ia/x" -> "rpt-client-x"). */
 export function deskFolderFor(state, branch) {
   const main = state.worktrees.find((w) => w.main) || state.worktrees[0];
   const base = folderName(main.path);

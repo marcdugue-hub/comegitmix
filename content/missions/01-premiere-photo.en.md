@@ -23,7 +23,7 @@ after: intro.md shows an M (modified): you changed it since the last snapshot. T
 
 ### 2. Work on another file
 command: (click plan.md in your folder)
-check: file rapport-client/plan.md M
+check: file rpt-client/plan.md M
 Clicking a file means “I worked on it”. This time, it's the outline.
 after: Two files are modified, and no snapshot has been taken yet.
 

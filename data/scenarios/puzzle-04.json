@@ -14,8 +14,8 @@
     "branches": { "main": { "tip": "c1" }, "ia/chiffres": { "tip": "c4" } },
     "remotes": {},
     "worktrees": [
-      { "id": "w1", "path": "rapport-client", "main": true, "branch": "main", "head": "c1", "index": [], "files": { "rapport.md": "clean" } },
-      { "id": "w2", "path": "rapport-ia-chiffres", "main": false, "branch": "ia/chiffres", "head": "c4", "index": [], "files": { "rapport.md": "clean" } }
+      { "id": "w1", "path": "rpt-client", "main": true, "branch": "main", "head": "c1", "index": [], "files": { "rapport.md": "clean" } },
+      { "id": "w2", "path": "rpt-ia-stats", "main": false, "branch": "ia/chiffres", "head": "c4", "index": [], "files": { "rapport.md": "clean" } }
     ],
     "active": "w2",
     "stash": [],

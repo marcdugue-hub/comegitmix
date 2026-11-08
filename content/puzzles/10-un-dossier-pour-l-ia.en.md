@@ -15,8 +15,8 @@ git commit -m "init"
 ```
 
 ## Choices
-- [x] git worktree add ../rapport-ia-sources -b ia/sources
-- [ ] git clone . ../rapport-ia-sources — clone photocopies the whole project: two .git, two histories that will drift apart.
+- [x] git worktree add ../rpt-ia-sources -b ia/sources
+- [ ] git clone . ../rpt-ia-sources — clone photocopies the whole project: two .git, two histories that will drift apart.
 - [ ] git branch ia/sources — a lane, but no desk to work at.
 - [ ] git switch -c ia/sources — it is your own desk that moves onto the new lane.
 

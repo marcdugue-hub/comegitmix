@@ -190,7 +190,7 @@ test('summary and ai-work parsers', () => {
 });
 
 test('check phrases', () => {
-  assert.deepEqual(parseCheckPhrase('file rapport-client/a/b.md staged'), { type: 'file', desk: 'rapport-client', path: 'a/b.md', status: 'staged' });
+  assert.deepEqual(parseCheckPhrase('file rpt-client/a/b.md staged'), { type: 'file', desk: 'rpt-client', path: 'a/b.md', status: 'staged' });
   assert.equal(parseCheckPhrase('main = origin/main').type, 'same');
   assert.equal(parseCheckPhrase('stash r = 2').count, 2);
   assert.equal(parseCheckPhrase('commits b since main = 1').base, 'main');

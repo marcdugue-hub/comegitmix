@@ -117,11 +117,11 @@ export function applySetupLines(state, lines, { lenient = true } = {}) {
 
 /**
  * Builds a starting state from a setup block.
- * options: { folder = 'rapport-client', repos = ['local'], conflicts = [] (parsed blocks) | conflictBlocks = [] (state entries) }
+ * options: { folder = 'rpt-client', repos = ['local'], conflicts = [] (parsed blocks) | conflictBlocks = [] (state entries) }
  * Returns { state, error, line, text, results } (see applySetupLines).
  */
-export function runSetup(lines, { folder = 'rapport-client', repos = ['local'], conflicts = [], conflictBlocks = null } = {}) {
-  const s0 = createState({ folder: folder || 'rapport-client', visibleRepos: repos && repos.length ? repos : ['local'] });
+export function runSetup(lines, { folder = 'rpt-client', repos = ['local'], conflicts = [], conflictBlocks = null } = {}) {
+  const s0 = createState({ folder: folder || 'rpt-client', visibleRepos: repos && repos.length ? repos : ['local'] });
   s0.conflictBlocks = conflictBlocks ? clone(conflictBlocks) : conflictBlocksFrom(conflicts);
   return applySetupLines(s0, lines);
 }

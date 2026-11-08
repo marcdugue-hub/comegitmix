@@ -21,9 +21,9 @@ git switch main
 ## Solution
 solution: git stash pop
 check:
-- desk rapport-client on main
-- file rapport-client/intro.md M
-- stash rapport-client = 0
+- desk rpt-client on main
+- file rpt-client/intro.md M
+- stash rpt-client = 0
 
 ## Goal
 Votre intro.md est de nouveau modifié (M) et le tiroir est vide.

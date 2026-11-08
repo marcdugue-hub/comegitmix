@@ -39,7 +39,7 @@ after: Deux fichiers modifiés (M) : votre travail n’est pas encore enregistr�
 
 ### 2. Ranger son travail
 command: git stash
-check: stash rapport-client = 1
+check: stash rpt-client = 1
 Le stash est un tiroir : on y range le travail en cours pour changer de branche sans l’emporter ni le perdre.
 after: Vos M ont disparu du dossier : ils sont rangés dans le tiroir (le stash), en zone ③.
 note: Votre travail est caché, pas perdu.
@@ -52,7 +52,7 @@ after: La voie de la MR existe maintenant chez vous, sous le nom origin/ia/graph
 
 ### 4. Ouvrir la branche de la MR
 command: git switch ia/graphiques
-check: desk rapport-client on ia/graphiques
+check: desk rpt-client on ia/graphiques
 Votre dossier prend le contenu de la branche de la MR.
 after: Votre dossier a changé de contenu : le dossier graphiques/ est apparu. Le fil part maintenant vers la voie bleue.
 note: Même dossier, autre contenu : vous n’êtes plus sur main.
@@ -73,8 +73,8 @@ after: La MR est approuvée. Elle pourra être fusionnée dans main.
 ### 7. Revenir et ressortir son travail
 command: git switch main && git stash pop
 check:
-- desk rapport-client on main
-- stash rapport-client = 0
+- desk rpt-client on main
+- stash rpt-client = 0
 Retour sur main, puis on ressort le travail du tiroir.
 after: Vous êtes revenu sur main et vos deux M sont de retour. Sans stash pop, ils dormiraient encore dans le tiroir.
 
@@ -94,7 +94,7 @@ after: La voie de la MR existe chez vous, sous le nom origin/ia/graphiques. Vos 
 command: git worktree add ../revue-mr-42 ia/graphiques
 check:
 - desk revue-mr-42 on ia/graphiques
-- work-intact rapport-client
+- work-intact rpt-client
 Un deuxième dossier, ouvert sur la branche de la MR. Pas besoin de tiroir : votre bureau reste tel quel.
 after: Un nouveau dossier revue-mr-42 est apparu, relié à la voie bleue. Votre bureau est intact, à 60 % : vous travaillez maintenant dans la revue.
 note: Votre bureau n’a pas bougé : vos M sont toujours là.
@@ -123,7 +123,7 @@ after: Le dossier de revue a disparu. La branche ia/graphiques, elle, existe tou
 command: git pull
 check:
 - main = origin/main
-- work-intact rapport-client
+- work-intact rpt-client
 Dans votre bureau, on récupère la fusion faite en ligne.
 after: main a avancé jusqu’à la fusion, et vos deux M sont toujours là : votre travail n’a jamais été dérangé.
 

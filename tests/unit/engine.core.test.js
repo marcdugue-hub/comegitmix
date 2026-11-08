@@ -41,7 +41,7 @@ test('JSON round trip keeps the state identical', () => {
 test('replaying the same command list twice gives deep-equal states (deterministic ids, no clock)', () => {
   const cmds = [
     'git switch -c ia/a', ...work('plan.md'), 'git commit -am "a"', 'git switch main',
-    'git worktree add ../desk2 -b ia/b', ...work('intro.md'), 'git commit -am "b"', 'cd rapport-client',
+    'git worktree add ../desk2 -b ia/b', ...work('intro.md'), 'git commit -am "b"', 'cd rpt-client',
     'git merge ia/a', 'git merge ia/b', { name: 'create', args: [] }, 'git reset --soft HEAD~1', 'git stash',
   ];
   const a = play(baseRepo(), cmds).state;
@@ -59,7 +59,7 @@ test('a single .git: every desk sees the same commits and branches', () => {
   }
   const id = s.branches['ia/x'].tip;
   assert.ok(s.commits[id]);
-  const r = run(s, 'cd rapport-client');
+  const r = run(s, 'cd rpt-client');
   assert.equal(resolveRev(r.state, getDesk(r.state, null), 'ia/x').id, id);
 });
 
@@ -67,7 +67,7 @@ test('a branch is checked out in at most one desk', () => {
   const s = play(baseRepo(), ['git worktree add ../ia -b ia/x']).state;
   const r1 = run(s, 'git switch main');
   assert.equal(r1.error.key, 'error.branchInUse');
-  assert.deepEqual(r1.error.params, { name: 'main', path: 'rapport-client' });
+  assert.deepEqual(r1.error.params, { name: 'main', path: 'rpt-client' });
   assert.equal(run(s, 'git worktree add ../other ia/x').error.key, 'error.branchInUse');
   assert.equal(run(s, 'git checkout main').error.key, 'error.branchInUse');
 });
@@ -96,15 +96,15 @@ test('parse: commands, options, quotes, sequences', () => {
   const am = parse('git commit -am “wip”');
   assert.equal(am.options.a, true);
   assert.equal(am.options.m, 'wip');
-  const w = parse('git worktree add ../rapport-ia-chiffres -b ia/chiffres');
+  const w = parse('git worktree add ../rpt-ia-stats -b ia/chiffres');
   assert.equal(w.name, 'worktree');
-  assert.deepEqual(w.args, ['add', '../rapport-ia-chiffres']);
+  assert.deepEqual(w.args, ['add', '../rpt-ia-stats']);
   assert.equal(w.options.b, 'ia/chiffres');
   assert.deepEqual(parse('git reset --hard HEAD~2').options, { hard: true });
   assert.deepEqual(parse('git diff --cached').options, { staged: true });
   assert.equal(parse('git rebase -i HEAD~3').options.i, true);
   assert.deepEqual(parse('git switch -c ia/plan').options, { c: 'ia/plan' });
-  assert.equal(parse('cd ../rapport-ia').name, 'cd');
+  assert.equal(parse('cd ../rpt-ia').name, 'cd');
   assert.deepEqual(tokenize('git commit -m "a b" && git push'), ['git', 'commit', '-m', 'a b', '&&', 'git', 'push']);
   const seq = parse('git switch main && git stash pop');
   assert.equal(seq.name, 'sequence');

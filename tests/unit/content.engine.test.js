@@ -66,14 +66,14 @@ test('steps are played in order: a later step sees the earlier ones; before: lin
 });
 
 test('interface instructions are played as the scene action implied by their check', () => {
-  const ok = '### 1. A\ncommand: (cliquez plan.md)\ncheck: file rapport-client/plan.md M\n'
+  const ok = '### 1. A\ncommand: (cliquez plan.md)\ncheck: file rpt-client/plan.md M\n'
     + '### 2. B\ncommand: git switch -c ia/x\n### 3. C\ncommand: (bouton IA)\ncheck: commits ia/x since main = 2\n';
   assert.deepEqual(errorsOf(base({ 'missions/m.fr.md': mission(ok) })), []);
-  const none = '### 1. A\ncommand: (regardez)\ncheck: index rapport-client empty\n';
+  const none = '### 1. A\ncommand: (regardez)\ncheck: index rpt-client empty\n';
   const e = errorsOf(base({ 'missions/m.fr.md': mission(none) }));
   assert.ok(has(e, 'missions/m.fr.md', 12, /cannot tell which scene action/), JSON.stringify(e));
   const s = runSetup('@files a.md b.md\ngit commit -m "i"').state;
-  const r = playInstruction(s, [{ text: 'file rapport-client/a.md staged' }]);
+  const r = playInstruction(s, [{ text: 'file rpt-client/a.md staged' }]);
   assert.equal(r.error, null);
   assert.equal(r.results.length, 2, 'two clicks: clean -> M -> staged');
 });

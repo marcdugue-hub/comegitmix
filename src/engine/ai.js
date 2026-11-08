@@ -7,7 +7,7 @@
 //     "what the AI did" text in the current language); without it the commit uses msgKey 'msg.aiWork' {files}.
 //     result.output = { kind: 'ai', desk, files, textIndex, commit } — textIndex is a deterministic integer the UI
 //     uses to pick a text from content/ai-work.<lang>.md (items[textIndex % items.length]) unless the step has ai-text.
-//   { name: 'assistant', options: { topic? } }  "New assistant": git worktree add ../rapport-ia-<topic> -b ia/<topic>, then ai.
+//   { name: 'assistant', options: { topic? } }  "New assistant": git worktree add ../rpt-ia-<topic> -b ia/<topic>, then ai.
 //   { name: 'ai-mr', args: [] | [desk], options: { title? } }  "The AI opens an MR": push the desk branch to origin, open an MR to main.
 
 import { getDesk, deskFiles, setFile, editedContent, initialContent, deskTree, setDeskTree, folderName } from './state.js';
@@ -84,10 +84,10 @@ export const assistantCommand = {
   name: 'assistant',
   run(ctx) {
     const state = ctx.state;
-    const used = (t) => state.branches[`ia/${t}`] || state.worktrees.some((w) => w.path === `rapport-ia-${t}`);
+    const used = (t) => state.branches[`ia/${t}`] || state.worktrees.some((w) => w.path === `rpt-ia-${t}`);
     const topic = ctx.options.topic || AI_TOPICS.find((t) => !used(t)) || `${AI_TOPICS[0]}-${Object.keys(state.branches).length}`;
     const main = state.worktrees.find((w) => w.main);
-    const folder = `${folderName(main.path)}-ia-${topic}`.replace(/^rapport-client-ia-/, 'rapport-ia-');
+    const folder = `${folderName(main.path)}-ia-${topic}`.replace(/^rpt-client-ia-/, 'rpt-ia-');
     ctx.run('worktree', ['add', `../${folder}`], { b: `ia/${topic}` }, { desk: main.id });
     const desk = getDesk(state, folder);
     aiWork(ctx, desk, { commit: true, message: typeof ctx.options.message === 'string' ? ctx.options.message : '' });

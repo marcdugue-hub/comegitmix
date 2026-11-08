@@ -164,9 +164,9 @@ test('parseWebAction reads site actions written in content', () => {
 });
 
 test('ai: deterministic choice of 1 to 3 files, AI commit with only those files', () => {
-  const s = setup(`@files plan.md intro.md resume.md chiffres.md\ngit commit -m "init"\ngit worktree add ../rapport-ia-resume -b ia/resume\n@cd rapport-client\n@work plan.md`);
-  const a = run(s, { name: 'ai', args: ['rapport-ia-resume'] });
-  const b = run(s, { name: 'ai', args: ['rapport-ia-resume'] });
+  const s = setup(`@files plan.md intro.md resume.md chiffres.md\ngit commit -m "init"\ngit worktree add ../rpt-ia-resume -b ia/resume\n@cd rpt-client\n@work plan.md`);
+  const a = run(s, { name: 'ai', args: ['rpt-ia-resume'] });
+  const b = run(s, { name: 'ai', args: ['rpt-ia-resume'] });
   assert.equal(a.error, null);
   assert.deepEqual(a.output.files, b.output.files, 'deterministic');
   assert.ok(a.output.files.length >= 1 && a.output.files.length <= 3);
@@ -176,15 +176,15 @@ test('ai: deterministic choice of 1 to 3 files, AI commit with only those files'
   assert.deepEqual(c.files, a.output.files);
   assert.equal(a.state.branches['ia/resume'].tip, c.id);
   assert.equal(status(a.state, 'plan.md'), 'M', 'the other desk is untouched');
-  const again = run(a.state, { name: 'ai', args: ['rapport-ia-resume'] });
+  const again = run(a.state, { name: 'ai', args: ['rpt-ia-resume'] });
   assert.equal(again.output.textIndex, a.output.textIndex + 1);
-  const files = run(s, { name: 'ai', args: ['rapport-ia-resume'], options: { files: ['resume.md', 'annexe.md'], message: 'Résumé raccourci', commit: true } });
+  const files = run(s, { name: 'ai', args: ['rpt-ia-resume'], options: { files: ['resume.md', 'annexe.md'], message: 'Résumé raccourci', commit: true } });
   assert.deepEqual(files.output.files, ['resume.md', 'annexe.md']);
   assert.equal(files.state.commits[files.output.commit].msg, 'Résumé raccourci');
-  const noCommit = run(s, { name: 'ai', args: ['rapport-ia-resume'], options: { files: ['intro.md'], commit: false } });
+  const noCommit = run(s, { name: 'ai', args: ['rpt-ia-resume'], options: { files: ['intro.md'], commit: false } });
   assert.equal(noCommit.output.commit, null);
-  assert.equal(status(noCommit.state, 'intro.md', 'rapport-ia-resume'), 'M');
-  assert.deepEqual(pickAiFiles(getDesk(s, 'rapport-ia-resume'), 1), pickAiFiles(getDesk(s, 'rapport-ia-resume'), 1));
+  assert.equal(status(noCommit.state, 'intro.md', 'rpt-ia-resume'), 'M');
+  assert.deepEqual(pickAiFiles(getDesk(s, 'rpt-ia-resume'), 1), pickAiFiles(getDesk(s, 'rpt-ia-resume'), 1));
 });
 
 test('assistant creates a desk on ia/<topic> and makes it work; ai-mr pushes and opens an MR', () => {
@@ -192,10 +192,10 @@ test('assistant creates a desk on ia/<topic> and makes it work; ai-mr pushes and
   const r = run(s, { name: 'assistant' });
   assert.equal(r.error, null);
   const desk = r.state.worktrees.find((w) => w.branch === 'ia/resume');
-  assert.equal(desk.path, 'rapport-ia-resume');
+  assert.equal(desk.path, 'rpt-ia-resume');
   assert.equal(r.state.commits[r.state.branches['ia/resume'].tip].author, 'ai');
-  assert.equal(r.equivalent.command, 'git worktree add ../rapport-ia-resume -b ia/resume');
-  const m = run(r.state, { name: 'ai-mr', args: ['rapport-ia-resume'] });
+  assert.equal(r.equivalent.command, 'git worktree add ../rpt-ia-resume -b ia/resume');
+  const m = run(r.state, { name: 'ai-mr', args: ['rpt-ia-resume'] });
   assert.equal(m.error, null);
   const mr = m.state.remotes.origin.mrs[0];
   assert.equal(mr.source, 'ia/resume');

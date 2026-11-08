@@ -39,7 +39,7 @@ after: Two modified files (M): your work is not saved yet.
 
 ### 2. Put your work away
 command: git stash
-check: stash rapport-client = 1
+check: stash rpt-client = 1
 The stash is a drawer: you put your work in progress in it so you can switch branches without carrying it along or losing it.
 after: Your M files are gone from the folder: they are in the drawer (the stash), in zone ③.
 note: Your work is hidden, not lost.
@@ -52,7 +52,7 @@ after: The MR’s lane now exists on your side, as origin/ia/graphiques.
 
 ### 4. Open the MR’s branch
 command: git switch ia/graphiques
-check: desk rapport-client on ia/graphiques
+check: desk rpt-client on ia/graphiques
 Your folder takes the content of the MR’s branch.
 after: Your folder changed content: the graphiques/ folder appeared. The thread now runs to the blue lane.
 note: Same folder, different content: you are no longer on main.
@@ -73,8 +73,8 @@ after: The MR is approved. It can be merged into main.
 ### 7. Go back and bring your work out
 command: git switch main && git stash pop
 check:
-- desk rapport-client on main
-- stash rapport-client = 0
+- desk rpt-client on main
+- stash rpt-client = 0
 Back to main, then take your work out of the drawer.
 after: You are back on main and your two M files are back. Without stash pop, they would still be asleep in the drawer.
 
@@ -94,7 +94,7 @@ after: The MR’s lane exists on your side, as origin/ia/graphiques. Your M file
 command: git worktree add ../revue-mr-42 ia/graphiques
 check:
 - desk revue-mr-42 on ia/graphiques
-- work-intact rapport-client
+- work-intact rpt-client
 A second folder, open on the MR’s branch. No drawer needed: your desk stays exactly as it is.
 after: A new folder revue-mr-42 appeared, linked to the blue lane. Your desk is untouched, at 60%: you now work in the review.
 note: Your desk did not move: your M files are still there.
@@ -123,7 +123,7 @@ after: The review folder is gone. The ia/graphiques branch still exists in the .
 command: git pull
 check:
 - main = origin/main
-- work-intact rapport-client
+- work-intact rpt-client
 In your desk, bring in the merge made online.
 after: main moved up to the merge, and your two M files are still there: your work was never disturbed.
 

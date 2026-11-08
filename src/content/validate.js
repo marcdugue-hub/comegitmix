@@ -227,6 +227,9 @@ function alignSandbox(fr, en, enFile, report) {
 
 // ---- main -----------------------------------------------------------------
 
+/** Longest folder name that a desk tile shows in full. */
+export const MAX_FOLDER_NAME = 14;
+
 export function validate(files, options = {}) {
   const errors = [];
   const warnings = [];
@@ -326,6 +329,19 @@ export function validate(files, options = {}) {
   }
 
   const order = (a, b) => (a.file < b.file ? -1 : a.file > b.file ? 1 : a.line - b.line);
+  // folder names must fit a desk tile in zone ④ (longer ones are cut with "…")
+  for (const [path, text] of Object.entries(files)) {
+    if (!/^(missions|puzzles|sandbox)\//.test(path)) continue;
+    text.split('\n').forEach((raw, i) => {
+      const line = raw.replace(/^\s*(?:-\s+|(?:command|solution|accepts):\s*)/, '');
+      if (!line.startsWith('git ')) return;
+      const m = /\bworktree add\s+(?:-\S+\s+\S+\s+)*(\S+)/.exec(line);
+      if (!m) return;
+      const name = m[1].split('/').filter(Boolean).pop() || '';
+      if (name.length > MAX_FOLDER_NAME) report(path, i + 1, `folder name "${name}" is longer than ${MAX_FOLDER_NAME} characters: it will be cut in its desk tile`, 'warning');
+    });
+  }
+
   errors.sort(order); warnings.sort(order);
   return { errors, warnings, parsed };
 }

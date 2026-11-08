@@ -262,39 +262,39 @@ test('revert adds an inverse commit', () => {
 
 test('worktree add (-b, existing branch, default name), list, remove', () => {
   const s = baseRepo();
-  const r = run(s, 'git worktree add ../rapport-ia-chiffres -b ia/chiffres');
-  const w = getDesk(r.state, 'rapport-ia-chiffres');
+  const r = run(s, 'git worktree add ../rpt-ia-stats -b ia/chiffres');
+  const w = getDesk(r.state, 'rpt-ia-stats');
   assert.equal(w.branch, 'ia/chiffres');
   assert.equal(w.main, false);
   assert.equal(w.head, head(s));
   assert.equal(r.state.active, w.id, 'the new folder becomes the active desk');
-  assert.ok(r.events.some((e) => e.type === 'worktree.added' && e.path === 'rapport-ia-chiffres'));
-  assert.deepEqual(r.explanation, { key: 'explain.worktree.add', params: { path: 'rapport-ia-chiffres', branch: 'ia/chiffres' } });
-  assert.equal(getDesk(r.state, 'rapport-client').files.filter((f) => f.kind === 'file').length, w.files.filter((f) => f.kind === 'file').length);
+  assert.ok(r.events.some((e) => e.type === 'worktree.added' && e.path === 'rpt-ia-stats'));
+  assert.deepEqual(r.explanation, { key: 'explain.worktree.add', params: { path: 'rpt-ia-stats', branch: 'ia/chiffres' } });
+  assert.equal(getDesk(r.state, 'rpt-client').files.filter((f) => f.kind === 'file').length, w.files.filter((f) => f.kind === 'file').length);
 
   const ex = play(s, ['git branch ia/graphiques']).state;
   const e = run(ex, 'git worktree add ../revue-mr-42 ia/graphiques');
   assert.equal(getDesk(e.state, 'revue-mr-42').branch, 'ia/graphiques');
   assert.equal(run(ex, 'git worktree add ../revue -b ia/graphiques').error.key, 'error.branchExists');
   assert.equal(getDesk(run(s, 'git worktree add ../revue').state, 'revue').branch, 'revue');
-  assert.equal(run(r.state, 'git worktree add ../rapport-ia-chiffres -b z').error.key, 'error.worktreeExists');
+  assert.equal(run(r.state, 'git worktree add ../rpt-ia-stats -b z').error.key, 'error.worktreeExists');
 
   const list = run(r.state, 'git worktree list');
-  assert.deepEqual(list.output.worktrees.map((x) => [x.path, x.branch]), [['rapport-client', 'main'], ['rapport-ia-chiffres', 'ia/chiffres']]);
+  assert.deepEqual(list.output.worktrees.map((x) => [x.path, x.branch]), [['rpt-client', 'main'], ['rpt-ia-stats', 'ia/chiffres']]);
 
   const dirty = play(r.state, work('plan.md')).state;
-  assert.equal(run(dirty, 'git worktree remove ../rapport-ia-chiffres').error.key, 'error.worktreeDirty');
-  const rm = run(r.state, 'git worktree remove ../rapport-ia-chiffres');
+  assert.equal(run(dirty, 'git worktree remove ../rpt-ia-stats').error.key, 'error.worktreeDirty');
+  const rm = run(r.state, 'git worktree remove ../rpt-ia-stats');
   assert.equal(rm.state.worktrees.length, 1);
   assert.ok(rm.state.branches['ia/chiffres'], 'the lane stays');
   assert.equal(rm.state.active, 'w1');
-  assert.equal(run(r.state, 'git worktree remove ../rapport-client').error.key, 'error.worktreeMain');
-  assert.equal(run(dirty, 'git worktree remove --force ../rapport-ia-chiffres').error, null);
+  assert.equal(run(r.state, 'git worktree remove ../rpt-client').error.key, 'error.worktreeMain');
+  assert.equal(run(dirty, 'git worktree remove --force ../rpt-ia-stats').error, null);
 });
 
 test('each desk has its own index: a commit only takes its own desk index', () => {
   const s = play(baseRepo(), [
-    'git worktree add ../ia -b ia/x', ...work('resume.md'), 'git add resume.md', 'cd rapport-client', ...work('plan.md'), 'git add plan.md',
+    'git worktree add ../ia -b ia/x', ...work('resume.md'), 'git add resume.md', 'cd rpt-client', ...work('plan.md'), 'git add plan.md',
   ]).state;
   const r = run(s, 'git commit -m "mine"');
   assert.deepEqual(r.state.commits[head(r.state)].files, ['plan.md']);
@@ -356,7 +356,7 @@ test('scene: touch, create, click cycle clean -> M -> staged -> clean and U -> A
   assert.equal(status(u2.state, 'chapitres/nouveau-1.md'), 'U');
   assert.equal(run(n.state, { name: 'create', args: ['chapitres'] }).output.path, 'chapitres/nouveau-2.md');
 
-  const other = play(s, ['git worktree add ../ia -b ia/x', 'cd rapport-client']).state;
+  const other = play(s, ['git worktree add ../ia -b ia/x', 'cd rpt-client']).state;
   const remote = run(other, { name: 'touch', args: ['ia', 'plan.md'] });
   assert.equal(status(remote.state, 'plan.md', 'ia'), 'M');
   assert.equal(status(remote.state, 'plan.md'), 'clean');
@@ -364,7 +364,7 @@ test('scene: touch, create, click cycle clean -> M -> staged -> clean and U -> A
 
 test('cd changes the active desk; ls lists the folder', () => {
   const s = play(baseRepo(), ['git worktree add ../ia -b ia/x']).state;
-  const r = run(s, 'cd ../rapport-client');
+  const r = run(s, 'cd ../rpt-client');
   assert.equal(r.state.active, 'w1');
   assert.ok(r.events.some((e) => e.type === 'desk.activated'));
   assert.equal(run(s, 'cd ../nope').error.key, 'error.unknownDesk');

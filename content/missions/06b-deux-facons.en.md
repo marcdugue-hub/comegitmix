@@ -18,7 +18,7 @@ desk: intact, intact, intact, intact, intact, intact
 **In a worktree**: as soon as you have work in progress, the review takes a while, or several MRs are waiting (one folder per MR).
 
 ## Trap
-`fatal: 'ia/graphiques' is already used by worktree at '…/rapport-ia-graphiques'`
+`fatal: 'ia/graphiques' is already used by worktree at '…/rpt-ia-graphiques'`
 A branch can be open in only one folder at a time. If the assistant already opened it in its desk, go and review in that desk (`git worktree list` tells you which one).
 
 ## MR or PR?

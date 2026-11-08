@@ -15,8 +15,8 @@ git commit -m "init"
 ```
 
 ## Choices
-- [x] git worktree add ../rapport-ia-sources -b ia/sources
-- [ ] git clone . ../rapport-ia-sources — clone photocopie tout le projet : deux .git, deux historiques qui divergeront.
+- [x] git worktree add ../rpt-ia-sources -b ia/sources
+- [ ] git clone . ../rpt-ia-sources — clone photocopie tout le projet : deux .git, deux historiques qui divergeront.
 - [ ] git branch ia/sources — une voie, mais pas de bureau pour y travailler.
 - [ ] git switch -c ia/sources — c'est votre bureau qui déménage sur la nouvelle voie.
 

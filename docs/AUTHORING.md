@@ -56,7 +56,7 @@ Between two `---` lines, `key: value` pairs (a simple subset of YAML: text, numb
 | `duration` | minutes (missions) |
 | `repos` | repositories visible in zone ①: `local`, `origin`, `upstream` |
 | `unlocks` | commands unlocked **by** this mission (ids from `data/commands.json`) |
-| `folder` | name of the original folder (default `rapport-client`) |
+| `folder` | name of the original folder (default `rpt-client`) |
 | `mode` | missions: `guided` (default), `stepper` (§4.4) or `compare` (§4.5) |
 | `type` | puzzles: `choice` (default) or `typed` |
 | `timer` | puzzles: seconds, optional |
@@ -79,9 +79,9 @@ git switch -c ia/resume
 git commit -m "résumé v1"
 @author human
 git switch main
-git worktree add ../rapport-ia-resume ia/resume
+git worktree add ../rpt-ia-resume ia/resume
 @work plan.md intro.md
-@cd rapport-client
+@cd rpt-client
 ```
 ````
 
@@ -89,6 +89,7 @@ Rules of the setup mode (more lenient than the game):
 - A repository is created automatically in the `folder:` folder (no `git init` needed).
 - `git commit` with nothing staged saves all modified files (like `-a`), and accepts an empty commit.
 - Commit messages are content: write them in the file's language. Branch names, folder names and file paths are identifiers: keep them identical in both languages (check phrases refer to them).
+- Keep folder names short: **14 characters at most**, or the desk tile cuts them with "…". Abbreviate "rapport" as `rpt` (`rpt-client`, `rpt-ia-resume`). `content:check` warns about longer `worktree add` folders.
 - A line starting with `#` is a comment.
 - An error (unknown branch, etc.) is reported with the file and line number.
 
@@ -213,7 +214,7 @@ On the same line, or as a list below. All of them must be true.
 ```md
 check:
 - desk revue-mr-42 on ia/graphiques
-- work-intact rapport-client
+- work-intact rpt-client
 ```
 
 | Phrase | True when |

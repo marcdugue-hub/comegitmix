@@ -24,18 +24,18 @@ git commit -m "ai"
 @author human
 git switch main
 git worktree add ../revue ia/x
-@cd rapport-client
+@cd rpt-client
 @new notes.md
 @content plan.md
   Line one
     indented
 @work chapitres/ch1.md
-`, { folder: 'rapport-client' });
+`, { folder: 'rpt-client' });
   const tip = s.commits[s.branches['ia/x'].tip];
   assert.equal(tip.author, 'ai');
   assert.equal(tip.msg, 'ai');
   assert.equal(s.commits[s.branches.main.tip].author, 'human');
-  assert.equal(s.active, getDesk(s, 'rapport-client').id);
+  assert.equal(s.active, getDesk(s, 'rpt-client').id);
   assert.equal(status(s, 'notes.md'), 'U');
   assert.equal(file(s, 'plan.md').work, 'Line one\n  indented');
   assert.equal(status(s, 'chapitres/ch1.md'), 'M');
@@ -112,8 +112,8 @@ git commit -m "v1"
 git switch main
 @work plan.md
 git commit -m "plan"
-git worktree add ../rapport-ia-resume ia/resume
-@cd rapport-client
+git worktree add ../rpt-ia-resume ia/resume
+@cd rpt-client
 @remote origin
 @mr 7 ia/resume -> main "Résumé"`;
 
@@ -125,13 +125,13 @@ test('Copy as start: toSetup then runSetup gives back an equivalent state', () =
     { name: 'click', args: ['intro.md'] },
     'git commit -m "Intro réécrite"',
     { name: 'create', args: [] },
-    { name: 'touch', args: ['rapport-ia-resume', 'plan.md'], options: { content: 'Exact\ncontent' } },
-    { name: 'ai', args: ['rapport-ia-resume'], options: { message: 'Le résumé est plus court' } },
+    { name: 'touch', args: ['rpt-ia-resume', 'plan.md'], options: { content: 'Exact\ncontent' } },
+    { name: 'ai', args: ['rpt-ia-resume'], options: { message: 'Le résumé est plus court' } },
     { name: 'colleague', args: ['main'], options: { message: 'Correction' } },
     { name: 'mr', args: ['approve', 7] },
     'git fetch && git status',
     { name: 'assistant' },
-    'cd ../rapport-client',
+    'cd ../rpt-client',
     'git switch -c ia/conf',
     { name: 'touch', args: ['resume.md'] },
     'git commit -am "conf"',

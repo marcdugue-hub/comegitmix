@@ -21,7 +21,7 @@ A **pedagogical** simulation, not Git. Pure module, no DOM: `src/engine/`. Teste
     "upstream": { "branches": { "main": { "tip": "c1" } } }
   },
   "worktrees": [
-    { "id": "w1", "path": "rapport-client", "main": true,
+    { "id": "w1", "path": "rpt-client", "main": true,
       "branch": "main", "head": "c1",               // branch null = detached HEAD
       "index": ["chiffres.md"],                      // staged files
       "files": { "chiffres.md": "modified", "notes.md": "clean" } } // clean | modified | new | conflict
@@ -42,7 +42,7 @@ apply(state, command) -> { state, events, explanation, error }
 - `events`: ordered list for the animation, e.g. `{ type: 'commit.created', id, branch }`, `{ type: 'lane.forked', from, name }`, `{ type: 'worktree.added', path }`.
 - `explanation`: **i18n key** + parameters (`{ key: 'explain.worktree.add', params: {...} }`), never text.
 - `error`: `{ key: 'error.branchInUse', params }` or `null`. On error, `state` is unchanged.
-- `command`: `{ name: 'worktree', args: ['add', '../rapport-ia-chiffres', '-b', 'ia/chiffres'] }`; a parser `parse("git ...")` produces this object, the interface can also build it from menus.
+- `command`: `{ name: 'worktree', args: ['add', '../rpt-ia-stats', '-b', 'ia/chiffres'] }`; a parser `parse("git ...")` produces this object, the interface can also build it from menus.
 - `preview(state, command) -> events` to draw the dashed preview without applying.
 - `check(state, predicate) -> boolean` for step validation (declarative predicates, see §5).
 

@@ -18,7 +18,7 @@ desk: intact, intact, intact, intact, intact, intact
 **Dans un worktree** : dès que vous avez du travail en cours, que la revue dure, ou que plusieurs MR attendent (un dossier par MR).
 
 ## Piège
-`fatal: 'ia/graphiques' is already used by worktree at '…/rapport-ia-graphiques'`
+`fatal: 'ia/graphiques' is already used by worktree at '…/rpt-ia-graphiques'`
 Une branche ne peut être ouverte que dans un seul dossier à la fois. Si l'assistant l'a déjà ouverte dans son bureau, allez relire dans ce bureau (`git worktree list` vous dit lequel).
 
 ## MR ou PR ?

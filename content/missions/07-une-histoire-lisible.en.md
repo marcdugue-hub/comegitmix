@@ -48,7 +48,7 @@ The assistant's lane started from an old version of main. Rebase makes it restar
 after: The ia/chiffres lane now starts from the tip of main: no more lag.
 
 ### 3. Pick up a single useful commit
-before: @cd rapport-client
+before: @cd rpt-client
 command: git switch main
 The typo fix is on the ia/essai lane. To copy it onto main, first move onto main.
 after: You are on main, basket in hand.
@@ -67,8 +67,8 @@ after: intro.md is put away in the stash: your folder is clean.
 
 ### 6. Put away a finished desk
 before:
-- git worktree add ../rapport-ia-essai ia/essai
-command: git worktree remove ../rapport-ia-essai
+- git worktree add ../rpt-ia-essai ia/essai
+command: git worktree remove ../rpt-ia-essai
 The attempt's desk is no longer needed: remove the folder. The branch stays in the .git.
 after: The tile disappeared; the ia/essai lane is still there, in case anyone misses it.
 

@@ -48,7 +48,7 @@ La voie de l'assistant partait d'une vieille version de main. Le rebase la fait 
 after: La voie ia/chiffres part maintenant du bout de main : plus de retard.
 
 ### 3. Récupérer un seul commit utile
-before: @cd rapport-client
+before: @cd rpt-client
 command: git switch main
 La correction de faute est sur la voie ia/essai. Pour la copier sur main, on se place d'abord sur main.
 after: Vous êtes sur main, prêt pour la cueillette.
@@ -67,8 +67,8 @@ after: intro.md est rangé dans le stash : votre dossier est propre.
 
 ### 6. Ranger un bureau fini
 before:
-- git worktree add ../rapport-ia-essai ia/essai
-command: git worktree remove ../rapport-ia-essai
+- git worktree add ../rpt-ia-essai ia/essai
+command: git worktree remove ../rpt-ia-essai
 Le bureau de l'essai ne sert plus : on supprime le dossier. La branche, elle, reste dans le .git.
 after: La tuile a disparu, la voie ia/essai est toujours là, au cas où quelqu'un la regretterait.
 

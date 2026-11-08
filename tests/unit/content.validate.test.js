@@ -137,3 +137,14 @@ test('every real file in content/ validates', () => {
   const { errors } = validate(files, { commandIds });
   assert.deepEqual(errors.map(formatIssue), []);
 });
+
+test('a folder name too long for its desk tile is a warning, with line', () => {
+  const step = '### 1. A\ncommand: git worktree add ../rpt-ia-graphiques -b ia/graphiques\nafter: x\n';
+  const ok = '### 1. A\ncommand: git worktree add ../graphiques -b ia/graphiques\nafter: x\n';
+  const warn = (steps) => validate({ 'missions/m.fr.md': mission(steps) }).warnings.filter((w) => /longer than 14/.test(w.message));
+  const w = warn(step);
+  assert.equal(w.length, 1);
+  assert.equal(w[0].line, 12);
+  assert.match(w[0].message, /"rpt-ia-graphiques"/);
+  assert.deepEqual(warn(ok), []);
+});

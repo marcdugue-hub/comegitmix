@@ -112,7 +112,7 @@
     "worktrees": [
       {
         "id": "w1",
-        "path": "rapport-client",
+        "path": "rpt-client",
         "main": true,
         "branch": "main",
         "head": "c3",
@@ -190,7 +190,7 @@
           "done": {
             "predicate": "worktreeOnBranch",
             "args": {
-              "path": "rapport-client",
+              "path": "rpt-client",
               "branch": "ia/graphiques"
             }
           }
@@ -226,7 +226,7 @@
               {
                 "predicate": "worktreeOnBranch",
                 "args": {
-                  "path": "rapport-client",
+                  "path": "rpt-client",
                   "branch": "main"
                 }
               },
