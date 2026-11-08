@@ -15,6 +15,9 @@ import { buildHash } from './router.js';
 // import './ui/sandbox-screen.js';
 // import './ui/mission-screen.js';
 // import './ui/puzzle-screen.js';
+import './ui/puzzle-panel.js';
+import './ui/mission-panel.js';
+import './ui/sandbox-panel.js';
 
 /** Stand-in shown until the real screen module registers itself. */
 function placeholder(name) {
