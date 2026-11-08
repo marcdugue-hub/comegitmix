@@ -25,6 +25,9 @@ test('keyboard only: home -> sandbox start -> a command -> a mission step', asyn
   await page.goto('./');
   await page.evaluate(() => localStorage.clear());
   await page.reload();
+  // the home re-renders once the mission and puzzle titles are read: wait for it before tabbing
+  await page.waitForLoadState('networkidle');
+  await expect(page.locator('.home-row-title').first()).not.toHaveText(/^01-/);
 
   await tabTo(page, '.home-card--sandbox');
   expect(await focusVisible(page)).toBe(true);
