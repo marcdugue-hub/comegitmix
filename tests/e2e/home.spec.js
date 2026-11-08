@@ -26,7 +26,7 @@ test('home shows the three modes, the missions 1 to 7 and the puzzles', async ({
   await expect(cards.nth(1)).toContainText('Puzzle');
   await expect(cards.nth(2)).toContainText('Sandbox');
   await expect(page.locator('.home-card--mission .eyebrow')).toHaveText(/^7 missions/);
-  await expect(page.locator('.home-card--puzzle .eyebrow')).toHaveText(/^14 challenges/);
+  await expect(page.locator('.home-card--puzzle .eyebrow')).toHaveText(/^15 challenges/);
 
   // missions: numbered 1..7 in the recommended order; the comparison screen (06b) is listed without a number
   const missionRows = page.locator('section[aria-labelledby="home-missions"] .home-row');
@@ -38,7 +38,7 @@ test('home shows the three modes, the missions 1 to 7 and the puzzles', async ({
   await expect(missionRows.last()).toContainText('A readable history');
   await expect(missionRows.nth(6)).toHaveAttribute('href', '#/mission/06b-deux-facons');
 
-  await expect(page.locator('section[aria-labelledby="home-puzzles"] .home-row')).toHaveCount(14);
+  await expect(page.locator('section[aria-labelledby="home-puzzles"] .home-row')).toHaveCount(15);
   expect(errors).toEqual([]);
 });
 

@@ -2,7 +2,7 @@
 title: A readable history
 duration: 14
 repos: [local, origin]
-unlocks: [rebase, squash, cherry-pick]
+unlocks: [rebase, squash, cherry-pick, mr-create]
 ---
 
 > duo: Friday, 3 p.m. Before the report goes to Maison Pivert, a little tidying up. The “figures” assistant left three “wip” commits (work in progress), its lane starts from an old version, and a useful fix is lying around on a trial branch.
@@ -47,25 +47,32 @@ command: git rebase main
 The assistant's lane started from an old version of main. Rebase makes it restart from the latest commit on main, as if it had just begun.
 after: The ia/chiffres lane now starts from the tip of main: no more lag.
 
-### 3. Pick up a single useful commit
+### 3. Propose the work for review
+command: glab mr create --fill -t "Figures checked"
+check: mr 1 open
+The lane is clean: propose it to Stéphane with a merge request (MR). glab is GitLab's command line tool; --fill sends the lane online, -t gives the title.
+after: MR !1 is open on origin: ia/chiffres asks to join main. Stéphane can review a short, clear history.
+note: An MR means “review before it goes in”.
+
+### 4. Pick up a single useful commit
 before: @cd rpt-client
 command: git switch main
 The typo fix is on the ia/essai lane. To copy it onto main, first move onto main.
 after: You are on main, basket in hand.
 
-### 4. Take the fix, not the attempt
+### 5. Take the fix, not the attempt
 command: git cherry-pick ia/essai~1
 accepts: git cherry-pick *
 cherry-pick means picking just the cherry you want: copy a single commit from another lane onto yours, and leave the rest on the tree.
 after: The summary fix is copied onto main. The abandoned attempt stays on its lane, out of everyone's way.
 
-### 5. Set work in progress aside
+### 6. Set work in progress aside
 before: @work intro.md
 command: git stash
 You are still polishing the intro, but it isn't ready to send: put it in the drawer.
 after: intro.md is put away in the stash: your folder is clean.
 
-### 6. Put away a finished desk
+### 7. Put away a finished desk
 before:
 - git worktree add ../rpt-ia-essai ia/essai
 command: git worktree remove ../rpt-ia-essai

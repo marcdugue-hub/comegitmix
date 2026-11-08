@@ -824,5 +824,21 @@
   "docs.official": "Official documentation",
   "docs.officialNote": "More complete, but written for developers.",
   "stash.popTitle": "Stash in .git · {n} entries",
-  "stash.popTitle.one": "Stash in .git · {n} entry"
+  "stash.popTitle.one": "Stash in .git · {n} entry",
+  "error.glabMissing": "glab is GitLab’s command line tool. In the game it handles merge requests: type glab mr create, glab mr list, glab mr approve <number>…",
+  "error.glabOnlyMr": "In the game, glab only handles merge requests (glab mr …): “{sub}” is not one of them.",
+  "error.glabMissingAction": "glab mr needs an action: create, list, view, approve, merge or close.",
+  "error.glabOption": "The game does not know the glab option {option}. To create an MR: glab mr create --fill, or -t \"title\" and -b <target branch>.",
+  "error.mrPushFirst": "The lane {branch} is not online yet: send it first with git push -u origin {branch}, or let glab do it with glab mr create --fill.",
+  "error.mrAlreadyOpen": "A merge request is already open for {branch}: !{id}.",
+  "error.mrNoneForBranch": "No open merge request for the lane {branch}. Give its number: glab mr approve 42.",
+  "explain.mr.create": "Merge request !{id} is open online: {source} asks to join {target}. The team can now review it.",
+  "explain.mr.list": "{n} merge requests are waiting for a review or a merge: {ids}.",
+  "explain.mr.list.one": "{n} merge request is waiting for a review or a merge: {ids}.",
+  "explain.mr.list.none": "No merge request in progress.",
+  "explain.mr.view.open": "Merge request !{id} proposes to bring {source} into {target}. It is waiting for a review.",
+  "explain.mr.view.approved": "Merge request !{id} ({source} → {target}) is approved: it can be merged.",
+  "explain.mr.view.merged": "Merge request !{id} ({source} → {target}) is already merged.",
+  "explain.mr.view.closed": "Merge request !{id} ({source} → {target}) was closed without being merged.",
+  "sandbox.help.glab": "glab mr …: merge requests from the terminal, with GitLab’s tool. create (--fill) opens one for your lane, list and view show them, approve, merge and close act on one by its number."
 }

@@ -21,7 +21,7 @@ import { createScenePopovers, handlePopoverAction, detailLines, detailsItemsHtml
 import { openRebaseEditor } from './rebase-editor.js';
 import { icon } from './icons.js';
 import {
-  paletteGroups, paletteLabel, planCommand, suggestLines, commandIcon, historyText, encodeStart, decodeStart,
+  paletteGroups, paletteLabel, paletteCommand, planCommand, suggestLines, commandIcon, historyText, encodeStart, decodeStart,
   storableCommands, aiText, say,
 } from './sandbox-model.js';
 import { buildStart } from './sandbox-starts.js';
@@ -516,7 +516,7 @@ export function mountSandbox(container, params) {
     const plan = planCommand(id, state());
     if (!plan) return;
     const def = commandsJson.commands[id] || {};
-    if (!def.web) terminal.setValue(`${id === 'fork' ? '' : 'git '}${paletteLabel(id)} `);
+    if (!def.web) terminal.setValue(`${paletteCommand(id, def)} `);
     const values = [];
     let i = 0;
     const step = () => {
@@ -532,7 +532,7 @@ export function mountSandbox(container, params) {
       if (s.kind === 'pick') {
         if (!s.options.length) {
           terminal.setValue('');
-          record({ shown: def.web ? paletteLabel(id, def) : `git ${paletteLabel(id)}`, note: { key: s.emptyKey } });
+          record({ shown: paletteCommand(id, def), note: { key: s.emptyKey } });
           return;
         }
         openPicker(anchor, { title: t(s.titleKey), options: s.options, onPick: (v) => { values[i] = v; i += 1; step(); } });

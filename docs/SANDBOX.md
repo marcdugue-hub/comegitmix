@@ -50,7 +50,7 @@ Every action, however it is triggered, **displays the equivalent Git command** i
 | Tile | click: becomes the active desk (100 %, others 60 %) | `cd ../<folder>` |
 | Commit (circle) | popover: message, author (human / AI), files, actions "see the diff", "cherry-pick here", "go back here (reset)", "undo this commit (revert)", "open in a new desk" | matching command |
 | Branch chip | menu: open here (switch), merge into the current branch, rebase onto…, compare (diff), open in a new desk, delete | matching command |
-| MR card (zone ①) | approve, merge, see the diff | "site" action |
+| MR card (zone ①) | approve, merge, see the diff | `glab mr approve <n>` / `glab mr merge <n>` / `git diff A...B` |
 | Index chip | remove from the index | `git restore --staged <f>` |
 | Stash chip (local .git card) | bring back into the active desk / delete | `git stash pop` / `git stash drop` |
 
@@ -64,7 +64,7 @@ Every action, however it is triggered, **displays the equivalent Git command** i
 - "Show online repositories" toggle (`origin`, `upstream`). Hidden by default in the Empty start.
 - **"A colleague pushes"** button: adds a commit to `origin/main` (not fetched yet) — used to trigger a rejected `push` and then a `pull`.
 - `fork`: creates `origin` from `upstream`.
-- MR: cards on `origin`, statuses open → approved → merged; merge = merge commit on `origin/main`.
+- MR: cards on `origin`, statuses open → approved → merged; merge = merge commit on `origin/main`. From the terminal with `glab` (GitLab's command line): `glab mr create [--fill] [-t <title>] [-b <target>] [-s <source>]` (without `--fill` the lane must already be on origin; with it, glab pushes it first; no title = last commit message), `glab mr list`, `glab mr view [<n>|<branch>]`, `glab mr approve|merge|close [<n>|<branch>]` (no argument = the live MR of the current branch). The palette buttons and the MR card run these `glab` commands.
 
 ## 6. Recognised commands (subset)
 | Group | Accepted forms |

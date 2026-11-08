@@ -80,8 +80,8 @@ test('mission 6 part A (stepper) is playable to its part end', async ({ page }) 
   await expect(done(page)).toHaveCount(5);
   await page.keyboard.press('Escape');
   await expect(page.locator('.diff-screen')).toHaveCount(0);
-  // site action as a button
-  await page.locator('.mission-card [data-act="web"]').click();
+  // the MR is approved from the terminal with glab, GitLab's command line
+  await type(page, 'glab mr approve 42');
   await expect(done(page)).toHaveCount(6);
   await expect(page.locator('.git-layer .mr-card')).toContainText(/Approuv/);
   await type(page, 'git switch main && git stash pop');

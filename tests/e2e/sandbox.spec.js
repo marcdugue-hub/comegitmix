@@ -130,3 +130,18 @@ test('copy as start, then paste it back', async ({ page, context }) => {
   await expect(page.locator('[data-testid=scene] [data-action=branch]')).toHaveCount(chips);
   await expect(page.locator('[data-testid=scene] .badge--U[data-file]')).toHaveCount(1);
 });
+
+test('merge requests with glab: the palette and the MR card run glab commands; the stash is shared', async ({ page }) => {
+  await freshSandbox(page, 'equipe');
+  // the MR card in zone ① runs glab mr approve
+  await page.locator('[data-testid=scene] .mr-card').first().click();
+  await page.getByRole('menuitem', { name: 'Approve' }).click();
+  await expect(lastCommand(page)).toHaveText('glab mr approve 42');
+  await expect(page.locator('[data-testid=scene] .mr-card').first()).toContainText('Approved');
+  // the palette merges it with glab too
+  await page.locator('[data-command=mr-merge]').click();
+  await page.getByRole('option').first().click();
+  await expect(lastCommand(page)).toHaveText('glab mr merge 42');
+  await type(page, 'glab mr list');
+  await expect(lastCommand(page)).toHaveText('glab mr list');
+});

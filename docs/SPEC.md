@@ -67,7 +67,7 @@ See `docs/DESIGN.md` § Diff screen. Entry: the `diff` command (mission, puzzle,
 - Saved: current mission, steps done, missions completed.
 
 ### 3.1 bis "Step by step" missions
-Some missions (6) show a complete procedure: the step list is clickable (jump to a step), a **Previous** button goes back, and the scene is **recomputed from the initial state + the steps done** (replay, not undo). The panel shows the line "Your work in progress" and the "What just happened" box. "Site" steps (approve, merge an MR) have no `$`: they are presented as an action on GitLab/GitHub.
+Some missions (6) show a complete procedure: the step list is clickable (jump to a step), a **Previous** button goes back, and the scene is **recomputed from the initial state + the steps done** (replay, not undo). The panel shows the line "Your work in progress" and the "What just happened" box. Merge requests are handled with `glab`, GitLab's command line (`glab mr create`, `approve`, `merge`…); a click on the MR card runs the same `glab` command. A `web:` step (a click on GitLab/GitHub, shown without `$`) remains possible in content.
 
 ### 3.2 Puzzle (quick challenges)
 - Twelve challenges. Each: statement, **start state**, **goal state** (shown dashed in sky blue), 4 proposed commands of which one is correct.

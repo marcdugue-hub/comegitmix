@@ -219,3 +219,36 @@ test('new remote keys exist in both dictionaries', async () => {
   }
   for (const k of ['msg.colleague', 'msg.aiWork', 'msg.mrMerge', 'mr.aiTitle']) assert.ok(k in en && k in fr, k);
 });
+
+test('glab mr: parse, create (needs the lane online, --fill pushes it), list, view, approve, merge by number or branch', async () => {
+  const { parse } = await import('../../src/engine/parse.js');
+  assert.deepEqual(parse('glab mr approve !42').args, ['approve', 42]);
+  assert.deepEqual(parse('glab mr create -t "Résumé" -b main --fill').options, { title: 'Résumé', target: 'main', fill: true });
+  assert.equal(parse('glab issue list').error.key, 'error.glabOnlyMr');
+  assert.equal(parse('glab mr').error.key, 'error.glabMissingAction');
+  assert.equal(parse('glab mr create --draft').error.key, 'error.glabOption');
+  assert.equal(parse('glab mr aprove 4').error.params.suggestion, 'glab mr approve 4');
+
+  let s = setup(`
+@files plan.md
+git commit -m "init"
+@remote origin
+git switch -c ia/resume
+@work plan.md
+git commit -am "résumé v1"
+`);
+  assert.equal(run(s, 'glab mr create').error.key, 'error.mrPushFirst');
+  const c = run(s, 'glab mr create --fill');
+  assert.equal(c.error, null);
+  s = c.state;
+  assert.ok(s.remotes.origin.branches['ia/resume'], '--fill pushed the lane');
+  assert.deepEqual(s.remotes.origin.mrs.map((m) => [m.id, m.source, m.target, m.title, m.status]), [[1, 'ia/resume', 'main', 'résumé v1', 'open']]);
+  assert.equal(run(s, 'glab mr create --fill').error.key, 'error.mrAlreadyOpen');
+  assert.equal(run(s, 'glab mr list').output.mrs.length, 1);
+  assert.equal(run(s, 'glab mr view').explanation.key, 'explain.mr.view.open');
+  assert.equal(run(s, 'glab mr merge 1').error.key, 'error.mrNotApproved');
+  s = play(s, ['glab mr approve', 'glab mr merge ia/resume']).state;
+  assert.equal(s.remotes.origin.mrs[0].status, 'merged');
+  assert.equal(run(s, 'glab mr close 1').error.key, 'error.mrClosed');
+  assert.equal(run(s, 'glab mr approve 9').error.key, 'error.unknownMr');
+});

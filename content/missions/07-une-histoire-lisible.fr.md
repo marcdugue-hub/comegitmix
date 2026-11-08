@@ -2,7 +2,7 @@
 title: Une histoire lisible
 duration: 14
 repos: [local, origin]
-unlocks: [rebase, squash, cherry-pick]
+unlocks: [rebase, squash, cherry-pick, mr-create]
 ---
 
 > duo: Vendredi, 15 h. Avant d'envoyer le rapport à Maison Pivert, un peu de rangement. L'assistant « chiffres » a laissé trois commits « wip » (pour work in progress, travail en cours), sa voie part d'une vieille version, et une correction utile traîne sur une branche d'essai.
@@ -47,25 +47,32 @@ command: git rebase main
 La voie de l'assistant partait d'une vieille version de main. Le rebase la fait repartir du dernier commit de main, comme si elle venait de commencer.
 after: La voie ia/chiffres part maintenant du bout de main : plus de retard.
 
-### 3. Récupérer un seul commit utile
+### 3. Proposer le travail à la relecture
+command: glab mr create --fill -t "Chiffres vérifiés"
+check: mr 1 open
+La voie est propre : proposez-la à Stéphane avec une demande de fusion (MR). glab est l'outil de GitLab en ligne de commande ; --fill envoie la voie en ligne, -t donne le titre.
+after: La MR !1 est ouverte sur origin : ia/chiffres demande à rejoindre main. Stéphane peut relire une histoire courte et claire.
+note: Une MR, c'est « relisez avant d'intégrer ».
+
+### 4. Récupérer un seul commit utile
 before: @cd rpt-client
 command: git switch main
 La correction de faute est sur la voie ia/essai. Pour la copier sur main, on se place d'abord sur main.
 after: Vous êtes sur main, prêt pour la cueillette.
 
-### 4. Prendre la correction, pas l'essai
+### 5. Prendre la correction, pas l'essai
 command: git cherry-pick ia/essai~1
 accepts: git cherry-pick *
 cherry-pick, « cueillir la cerise » : on copie un seul commit d'une autre voie sur la vôtre, et on laisse le reste sur l'arbre.
 after: La correction du résumé est copiée sur main. L'essai abandonné reste sur sa voie, où il ne gêne personne.
 
-### 5. Mettre de côté un travail en cours
+### 6. Mettre de côté un travail en cours
 before: @work intro.md
 command: git stash
 Vous retouchez encore l'intro, mais elle n'est pas prête pour l'envoi : on la range dans le tiroir.
 after: intro.md est rangé dans le stash : votre dossier est propre.
 
-### 6. Ranger un bureau fini
+### 7. Ranger un bureau fini
 before:
 - git worktree add ../rpt-ia-essai ia/essai
 command: git worktree remove ../rpt-ia-essai

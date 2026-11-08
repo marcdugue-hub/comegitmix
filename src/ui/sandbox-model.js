@@ -10,10 +10,17 @@ import { commitText } from '../render/screens-util.js';
 // Palette
 // ---------------------------------------------------------------------------
 
-/** Text of a palette button: the Git word(s) (site actions use an i18n label). */
+/** Text of a palette button: the Git word(s), the whole glab command for merge requests (site actions use an i18n label). */
 export function paletteLabel(id, def = {}) {
   if (def.web) return t(`sandbox.cmd.${id}`);
+  if (id.startsWith('mr-')) return `glab ${id.replace('-', ' ')}`;
   return id.startsWith('worktree-') ? id.replace('-', ' ') : id;
+}
+
+/** The command a palette button starts with: `git <word>`, or the word alone (fork, glab mr …). */
+export function paletteCommand(id, def = {}) {
+  if (def.web) return paletteLabel(id, def);
+  return id === 'fork' || id.startsWith('mr-') ? paletteLabel(id, def) : `git ${paletteLabel(id, def)}`;
 }
 
 /** data/commands.json -> [{ id, labelKey, commands: [{ id, icon, web, readOnly }] }]. */
@@ -139,12 +146,15 @@ export function planCommand(id, state) {
       const b = desk.branch && state.branches[desk.branch];
       return { steps: [], build: () => (b && !b.upstream ? `git push -u origin ${desk.branch}` : 'git push') };
     }
+    case 'mr-create':
+      // --fill: glab sends the lane online if needed and takes the last commit message as the title
+      return { steps: [], build: () => 'glab mr create --fill' };
     case 'mr-approve':
     case 'mr-merge': {
       const want = id === 'mr-approve' ? ['open'] : ['approved', 'open'];
       const opts = [];
       for (const r of Object.values(state.remotes || {})) for (const mr of r.mrs || []) if (want.includes(mr.status)) opts.push({ value: mr.id, label: `!${mr.id} · ${mr.titleKey ? t(mr.titleKey, mr.titleParams || {}) : mr.title}`, hint: t(`mr.status.${mr.status}`) });
-      return { steps: [pick('sandbox.pick.mr', opts, 'sandbox.pick.noMr')], build: (v) => ({ name: 'mr', args: [id === 'mr-approve' ? 'approve' : 'merge', v[0]], options: {} }) };
+      return { steps: [pick('sandbox.pick.mr', opts, 'sandbox.pick.noMr')], build: (v) => `glab mr ${id === 'mr-approve' ? 'approve' : 'merge'} ${v[0]}` };
     }
     case 'worktree-add': {
       const free = Object.keys(state.branches).filter((b) => !state.worktrees.some((w) => w.branch === b)).sort();
@@ -193,7 +203,8 @@ export function nextBranchName(state, prefix = 'feature/') {
 // ---------------------------------------------------------------------------
 
 export const GIT_WORDS = ['status', 'add', 'commit', 'restore', 'rm', 'stash', 'branch', 'switch', 'checkout', 'merge', 'rebase', 'cherry-pick', 'reset', 'revert', 'worktree', 'diff', 'log', 'blame', 'show', 'fetch', 'pull', 'push', 'remote'];
-export const SHELL_WORDS = ['cd', 'ls', 'clear', 'help', 'fork', 'rm'];
+export const SHELL_WORDS = ['cd', 'ls', 'clear', 'help', 'fork', 'rm', 'glab'];
+export const GLAB_WORDS = ['create', 'list', 'view', 'approve', 'merge', 'close'];
 const OPTIONS = {
   commit: ['-m', '-am', '--amend'], add: ['.', '-A'], restore: ['--staged'], branch: ['-d', '-D'], switch: ['-c', '--detach'],
   checkout: ['-b'], merge: ['--no-ff', '--abort', '--continue'], rebase: ['-i', '--continue', '--abort'], reset: ['--soft', '--mixed', '--hard'],
@@ -227,6 +238,14 @@ function argCandidates(state, sub, words) {
   }
 }
 
+/** Candidates after `glab mr <action>`: the live merge requests, or the create options. */
+function glabCandidates(state, action) {
+  if (action === 'create') return ['--fill', '-t', '-b'];
+  if (action === 'list') return [];
+  const want = action === 'merge' ? ['approved'] : action === 'view' ? ['open', 'approved', 'merged'] : ['open'];
+  return Object.values(state.remotes || {}).flatMap((r) => r.mrs || []).filter((m) => want.includes(m.status)).map((m) => String(m.id));
+}
+
 /** Completion lines for the text typed so far (for the terminal's suggest option). */
 export function suggestLines(text, state, max = 6) {
   const raw = String(text || '');
@@ -237,7 +256,10 @@ export function suggestLines(text, state, max = 6) {
   const before = tokens;
   const prefix = before.length ? `${before.join(' ')} ` : '';
   let candidates;
-  if (!before.length) candidates = ['git', ...SHELL_WORDS, 'help'].map((w) => (w === 'git' ? 'git ' : w));
+  if (!before.length) candidates = ['git', ...SHELL_WORDS, 'help'].map((w) => (w === 'git' || w === 'glab' ? `${w} ` : w));
+  else if (before[0] === 'glab' && before.length === 1) candidates = ['mr'];
+  else if (before[0] === 'glab' && before.length === 2) candidates = GLAB_WORDS;
+  else if (before[0] === 'glab') candidates = glabCandidates(state, before[2]);
   else if (before[0] === 'git' && before.length === 1) candidates = GIT_WORDS;
   else if (before[0] === 'git') candidates = argCandidates(state, before[1], before.slice(2));
   else if (before[0] === 'cd') candidates = state.worktrees.filter((w) => w.id !== state.active).map((w) => `../${w.path}`);

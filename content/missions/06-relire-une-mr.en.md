@@ -65,9 +65,9 @@ Compare the MR’s branch with main. The three dots mean: only what the MR bring
 after: Two added files (A) and one modified (M). The diff screen lets you read them line by line.
 
 ### 6. Approve the MR
-web: approve MR !42
+command: glab mr approve 42
 check: mr 42 approved
-Review done, and not a single 3D pie chart in sight: give your approval online.
+Review done, and not a single 3D pie chart in sight: give your approval. glab is GitLab's command line tool: glab mr approve does the same as the site's “Approve” button.
 after: The MR is approved. It can be merged into main.
 
 ### 7. Go back and bring your work out
@@ -107,9 +107,9 @@ In the review folder, compare the MR’s branch with main: only what the MR brin
 after: Two added files (A) and one modified (M). The diff screen lets you read them line by line.
 
 ### 4. Approve, then merge
-web: approve MR !42 ; merge MR !42
+command: glab mr approve 42 && glab mr merge 42
 check: mr 42 merged
-Give your approval, then merge the MR into main, online.
+Give your approval, then merge the MR into main, online. The two glab commands replace the site's two buttons.
 after: The MR is merged on origin: origin/main moved forward. Your local main has not moved yet.
 note: Merged online: you will need to fetch it.
 

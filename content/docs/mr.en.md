@@ -1,33 +1,35 @@
 ---
 title: Merge request (MR)
 summary: Propose to the team to bring a lane in, after review.
-syntax: (site) Approve the MR, then Merge
+syntax: glab mr create --fill
 see: [push, merge, fork]
 ---
 
 ## What it does
 
-A merge request (MR) is **not a Git command**: it is a page on the hosting site (GitLab). GitHub calls the same thing a "pull request".
+A merge request (MR) is **not a Git command**: it is a page on the hosting site (GitLab). An AI has finished its work on its lane; rather than merging by itself, it **proposes**: "here is my lane, may I join `main`?". The team reviews, comments, then decides. Each MR has a number, like `!42`.
 
-An AI has finished its work on its lane and pushed it online. Rather than merging by itself, it **proposes**: "here is my lane, may I join `main`?". The team reviews, comments, then decides. Each MR has a number, like `!42`.
+You can do everything by clicking on the site, or from the terminal with **glab**, GitLab's command line tool:
+
+- `glab mr create`: open an MR for the lane you are on;
+- `glab mr list` and `glab mr view 42`: see the MRs in progress;
+- `glab mr approve 42`: approve;
+- `glab mr merge 42`: merge;
+- `glab mr close 42`: drop it.
 
 ## In the game
 
-The MR appears on the **origin** card, in **In Git**, with its status. It goes through four steps:
-
-1. **Open**: the lane asks to come in (often the AI opens it).
-2. **Approved**: someone reviewed it and said "it can go in".
-3. **Merged**: the merge happens online, on origin.
-4. Or **Closed**: dropped without merging.
-
-The "approve MR" and "merge MR" buttons in the palette, or a click on the MR card, do these actions. From the card, "See the diff" shows what it changes.
+The MR appears on the **origin** card, in **In Git**, with its status: **Open**, **Approved**, **Merged** or **Closed**. Type the `glab` commands, use the palette buttons, or click the MR card: the game always shows the matching `glab` command. From the card, "See the diff" shows what the MR changes.
 
 ## Example
 
-- `approve MR !42`: you approve on the site.
-- `merge MR !42`: you merge on the site.
+- `glab mr create --fill`: sends the lane online if needed, then opens the MR with the last commit message as its title.
+- `glab mr create -t "Summary ready"`: the same with your own title (the lane must already be online: `git push -u origin <branch>`).
+- `glab mr approve 42`, then `glab mr merge 42`: you review, you accept.
 - `git pull`: your computer gets the result.
 
 ## Watch out
 
-No merge without approval. And once merged online, **your local lanes have not moved**: you need a `git pull`. If both sides changed the same file, the site refuses to merge.
+In the game, no merge without approval (many teams require it too). Once merged online, **your local lanes have not moved**: you need a `git pull`. If both sides changed the same file, the site refuses to merge.
+
+On GitHub, the same thing is called a "pull request", and the tool is `gh`: `gh pr create`, `gh pr merge`.

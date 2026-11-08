@@ -194,7 +194,7 @@ Possible keys, one per line (`key: value`); the first paragraph without a key is
 | Key | Meaning |
 |---|---|
 | `command` | the expected command (shown on the "Your next command" card). In parentheses, it is an **interface instruction**, not a command (`(cliquez plan.md dans votre dossier)`, `(bouton « Faire travailler l'IA »)`): `check:` is then mandatory. Commands of the simulated shell (`fork`, `cd`) are accepted |
-| `web` | instead of `command`: an action on GitLab/GitHub, shown without `$`. Values: `approve MR !<n>`, `merge MR !<n>`; several actions separated by ` ; ` (`web: approve MR !42 ; merge MR !42`). The button label shown to the player comes from `src/i18n/*.json` |
+| `web` | instead of `command`: an action on GitLab/GitHub, shown without `$`. Values: `approve MR !<n>`, `merge MR !<n>`; several actions separated by ` ; ` (`web: approve MR !42 ; merge MR !42`). The button label shown to the player comes from `src/i18n/*.json`. Prefer a `command:` with `glab mr approve <n>` / `glab mr merge <n>` (GitLab's command line): a click on the MR card satisfies the same `check:` |
 | `accepts` | other accepted spellings, separated by `;` (`git checkout main ; git switch main`). `*` stands for any text (`git commit -m "*"`) |
 | `after` | "What just happened" text, shown after the command runs |
 | `note` | handwritten annotation (Caveat) placed on the scene |

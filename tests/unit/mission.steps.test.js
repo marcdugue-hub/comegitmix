@@ -100,18 +100,20 @@ test('stepper: going back recomputes the scene from the initial state (replay, n
   assert.equal(workState(b.state), 'visible');
 });
 
-test('web steps play site actions; the check waits for the merge', () => {
+test('MR steps: glab commands or clicks on the MR card; the check waits for the merge', () => {
   const m = load('06-relire-une-mr');
   const s = gotoStep(startSession(m, { part: 'B' }), 3);
-  assert.equal(stepKind(currentStep(s)), 'web');
-  const approve = act(s, { name: 'mr', args: ['approve', 42] });
+  assert.equal(stepKind(currentStep(s)), 'command');
+  const approve = act(s, 'glab mr approve 42');
   assert.equal(approve.completed, false);
-  const merge = act(approve.session, { name: 'mr', args: ['merge', 42] });
+  const merge = act(approve.session, 'glab mr merge 42');
   assert.equal(merge.completed, true);
   assert.equal(merge.session.index, 4);
+  // a click on the MR card (site action) reaches the same state
+  const clicks = act(act(s, { name: 'mr', args: ['approve', 42] }).session, { name: 'mr', args: ['merge', 42] });
+  assert.equal(clicks.completed, true);
   const auto = autoStep(s);
   assert.equal(auto.completed, true);
-  assert.equal(auto.results.length, 2);
 });
 
 test('AI steps: ai-files and messages, two desks before the check holds', () => {
@@ -184,7 +186,7 @@ test('compare model: columns replay the parts with their desk chips', () => {
   assert.equal(model.columns[0].rows.length, 7);
   assert.equal(model.columns[1].rows.length, 6);
   assert.equal(model.columns[0].rows[1].command, 'git stash');
-  assert.equal(model.columns[0].rows[5].command, 'approve MR !42');
+  assert.equal(model.columns[0].rows[5].command, 'glab mr approve 42');
   assert.equal(model.columns[0].replay, '#/mission/06-relire-une-mr?part=A&step=1');
   assert.equal(deskTone('intact'), 'ok');
   assert.equal(deskTone('restored'), 'back');

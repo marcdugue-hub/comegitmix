@@ -17,20 +17,17 @@ export const DOC_GROUPS = [
 
 export const DOC_TOPICS = DOC_GROUPS.flatMap((g) => g.topics);
 
-/** Official pages that are not git-scm.com/docs/git-<id>; null = no official page. */
+/** Official pages that are not git-scm.com/docs/git-<id>; null = no official page. A missing language falls back to English. */
 const OFFICIAL = {
   fork: { fr: `${GITHUB.replace('{lang}', 'fr')}working-with-forks/fork-a-repo`, en: `${GITHUB.replace('{lang}', 'en')}working-with-forks/fork-a-repo` },
-  mr: {
-    fr: `${GITHUB.replace('{lang}', 'fr')}proposing-changes-to-your-work-with-pull-requests/about-pull-requests`,
-    en: `${GITHUB.replace('{lang}', 'en')}proposing-changes-to-your-work-with-pull-requests/about-pull-requests`,
-  },
+  mr: { en: 'https://docs.gitlab.com/cli/mr/' }, // glab, GitLab's command line (English only)
   cd: null,
 };
 
 /** Words typed in the terminal (or palette ids) that lead to another card. */
 const ALIASES = {
   squash: 'rebase', 'worktree-add': 'worktree', 'worktree-list': 'worktree', 'worktree-remove': 'worktree',
-  ls: 'cd', 'mr-approve': 'mr', 'mr-merge': 'mr', approve: 'mr', close: 'mr', open: 'mr',
+  ls: 'cd', 'mr-create': 'mr', 'mr-approve': 'mr', 'mr-merge': 'mr', approve: 'mr', close: 'mr', open: 'mr', glab: 'mr',
 };
 
 /** The official documentation page of a card, in `lang` when it exists (else English), or null. */

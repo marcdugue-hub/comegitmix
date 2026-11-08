@@ -65,9 +65,9 @@ On compare la branche de la MR avec main. Les trois points veulent dire : seulem
 after: Deux fichiers ajoutés (A) et un modifié (M). L’écran de diff permet de les lire ligne à ligne.
 
 ### 6. Approuver la MR
-web: approve MR !42
+command: glab mr approve 42
 check: mr 42 approved
-La relecture est faite, et pas un seul camembert en 3D : on donne son accord en ligne.
+La relecture est faite, et pas un seul camembert en 3D : on donne son accord. glab est l'outil de GitLab en ligne de commande : glab mr approve fait la même chose que le bouton « Approuver » du site.
 after: La MR est approuvée. Elle pourra être fusionnée dans main.
 
 ### 7. Revenir et ressortir son travail
@@ -107,9 +107,9 @@ Dans le dossier de revue, on compare la branche de la MR avec main : seulement c
 after: Deux fichiers ajoutés (A) et un modifié (M). L’écran de diff permet de les lire ligne à ligne.
 
 ### 4. Approuver puis fusionner
-web: approve MR !42 ; merge MR !42
+command: glab mr approve 42 && glab mr merge 42
 check: mr 42 merged
-On donne son accord, puis on fusionne la MR dans main, en ligne.
+On donne son accord, puis on fusionne la MR dans main, en ligne. Les deux commandes glab remplacent les deux boutons du site.
 after: La MR est fusionnée sur origin : origin/main a avancé. Votre main local, lui, n’a pas encore bougé.
 note: Fusionné en ligne : il faudra le récupérer.
 

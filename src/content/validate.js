@@ -19,7 +19,7 @@ const KINDS = { missions: 'mission', puzzles: 'puzzle', sandbox: 'sandbox' };
 const LANGS = ['fr', 'en'];
 const OPENS = ['diff', 'log', 'conflict'];
 const REBASE_ACTIONS = ['pick', 'squash', 'drop', 'reword', 'edit', 'fixup'];
-const SHELL_COMMANDS = ['git', 'cd', 'fork'];
+const SHELL_COMMANDS = ['git', 'cd', 'fork', 'glab'];
 
 function balancedQuotes(s) {
   return (s.match(/"/g) || []).length % 2 === 0;
@@ -102,7 +102,7 @@ function validateStep(step, file, report, opts) {
       if (!balancedQuotes(step.command)) report(file, L('command'), 'unbalanced quote in command');
       for (const part of step.command.split('&&')) {
         const word = part.trim().split(/\s+/)[0];
-        if (!SHELL_COMMANDS.includes(word)) report(file, L('command'), `unrecognised command "${part.trim()}" (expected a git command)`);
+        if (!SHELL_COMMANDS.includes(word)) report(file, L('command'), `unrecognised command "${part.trim()}" (expected a git, cd, fork or glab command)`);
       }
     }
   }

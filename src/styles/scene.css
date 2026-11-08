@@ -89,7 +89,7 @@
 .repo-foot { margin-top: auto; display: flex; align-items: center; gap: 6px; font-size: 13px; }
 .repo-foot .ic { color: var(--statut-A-texte); }
 .repo-more { font-family: var(--font-mono); font-size: 12px; color: var(--texte-secondaire); }
-.repo-mrs { display: flex; gap: 6px; margin-top: 4px; }
+.repo-mrs { display: flex; align-items: center; gap: 6px; margin-top: 4px; }
 .mr-card {
   display: flex; flex-direction: column; gap: 6px; width: 100%; padding: 9px 12px; text-align: left;
   border-radius: 12px; background: var(--creme); border: 1.5px solid var(--trait-fort); color: var(--charbon); font: inherit;

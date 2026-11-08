@@ -65,8 +65,8 @@ export function createScenePopovers({ getState, run, activate = () => {} }) {
       title: `!${found.id} · ${found.titleKey ? t(found.titleKey, found.titleParams || {}) : found.title}`,
       body: `<p class="sb-pop-meta">${esc(t(`mr.status.${found.status}`))} · <span class="mono">${esc(found.source)} → ${esc(found.target)}</span></p>`,
       items: [
-        { label: t('sandbox.mr.approve'), icon: 'badge-check', disabled: found.status !== 'open', onSelect: () => run({ name: 'mr', args: ['approve', found.id], options: {} }) },
-        { label: t('sandbox.mr.merge'), icon: 'git-pull-request-arrow', disabled: found.status !== 'approved', onSelect: () => run({ name: 'mr', args: ['merge', found.id], options: {} }) },
+        { label: t('sandbox.mr.approve'), icon: 'badge-check', disabled: found.status !== 'open', onSelect: () => run(`glab mr approve ${found.id}`) },
+        { label: t('sandbox.mr.merge'), icon: 'git-pull-request-arrow', disabled: found.status !== 'approved', onSelect: () => run(`glab mr merge ${found.id}`) },
         {
           label: t('sandbox.mr.diff'), icon: 'diff', disabled: found.status === 'merged',
           onSelect: () => {

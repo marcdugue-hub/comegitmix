@@ -122,8 +122,10 @@ function linesFor(c, before, result, skip) {
       return [`@colleague ${c.args[0] || 'main'} ${quote(msg)} files=${(ev.files || []).join(',')}`];
     }
     case 'mr': {
-      const [action, id] = c.args;
-      if (action === 'open') {
+      const [action] = c.args;
+      const ev = (result.events || []).find((e) => /^mr\./.test(e.type)) || {};
+      const id = ev.id ?? c.args[1];
+      if (action === 'open' || action === 'create') {
         const mr = (after.remotes.origin.mrs || []).find((m) => !(before.remotes.origin.mrs || []).some((x) => x.id === m.id));
         return [`@mr ${mr.id} ${mr.source} -> ${mr.target} ${quote(mr.title || mr.source)}${mr.comments ? ` comments=${mr.comments}` : ''}`];
       }

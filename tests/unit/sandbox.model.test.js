@@ -78,7 +78,9 @@ test('argument requirements: add offers changed files, branch asks a name, workt
   const reset = planCommand('reset', solo);
   assert.equal(reset.steps.length, 2);
   assert.match(reset.build([reset.steps[0].options[0].value, 'hard']), /^git reset --hard c\d+$/);
-  assert.equal(planCommand('mr-approve', start('equipe')).build([42]).name, 'mr');
+  assert.equal(planCommand('mr-approve', start('equipe')).build([42]), 'glab mr approve 42');
+  assert.equal(planCommand('mr-merge', start('equipe')).build([42]), 'glab mr merge 42');
+  assert.equal(planCommand('mr-create', start('equipe')).build([]), 'glab mr create --fill');
   assert.equal(planCommand('nope', s), null);
 });
 

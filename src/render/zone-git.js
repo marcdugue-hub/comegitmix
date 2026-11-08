@@ -86,7 +86,12 @@ function remoteCard(state, name, box, opts) {
       const info = ab ? `↑${ab.ahead} ↓${ab.behind}` : esc(main.tip);
       parts.push(`<div class="repo-ref mono">${esc(branch)} · ${info}</div>`);
     }
-    if (mrs.length) parts.push(`<div class="repo-mrs">${mrs.slice(0, 2).map((m) => mrCardHtml(m, { compact: true })).join('')}</div>`);
+    if (mrs.length) {
+      // narrow card: the live MR first, then "+n" (two status chips do not fit)
+      const live = mrs.filter((m) => m.status !== 'merged').concat(mrs.filter((m) => m.status === 'merged'));
+      const more = live.length > 1 ? `<span class="repo-more">+${live.length - 1}</span>` : '';
+      parts.push(`<div class="repo-mrs">${mrCardHtml(live[0], { compact: true })}${more}</div>`);
+    }
   }
   return `<section class="repo-card repo-card--${name}${mrs.length && !compact ? ' has-mr' : ''}" style="left:${box.x}px;width:${box.w}px" data-repo="${name}" aria-label="${esc(t(key))}">${parts.join('')}</section>`;
 }

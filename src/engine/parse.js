@@ -11,6 +11,15 @@ const GIT_COMMANDS = new Set([
 /** Real Git commands the game deliberately does not simulate (clear message). */
 const OUT_OF_SCOPE = new Set(['init', 'clone', 'tag', 'submodule', 'config', 'gc', 'reflog', 'bisect', 'mv', 'clean']);
 
+/** `glab mr <action>` (GitLab's command line): actions the game simulates. */
+const GLAB_MR_ACTIONS = new Set(['create', 'list', 'view', 'approve', 'merge', 'close']);
+/** glab options -> option names of the `mr` command. Value options take the next word. */
+const GLAB_OPTIONS = {
+  s: 'source', 'source-branch': 'source', b: 'target', 'target-branch': 'target', t: 'title', title: 'title',
+  d: 'description', description: 'description', f: 'fill', fill: 'fill', y: 'yes', yes: 'yes', push: 'push',
+};
+const GLAB_VALUES = new Set(['source', 'target', 'title', 'description']);
+
 /** Words accepted without the `git` prefix (shell and site actions). */
 const SHELL_COMMANDS = new Set(['cd', 'ls', 'clear', 'help', '?', 'rm', 'fork']);
 
@@ -144,6 +153,34 @@ function parseOptions(tokens) {
   return { args, options };
 }
 
+/** `glab mr create -t "x" --fill`, `glab mr approve 42`… -> { name: 'mr', args: [action, ref?], options, cli: 'glab' }. */
+function parseGlab(rest, tokens, text) {
+  const [sub, action, ...more] = rest;
+  if (!sub) return { error: { key: 'error.glabMissing', params: {} } };
+  if (sub.toLowerCase() !== 'mr') return { error: { key: 'error.glabOnlyMr', params: { sub } } };
+  if (!action) return { error: { key: 'error.glabMissingAction', params: {} } };
+  const act = action.toLowerCase();
+  if (!GLAB_MR_ACTIONS.has(act)) {
+    const s = closest(act, GLAB_MR_ACTIONS);
+    return unknown(text, s ? ['glab', 'mr', s, ...more].join(' ') : null);
+  }
+  const args = [act];
+  const options = {};
+  for (let i = 0; i < more.length; i += 1) {
+    const tok = more[i];
+    const m = /^--?([a-z-]+)(?:=(.*))?$/.exec(tok);
+    if (!m || /^-\d/.test(tok)) { args.push(/^!?\d+$/.test(tok) ? Number(tok.replace('!', '')) : tok); continue; }
+    const key = GLAB_OPTIONS[m[1]];
+    if (!key) return { error: { key: 'error.glabOption', params: { option: tok } } };
+    if (GLAB_VALUES.has(key)) {
+      if (m[2] !== undefined) options[key] = m[2];
+      else if (i + 1 < more.length) { options[key] = more[i + 1]; i += 1; }
+      else options[key] = '';
+    } else options[key] = m[2] === undefined ? true : m[2] !== 'false';
+  }
+  return { name: 'mr', args, options, git: false, cli: 'glab', raw: tokens, text };
+}
+
 function unknown(input, suggestion) {
   return {
     error: {
@@ -168,6 +205,7 @@ function parseTokens(tokens, text) {
     const { args, options } = parseOptions(rest.slice(1));
     return { name: sub, args, options, git: true, raw: tokens, text };
   }
+  if (word === 'glab') return parseGlab(rest, tokens, text);
   if (SHELL_COMMANDS.has(word)) {
     const { args, options } = parseOptions(rest);
     return { name: word === '?' ? 'help' : word, args, options, git: false, raw: tokens, text };

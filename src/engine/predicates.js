@@ -33,7 +33,7 @@ export function commandIds(command) {
   const a0 = (c.args || [])[0];
   switch (c.name) {
     case 'worktree': return a0 ? [`worktree-${a0 === 'rm' ? 'remove' : a0}`, 'worktree'] : ['worktree'];
-    case 'mr': return a0 ? [`mr-${a0}`] : [];
+    case 'mr': return ['list', 'view'].includes(a0) ? [] : a0 ? [`mr-${a0 === 'open' ? 'create' : a0}`] : [];
     case 'rebase': return c.options && (c.options.i || c.options.interactive) ? ['squash', 'rebase'] : ['rebase'];
     case 'checkout': return ['switch', 'checkout'];
     case 'ai': case 'assistant': return ['ai'];

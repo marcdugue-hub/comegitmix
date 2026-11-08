@@ -824,5 +824,21 @@
   "docs.official": "Documentation officielle",
   "docs.officialNote": "Plus complète, mais écrite pour des développeurs.",
   "stash.popTitle": "Remise du .git · {n} entrées",
-  "stash.popTitle.one": "Remise du .git · {n} entrée"
+  "stash.popTitle.one": "Remise du .git · {n} entrée",
+  "error.glabMissing": "glab est l’outil en ligne de commande de GitLab. Dans le jeu, il sert aux demandes de fusion : tapez glab mr create, glab mr list, glab mr approve <numéro>…",
+  "error.glabOnlyMr": "Dans le jeu, glab ne sert qu’aux demandes de fusion (glab mr …) : « {sub} » n’en fait pas partie.",
+  "error.glabMissingAction": "glab mr a besoin d’une action : create, list, view, approve, merge ou close.",
+  "error.glabOption": "Le jeu ne connaît pas l’option {option} de glab. Pour créer une MR : glab mr create --fill, ou -t \"titre\" et -b <branche cible>.",
+  "error.mrPushFirst": "La voie {branch} n’est pas encore en ligne : envoyez-la d’abord avec git push -u origin {branch}, ou laissez glab le faire avec glab mr create --fill.",
+  "error.mrAlreadyOpen": "Une demande de fusion est déjà ouverte pour {branch} : !{id}.",
+  "error.mrNoneForBranch": "Aucune demande de fusion ouverte pour la voie {branch}. Donnez son numéro : glab mr approve 42.",
+  "explain.mr.create": "La demande de fusion !{id} est ouverte en ligne : {source} demande à rejoindre {target}. L’équipe peut maintenant la relire.",
+  "explain.mr.list": "{n} demandes de fusion attendent une relecture ou une fusion : {ids}.",
+  "explain.mr.list.one": "{n} demande de fusion attend une relecture ou une fusion : {ids}.",
+  "explain.mr.list.none": "Aucune demande de fusion en cours.",
+  "explain.mr.view.open": "La demande de fusion !{id} propose de faire entrer {source} dans {target}. Elle attend une relecture.",
+  "explain.mr.view.approved": "La demande de fusion !{id} ({source} → {target}) est approuvée : elle peut être fusionnée.",
+  "explain.mr.view.merged": "La demande de fusion !{id} ({source} → {target}) est déjà fusionnée.",
+  "explain.mr.view.closed": "La demande de fusion !{id} ({source} → {target}) a été fermée sans être fusionnée.",
+  "sandbox.help.glab": "glab mr … : les demandes de fusion depuis le terminal, avec l’outil de GitLab. create (--fill) en ouvre une pour votre voie, list et view les montrent, approve, merge et close agissent sur l’une d’elles par son numéro."
 }

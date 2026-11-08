@@ -14,8 +14,8 @@ All missions are open; the order below is the **recommended** order, shown in th
 | 3 | Two assistants, one project | Several desks (worktrees) on the same repository: each has its branch, its files, its index. A single `.git`. | `worktree add`, `worktree list` |
 | 4 | Review before accepting | See what the AI did, then keep or undo. | `log`, `diff`, `merge`, `revert`, `restore`, `reset` |
 | 5 | Share with the team | The local repository, your online copy (fork) and the original project. | `fork`, `push`, `fetch`, `pull` |
-| 6 | Review an MR | Review an assistant's work proposed online (MR), first by switching branch, then in a worktree, and compare. | `fetch`, `stash`, `switch`, `diff A...B`, approve/merge (site), `worktree add <path> <branch>`, `worktree remove`, `pull` |
-| 7 | A readable history | Clean up before sharing, tidy up, remove a finished desk. | `rebase -i`, squash, `cherry-pick`, `stash`, `worktree remove` |
+| 6 | Review an MR | Review an assistant's work proposed online (MR), first by switching branch, then in a worktree, and compare. | `fetch`, `stash`, `switch`, `diff A...B`, `glab mr approve` / `glab mr merge`, `worktree add <path> <branch>`, `worktree remove`, `pull` |
+| 7 | A readable history | Clean up before sharing, propose it as an MR, tidy up, remove a finished desk. | `rebase -i`, squash, `glab mr create`, `cherry-pick`, `stash`, `worktree remove` |
 
 Mission 3 is the one in `maquettes/Main.dc.html`: "Two assistants, one project", shown there as mission 3/6 (the mockup predates mission 6), command `git worktree add ../rpt-ia-stats -b ia/chiffres`.
 
@@ -41,6 +41,8 @@ The other missions follow this model (3 to 5 steps, one command per step, one pr
 10. One more folder for the AI, without a new repository: `worktree add`.
 Each challenge: start state, goal state, 4 proposals, one "remember" sentence. Written in `content/puzzles/`. Challenges 11 and 12 are described below.
 
+Challenge 15 (typed): propose the AI's finished lane for review with `glab mr create --fill` (the lane is not online yet; `--fill` pushes it).
+
 ## Progression table (palette and zone ①)
 This table is not a lock: every mission is playable at any time. It says which commands each mission introduces; within a mission, the palette shows the commands of that row and the rows above, and zone ① shows the listed repositories.
 
@@ -52,7 +54,7 @@ This table is not a lock: every mission is playable at any time. It says which c
 | log, merge, revert, restore, reset | mission 4 | local |
 | fork, push, fetch, pull | mission 5 | local + origin + upstream |
 | stash, worktree remove, approve / merge an MR | mission 6 | local + origin (MR card) |
-| rebase, squash, cherry-pick | mission 7 | everything |
+| rebase, squash, cherry-pick, glab mr create | mission 7 | everything |
 Sandbox: everything is available, zone ① is shown in full (but `origin`/`upstream` can be hidden with a toggle).
 
 ## Diff in missions and challenges (addition)
@@ -71,10 +73,10 @@ Mockups: `maquettes/A5-MR-Branche.dc.html` (part A), `A6-MR-Worktree.dc.html` (p
 
 Situation: an AI assistant has pushed `ia/graphiques` and opened **MR !42** towards `main`. You are in `rpt-client` with two files in **M** (your work in progress). The mission has two parts, played one after the other; an "A · On a branch / B · In a worktree" selector at the top of the panel switches between them.
 
-**Part A — on a branch (7 steps)**: `git status` → `git stash` (the M files disappear, a "stash · 1" chip appears on the local .git card in zone ①) → `git fetch origin` (the MR's lane becomes solid, chip `origin/ia/graphiques`) → `git switch ia/graphiques` (**your folder's content changes**, the wire goes to the blue lane with an elbow) → `git diff main...ia/graphiques` (review card, link to the diff screen) → approve on the site (the MR card becomes "Approved") → `git switch main && git stash pop` (back, the M files return).
+**Part A — on a branch (7 steps)**: `git status` → `git stash` (the M files disappear, a "stash · 1" chip appears on the local .git card in zone ①) → `git fetch origin` (the MR's lane becomes solid, chip `origin/ia/graphiques`) → `git switch ia/graphiques` (**your folder's content changes**, the wire goes to the blue lane with an elbow) → `git diff main...ia/graphiques` (review card, link to the diff screen) → `glab mr approve 42` (the MR card becomes "Approved") → `git switch main && git stash pop` (back, the M files return).
 Takeaway: "It works, but your desk was disturbed for the whole review."
 
-**Part B — in a worktree (6 steps)**: `git fetch origin` → `git worktree add ../revue-mr-42 ia/graphiques` (new tile; your desk goes to 60 % **but its M files stay**) → `git diff main...ia/graphiques` → approve then merge on the site (`origin/main` moves ahead, dashed) → `git worktree remove ../revue-mr-42` (the tile disappears, the branch stays) → `git pull` (local main moves up to the merge, the M files are still there).
+**Part B — in a worktree (6 steps)**: `git fetch origin` → `git worktree add ../revue-mr-42 ia/graphiques` (new tile; your desk goes to 60 % **but its M files stay**) → `git diff main...ia/graphiques` → `glab mr approve 42 && glab mr merge 42` (`origin/main` moves ahead, dashed) → `git worktree remove ../revue-mr-42` (the tile disappears, the branch stays) → `git pull` (local main moves up to the merge, the M files are still there).
 Takeaway: "Your work never moved."
 
 **Comparison screen (A7)**: the two step lists side by side, with the desk's state for each step (intact / work put away / folder changed / work back). Boxes: when to choose which, the "branch already open in another desk" trap (Git refuses; go and review in that desk, `git worktree list` shows it), and MR = PR.
