@@ -65,7 +65,7 @@ The summary works for you: bring the assistant's lane into main. That's a merge.
 after: The two lanes join: main now contains the assistant's work.
 
 ### 7. After all, undo part of it
-command: git revert HEAD
+command: git revert ia/resume
 Ms Pivert calls: she preferred the old summary. revert adds a commit that cancels the previous one, without rewriting history: ideal when the work is already shared.
 after: A new “undo” dot appeared. The history keeps a trace of everything, change of mind included.
 note: reset goes back, revert undoes by moving forward

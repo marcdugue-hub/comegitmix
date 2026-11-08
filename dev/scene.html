@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Comegitmix · scene preview (dev)</title>
+  <link rel="stylesheet" href="../src/styles/tokens.css">
+  <link rel="stylesheet" href="../src/styles/base.css">
+  <link rel="stylesheet" href="../src/styles/components.css">
+  <link rel="stylesheet" href="../src/styles/scene.css">
+  <style>
+    /* dev-only page chrome */
+    body { padding: 16px 20px; }
+    .dev-bar { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-bottom: 12px; font-size: 13px; }
+    .dev-bar button { padding: 4px 10px; border: 1.5px solid var(--charbon); border-radius: 999px; background: var(--blanc); }
+    .dev-bar button[aria-pressed="true"] { background: var(--charbon); color: var(--creme); }
+    .dev-log { margin-top: 10px; font-family: var(--font-mono); font-size: 12px; color: var(--texte-secondaire); min-height: 18px; }
+  </style>
+</head>
+<body>
+  <div class="dev-bar" id="bar"></div>
+  <div id="stage"></div>
+  <div class="dev-log" id="log"></div>
+  <script type="module" src="./scene.js"></script>
+</body>
+</html>

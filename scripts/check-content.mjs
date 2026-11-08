@@ -3,6 +3,7 @@ import { readdirSync, readFileSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { validate, formatIssue } from '../src/content/validate.js';
+import { checkContent } from '../src/engine/content-check.js';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -26,7 +27,7 @@ export function loadCommandIds() {
 }
 
 const files = loadContentFiles();
-const result = validate(files, { commandIds: loadCommandIds() });
+const result = validate(files, { commandIds: loadCommandIds(), engine: { checkContent } });
 for (const w of result.warnings) console.log(`warning ${formatIssue(w)}`);
 for (const e of result.errors) console.error(formatIssue(e));
 if (result.errors.length) {

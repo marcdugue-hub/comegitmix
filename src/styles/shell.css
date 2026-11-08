@@ -1,0 +1,51 @@
+/* shell.css: application shell and home screen (colours from tokens.css / base.css only). */
+.header-slot { display: flex; align-items: center; gap: 6px; }
+.header-slot:empty { display: none; }
+.brand { color: inherit; }
+.brand:hover { text-decoration: none; }
+
+main { display: block; outline: none; padding-bottom: 64px; }
+.min-screen-note {
+  display: none; margin: 0; padding: 10px 28px;
+  background: var(--lin); border-bottom: 1px solid var(--trait);
+  color: var(--texte-secondaire); font-size: 14px;
+}
+@media (max-width: 1099px) {
+  .min-screen-note { display: block; }
+  .home-cards { grid-template-columns: 1fr; }
+  .app-header { flex-wrap: wrap; height: auto; min-height: 64px; gap: 8px; padding-top: 8px; padding-bottom: 8px; }
+}
+
+.screen-placeholder { max-width: 1100px; margin: 48px auto; padding: 0 28px; display: grid; gap: 12px; }
+
+/* ---- Home ---- */
+.home-hero { max-width: 1100px; margin: 0 auto; padding: 40px 28px 28px; display: grid; gap: 10px; }
+.home-hero h1 { font-size: 56px; }
+.home-intro { max-width: 680px; color: var(--texte-secondaire); font-size: 17px; }
+.home-resume-wrap { max-width: 1100px; margin: 0 auto 24px; padding: 0 28px; }
+.home-resume {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding: 16px 22px; color: inherit; text-decoration: none; border-color: var(--trait-fort);
+}
+.home-resume:hover { text-decoration: none; background: var(--blanc); }
+.home-resume-label { font-weight: 500; font-size: 17px; }
+.home-card .ic { color: var(--charbon); }
+.home-card .eyebrow { margin-top: 4px; }
+
+.home-lists { max-width: 1100px; margin: 40px auto 0; padding: 0 28px; display: grid; gap: 36px; }
+.home-section { display: grid; gap: 8px; }
+.home-list { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 8px; }
+.home-list--cols { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.home-row {
+  display: flex; align-items: center; gap: 12px; min-height: 48px; padding: 8px 16px;
+  border: 1px solid var(--trait); border-radius: 14px; background: var(--surface);
+  color: inherit; text-decoration: none;
+}
+.home-row:hover { background: var(--blanc); text-decoration: none; border-color: var(--trait-fort); }
+.home-row-n { color: var(--texte-secondaire); width: 20px; }
+.home-row-title { flex: 1; font-weight: 500; }
+.home-row-done { color: var(--sauge-fonce); display: inline-flex; }
+.home-stars { display: inline-flex; gap: 2px; color: var(--charbon); }
+.home-stars .ic.is-on { fill: var(--orange); stroke: var(--charbon); }
+.chip--small { height: 22px; padding: 0 8px; font-size: 11.5px; }
+.badge-fallback { border-width: 1px; }

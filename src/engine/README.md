@@ -139,7 +139,7 @@ Scene and shell actions (objects; not real Git):
 | `cd <folder>` | changes the active desk | — |
 | `ls`, `help`, `clear` | read only (`ui` event for help/clear) | — |
 
-`fetch`, `pull`, `push`, `remote`, `fork` are parsed but answer `error.notAvailable` until `remote.js` registers them.
+`fetch`, `pull`, `push`, `remote`, `fork` and the site / scene actions of §6 are registered by the remote and AI layer (`commands/index.js`).
 
 ## 4. Events (for animations)
 Explicit (emitted by handlers): `commit.created {id, branch, desk, parents, author}`, `lane.forked {name, at, from}`, `branch.moved {name, from, to, reason: commit|reset|fast-forward|rebase|abort|move}`, `branch.deleted {name, tip}`, `head.moved {desk, from, to, branch}`, `desk.switched {desk, from:{branch,head}, to:{branch,head}}`, `merge.fastForward {desk, into, name, from, to}`, `lanes.joined {from, into, commit}`, `conflict {desk, op, files}`, `conflict.resolved {desk, path, side, label}`, `op.started {desk, op}`, `op.finished {desk, op, commit}`, `op.aborted {desk, op}`, `rebase.done {desk, branch, from:[old ids], to:[new ids], onto, squashed, dropped}`, `commit.copied {source, id, branch}`, `commit.reverted {source, id, branch}`, `stash.pushed|stash.popped|stash.applied {desk, id, paths}`, `stash.dropped {desk, id}`, `worktree.added {id, path, branch, head}`, `worktree.removed {id, path, branch}`, `worktree.listed`, `desk.activated {id, from}`, `status.shown`, `diff.shown {desk, mode, threeDot, files}`, `log.shown {desk, ids}`, `blame.shown`, `commit.shown`, `ui {action}`.
@@ -153,3 +153,57 @@ Automatic (computed by `apply` from before/after): `file.created {desk, path, st
 
 `run(ctx)` works on a **draft** (a deep copy): mutate `ctx.state` / `ctx.desk` freely; throw with `ctx.fail(key, params)` (the draft is discarded). `ctx` offers: `state`, `desk`, `args`, `options`, `command`, `opts`, `emit(type, data)`, `explain(key, params)`, `warn(key, params)`, `output(data)`, `equivalent(value)`, `markReadOnly()`, `run(name, args, options, { desk })` (run another command on the same draft). After `run`, statuses and folders are refreshed, limits checked and automatic events added.
 Reusable blocks in `commands/_shared.js`: `createCommit(ctx, desk, { tree, parents, msg, msgKey, msgParams, author })`, `moveHead`, `checkoutCommit`, `createBranch`, `validateNewBranch`, `requireBranchFree`, `mergeInto` (three-way into a desk, marks conflicts), `conflictWarning`, `abortOp`, `rev`, `nextCommitId` (unique across `state.commits` and `state.remotes[*].commits`).
+
+## 6. Remote, AI, setup, checks (remote.js, ai.js, setup.js, predicates.js, equivalence.js, to-setup.js, content-check.js)
+
+### Online repositories (`remote.js`, GIT-MODEL §2/§9)
+```jsonc
+"remotes": { "origin": {
+  "name": "origin", "forkOf": "upstream" | null,
+  "commits": { "c4": { /* same shape as state.commits */ } },   // full copy of the online repository (the clone is the copy)
+  "branches": { "main": { "tip": "c7" }, "ia/graphiques": { "tip": "c5" } },
+  "mrs": [ { "id": 42, "title": "Ajout des graphiques", "titleKey": null, "titleParams": null,
+             "source": "ia/graphiques", "target": "main", "status": "open|approved|merged|closed", "comments": 2, "commit": null } ] } },
+"remoteRefs": { "origin/main": { "tip": "c6" } }   // what the local repository knows (dashed chips); changes only with fetch / pull / push
+```
+A commit created online (colleague, MR merge) lives only in `remotes.<name>.commits` until a fetch copies it into `state.commits`.
+A colleague commit has `colleague: true`. Engine messages: `msg.colleague`, `msg.aiWork {files}`, `msg.mrMerge {id, name, into}`; MR title key `mr.aiTitle {branch}`.
+
+| Command | Effect | Events |
+|---|---|---|
+| `git fetch [<remote>] [--all]` | copies the remote branches as `<remote>/<b>` refs (read only when nothing new) | `fetch.done {remote, refs:[{ref,from,to}]}` |
+| `git pull [<remote> [<b>]]` | fetch + `merge <remote>/<b>` (fast-forward, merge commit or conflict) | `fetch.done`, merge events, `pull.done {desk, ref, from, to}` |
+| `git push [-u] [--force\|--force-with-lease] [<remote> [<b>]]` | sends the branch; `error.pushRejected` when the remote moved ahead (forced: `warn.forcePush`) | `push.done {remote, branch, ref, from, to, forced}` |
+| `git remote [-v]` | read only, `output.kind = 'remotes'` | `remote.listed` |
+| `fork [<from> [<to>]]` | origin = copy of upstream, `origin/*` refs, adds `origin` to `visibleRepos` | `fork.created {from, to}` |
+| `{ name: 'mr', args: ['approve'\|'merge'\|'close'\|'open', id], options }` | site actions; merge needs `approved`, creates a merge commit **online** | `mr.approved`, `mr.merged {id, commit}`, `mr.opened`, `mr.closed` |
+| `{ name: 'colleague', args: [branch='main'], options: { message?, files? } }` | "A colleague pushes" to `origin/<branch>` (not fetched). Without `files`: one file not changed locally since the common base and not dirty, the most recently changed one on the remote first | `colleague.pushed {remote, branch, commit, files}` |
+| `{ name: 'publish', args: [name] }`, `{ name: 'online-only', args: [b] }` | setup only (`@remote`, `@online-only`) | — |
+
+`parseWebAction('approve MR !42')` → `{ name: 'mr', args: ['approve', 42] }` (content `web:` lines). Helpers: `publishAll`, `publishBranch`, `forkRemote`, `onlineOnly`, `colleaguePush`, `openMr`, `approveMr`, `mergeMr`, `fetchRemote`, `findMr`, `ancestorsIn`, `copyCommits`.
+
+### Make the AI work (`ai.js`)
+- `{ name: 'ai', args: [] | [desk], options: { files?, commit = true, message? } }`: changes 1–3 files (deterministic: `pickAiFiles(desk, state.seq.ai)`) or `files` (step `ai-files:`), then stages exactly those and commits with `author: 'ai'` (`message`, or `msgKey: 'msg.aiWork'`). `commit: false` leaves them M.
+  `output = { kind: 'ai', desk, files, textIndex, commit }`: the UI shows the step's `ai-text:` or `aiWork.items[textIndex % items.length]` from `content/ai-work.<lang>.md`, and passes that text as `message` when it wants it as the commit message.
+- `{ name: 'assistant', options: { topic? } }` "New assistant": `git worktree add ../rapport-ia-<topic> -b ia/<topic>` (topics `AI_TOPICS`), then `ai` on it.
+- `{ name: 'ai-mr', args: [] | [desk], options: { title?, target = 'main' } }` "The AI opens an MR": push the desk branch to origin, open an MR (`titleKey: 'mr.aiTitle'` when no title).
+
+### Setup replay (`setup.js`)
+- `runSetup(lines, { folder, repos, conflicts | conflictBlocks }) → { state, error, line, text, results }`: `lines` = `[{ text, line }]` (content reader) or a string. Never throws: `error = { key, params }` with the source `line`.
+- `applySetupLines(state, lines)`: same, from an existing state (a step's `before:`).
+- `conflictBlocksFrom(parsedConflicts)` → `state.conflictBlocks`; `setupLinesFromText(text)`.
+- Every directive of AUTHORING §3.2 is supported. Pasted starts may also contain site actions (`approve MR !42`, `merge MR !42`), which "Copy as start" emits.
+
+### Check phrases (`predicates.js`)
+- `check(phrase, ctx)`, `checkAll(items, ctx) → { ok, failed: [{ text, line }] }`, `evaluate(parsed, ctx)`; `ctx = { state, initial, last: { command, result }, diffShown: [modes] }`.
+- Meanings: `file d/p M` = modified **and not staged**; `U` = untracked not staged; `A` = new file staged; `staged` = in the index; `work-intact d` = every M/U file of `initial` still has the same content and letter (staging allowed); `command <id>` uses `commandIds(command)` (`rebase -i` is `squash` and `rebase`, `worktree add` is `worktree-add`, MR actions are `mr-approve`/`mr-merge`); `error <code>` tests `result.error?.key ?? result.warning?.key` against `ERROR_KEYS`; `diff shown <mode>` is true when `ctx.diffShown` contains it or the last command emitted `diff.shown` in that mode; `<a> = <b>` resolves both (branches, `origin/<b>`, ids).
+
+### Equivalence (`equivalence.js`)
+`equivalent(a, b)`, `shape(state)`, `difference(a, b)` (first differing part: `branches`, `remoteRefs`, `remotes`, `desks`, or null). Ignores commit ids, messages and generated contents; compares history shape (parents, changed files, file sets, authors), branches, desks (folder, branch, file letters, staged, stash size, operation, active) and remotes/MR statuses.
+
+### Copy as start (`to-setup.js`)
+`toSetup({ start, startLines, commands }) → { text, block, lines, skipped }`: replays the successful `commands` from `start` and writes them after `startLines`. Scene actions become directives (`touch` → `@work`/`@content`, `create` → `@new`/`@files`, `click` → its equivalent command, `resolve` → `git checkout --ours|--theirs` (both: `@content`), `ai` → `@author ai` + `@work` + `git add` + `git commit`, `colleague` → `@colleague … files=…`, MR actions → `@mr` / `approve MR !n`); actions on another desk are wrapped in `@cd`. `commandText(command)` writes a command object as terminal text.
+
+### Content checks (`content-check.js`)
+`checkContent({ parsed, report })` is the `engine` hook of `src/content/validate.js`, wired in `scripts/check-content.mjs`. For every file (both languages): setups replay; step commands, `accepts:` and choices are recognised; mission steps are played in order from the setup (each part restarts from the mission setup or its own `### Setup`; `before:` lines first) and their `check:` must hold (no check: the command must succeed); typed solutions satisfy their check, the `[x]` choice applies (a wrong choice reaching the same state is a warning); every `conflict` block matches a conflict produced by the setup or the steps, or by `git merge <second>` on the lane `<first>` after the setup.
+**Interface instructions** `command: (…)` are played as the scene action implied by their check phrases (`playInstruction`): `file d/p <status>` → clicks on the file (the `+` button first for a missing U/A file) until it matches; `commits <b> since <base> = n` → "Make the AI work" on the desk of `<b>` until the count is reached; `resolved d/p <side>` → resolve; `active desk d` → click the tile; `desk d on b` → switch that desk; `mr n approved|merged` → MR card actions; `diff shown <mode>` → the diff screen opened from the scene. An instruction whose phrases imply no action is an error.

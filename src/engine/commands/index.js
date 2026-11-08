@@ -26,8 +26,19 @@ import click from './click.js';
 import cd from './cd.js';
 import ls from './ls.js';
 import { help, clear } from './help.js';
+import fetch from './fetch.js';
+import pull from './pull.js';
+import push from './push.js';
+import remote from './remote.js';
+import fork from './fork.js';
+import mr from './mr.js';
+import colleague from './colleague.js';
+import { publish, onlineOnlyCmd } from './publish.js';
+import { aiCommand, assistantCommand, aiMrCommand } from '../ai.js';
 
 export const COMMANDS = [
   status, add, commit, restore, rm, stash, branch, switchCmd, checkout, merge, rebase, cherryPick,
   reset, revert, worktree, diff, log, blame, show, touch, create, resolve, click, cd, ls, help, clear,
+  // remote.js / ai.js layer
+  fetch, pull, push, remote, fork, mr, colleague, publish, onlineOnlyCmd, aiCommand, assistantCommand, aiMrCommand,
 ];

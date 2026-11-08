@@ -145,7 +145,7 @@ test('applyAll stops at the first error and preview does not apply', () => {
 });
 
 test('registry is extensible', () => {
-  assert.equal(apply(baseRepo(), 'git fetch').error.key, 'error.notAvailable');
+  assert.equal(apply(baseRepo(), 'git fetch').error.key, 'error.noRemote', 'fetch is registered by the remote layer');
   registerCommand({ name: 'test-noop', readOnly: true, run(ctx) { ctx.explain('explain.ls', {}); } });
   assert.ok(getCommand('test-noop'));
   assert.equal(apply(baseRepo(), { name: 'test-noop', args: [], options: {} }).explanation.key, 'explain.ls');

@@ -17,8 +17,8 @@ git switch -c ia/graphiques
 @files graphiques/ventes.svg graphiques/couts.svg
 git commit -m "graphique ventes"
 git commit -m "graphique coûts"
-@work plan.md
-git commit -m "plan mis à jour"
+@work chapitres/ch1.md
+git commit -m "chapitre 1 mis à jour"
 @author human
 git switch main
 @work intro.md

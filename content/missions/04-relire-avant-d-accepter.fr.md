@@ -65,7 +65,7 @@ Le résumé vous convient : on rapatrie la voie de l'assistant dans main. C'est 
 after: Les deux voies se rejoignent : main contient maintenant le travail de l'assistant.
 
 ### 7. Finalement, défaire une partie
-command: git revert HEAD
+command: git revert ia/resume
 Appel de Mme Pivert : elle préférait l'ancien résumé. revert ajoute un commit qui annule le précédent, sans réécrire l'histoire : idéal quand le travail est déjà partagé.
 after: Un nouveau rond « annulation » est apparu. L'histoire garde la trace de tout, même des changements d'avis.
 note: reset recule, revert annule en avançant
