@@ -628,8 +628,10 @@ export function mountSandbox(container, params) {
   function resetSession() {
     if (!session) return;
     if (session.store.getCommands().length && !window.confirm(t('sandbox.resetConfirm'))) return;
+    // a full restart of the start: initial scene, empty terminal and history, overlays closed
     session.store.reset();
-    record({ shown: { key: 'sandbox.reset.shown', params: {} }, note: { key: 'sandbox.resetDone', params: {} } });
+    attach({ ...session, transcript: [] });
+    showHappened({ note: { key: 'sandbox.resetDone', params: {} } });
   }
 
   // ---------------------------------------------------------------- copy / paste a start

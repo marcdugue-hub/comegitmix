@@ -80,6 +80,15 @@ test('play the sandbox: palette, file click, terminal, AI, undo', async ({ page 
   await page.locator('[data-lang=en]').click();
   await expect(page.locator('.sb-title')).toContainText('Try everything');
 
+  // reset starts over: initial scene, empty terminal and history (twice: nothing piles up)
+  page.on('dialog', (d) => d.accept());
+  await page.getByTestId('reset').click();
+  await expect(commits(page)).toHaveCount(before);
+  await expect(page.locator('.sb-term .terminal-entry')).toHaveCount(0);
+  await expect(page.locator('.sb-history-list li')).toHaveCount(1);
+  await page.getByTestId('reset').click();
+  await expect(page.locator('.sb-term .terminal-entry')).toHaveCount(0);
+
   expect(errors).toEqual([]);
 });
 
