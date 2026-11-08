@@ -13,7 +13,7 @@ import { renderInline } from '../content/markdown.js';
 import { parseWebAction } from '../engine/remote.js';
 import { getDesk, activeDesk, findFile } from '../engine/state.js';
 import { createTerminal } from './terminal.js';
-import { createScenePopovers, handlePopoverAction, detailLines, detailsItemsHtml, bindDetailsHover } from './scene-tools.js';
+import { createScenePopovers, handlePopoverAction } from './scene-tools.js';
 import { icon } from './icons.js';
 import { mountCompare } from './mission-compare.js';
 import {
@@ -110,8 +110,6 @@ function mountPlay(wrap, { file, ids, numbering, aiItems, catalogue: cat, id, pa
   let hintOpen = false;
   let overlay = null;
   let alive = true;
-  let detailsOn = Boolean(ctx.progress && ctx.progress.getDetails && ctx.progress.getDetails());
-  let details = []; // raw output lines of the last command ("More details")
 
   if (startIndex > 0 && session.index > 0) {
     const prev = session.part.steps[session.index - 1];
@@ -138,8 +136,6 @@ function mountPlay(wrap, { file, ids, numbering, aiItems, catalogue: cat, id, pa
     placeholder: t('term.inputLabel'),
   });
 
-  terminal.setDetails(detailsOn);
-
   const scene = renderScene(stage, session.state, { ...sceneOptions(), onAction });
   const popovers = createScenePopovers({
     getState: () => session.state,
@@ -149,14 +145,6 @@ function mountPlay(wrap, { file, ids, numbering, aiItems, catalogue: cat, id, pa
       if (d && d.id !== session.state.active) play({ name: 'cd', args: [d.path] });
     },
   });
-  const unbindDetails = bindDetailsHover(panelBottom, (hl) => scene.setOptions({ highlight: hl || sceneOptions().highlight }));
-
-  function setDetails(on) {
-    detailsOn = Boolean(on);
-    if (ctx.progress && ctx.progress.setDetails) ctx.progress.setDetails(detailsOn);
-    terminal.setDetails(detailsOn);
-    renderPanel();
-  }
 
   function sceneOptions() {
     const step = currentStep(session);
@@ -254,7 +242,6 @@ function mountPlay(wrap, { file, ids, numbering, aiItems, catalogue: cat, id, pa
       explanation: result.explanation ? esc(msg(result.explanation)) : '',
       error: result.error ? msg(result.error) : '',
       warning: result.warning ? msg(result.warning) : '',
-      output: detailLines(result).map((l) => l.text).join('\n'),
     });
   }
 
@@ -271,7 +258,6 @@ function mountPlay(wrap, { file, ids, numbering, aiItems, catalogue: cat, id, pa
     const step = out.step;
     if (!keepOverlay) closeOverlay();
     if (r) printResult(typed || labelOf(command, r), r);
-    details = detailLines(r);
     if (out.completed) {
       happened = md(step.after) || esc(msg(r.explanation)) || md(extraText);
       note = step.note || null;
@@ -403,7 +389,6 @@ function mountPlay(wrap, { file, ids, numbering, aiItems, catalogue: cat, id, pa
     closeOverlay();
     session = next;
     hintOpen = false;
-    details = [];
     const prev = session.index > 0 ? session.part.steps[session.index - 1] : null;
     happened = prev ? md(prev.after) : '';
     note = prev ? prev.note : null;
@@ -572,8 +557,6 @@ function mountPlay(wrap, { file, ids, numbering, aiItems, catalogue: cat, id, pa
     panelTop.innerHTML = partsHtml() + headHtml() + duoHtml() + workHtml() + stepsHtml() + main;
     panelBottom.innerHTML =
       (happened ? `<div class="mission-happened" aria-live="polite"><div class="eyebrow">${esc(t('ui.happened'))}</div><div>${happened}</div></div>` : '') +
-      (detailsOn && details.length ? `<ul class="sb-details mission-details" role="list" aria-label="${esc(t('sandbox.details.label'))}" data-testid="mission-details">${detailsItemsHtml(details)}</ul>` : '') +
-      `<div class="mission-controls"><button type="button" class="btn btn--small btn--ghost sb-details-btn" data-act="details" aria-pressed="${detailsOn}" data-testid="details">${esc(t(detailsOn ? 'ui.lessDetails' : 'ui.moreDetails'))}</button></div>` +
       paletteHtml();
   }
 
@@ -595,7 +578,6 @@ function mountPlay(wrap, { file, ids, numbering, aiItems, catalogue: cat, id, pa
       case 'prev': goto(Math.max(0, session.index - 1)); break;
       case 'restart': switchPart(session.partIndex); break;
       case 'part': switchPart(Number(el.dataset.part)); break;
-      case 'details': setDetails(!detailsOn); break;
       default: break;
     }
   }
@@ -608,7 +590,6 @@ function mountPlay(wrap, { file, ids, numbering, aiItems, catalogue: cat, id, pa
   return () => {
     alive = false;
     closeOverlay();
-    unbindDetails();
     terminal.destroy();
     scene.destroy();
   };

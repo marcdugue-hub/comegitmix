@@ -81,7 +81,7 @@ Detailed in `docs/SANDBOX.md`. In short:
 - Typical Git errors are played (branch already open in another desk, rejected `push`, conflict) with a human explanation.
 
 ### 3.4 Terminal and clicks, in every mode
-The terminal and clicking are both always available; whatever the trigger, the **Git command is always displayed**. There is no "no terminal" mode. The raw text output of commands (`git status`, `git log`…) is hidden by default and shown only in **More details** mode (see `docs/SANDBOX.md` §8).
+The terminal and clicking are both always available; whatever the trigger, the **Git command is always displayed**. There is no "no terminal" mode. The raw text output of commands (`git status`, `git log`…) is hidden by default and shown only in **More details** mode, which exists in the sandbox only (see `docs/SANDBOX.md` §8, ADR 0012).
 
 ## 4. FR / EN toggle
 - FR | EN button in the header, immediate effect.

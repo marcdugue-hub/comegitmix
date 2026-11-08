@@ -18,3 +18,4 @@ Rules that follow from these decisions are listed, without rationale, in [`../CO
 | [0009](0009-private-design-system.md) | `design-system/` stays private | Accepted |
 | [0010](0010-product-defaults.md) | Product defaults (home, unlocking, details, language) | Accepted |
 | [0011](0011-text-contrast-within-palette.md) | Text contrast within the palette | Accepted |
+| [0012](0012-more-details-sandbox-only.md) | "More details" in the sandbox only | Accepted |
