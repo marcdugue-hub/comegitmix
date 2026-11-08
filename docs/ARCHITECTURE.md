@@ -44,6 +44,8 @@ src/
     puzzle.js             .md → puzzle object (choice or typed, computed goal)
     sandbox.js            .md → start
     summary.js            content/index.md → ordered lists
+    doc.js                command card .md → { title, summary, syntax, see, sections }
+    docs-topics.js        card list, groups, official links, typed command → card
     loader.js             fetches files for the current language, French fallback
     validate.js           errors with file:line (used by the check script and the tests)
   render/                 DRAWING (DOM + one SVG)
@@ -93,6 +95,7 @@ Rule: the engine knows neither the DOM nor the language (it returns i18n keys + 
 | `#/mission/<id>` (`?part=B&step=3`) | mission |
 | `#/puzzle/<id>` | puzzle |
 | `#/sandbox` (`?start=<id>`) | sandbox |
+| `#/docs`, `#/docs/<id>` | command cards (opened in a new tab from the header and from terminal errors) |
 The language is a global setting (FR | EN button), not a route. Hash routes need no server configuration, which suits static hosting.
 
 ## 4. Persistence (browser)

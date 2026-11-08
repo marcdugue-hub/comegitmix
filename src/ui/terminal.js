@@ -2,6 +2,7 @@
 // The terminal does not know Git: the caller decides what to run, what to suggest and what to print.
 import { t } from "../i18n/i18n.js";
 import { icon } from "./icons.js";
+import { docTopicFor, docHash } from "../content/docs-topics.js";
 
 export const MAX_SUGGESTIONS = 6;
 
@@ -169,6 +170,21 @@ export function createTerminal(container, { onSubmit, suggest, placeholder, prom
     return row;
   }
 
+  /** After an error: a link to the command card (new tab), or to the list when the command is unknown. */
+  function docLink(command) {
+    const id = docTopicFor(command);
+    const row = document.createElement("div");
+    row.className = "terminal-result terminal-doc";
+    const a = document.createElement("a");
+    a.href = docHash(id);
+    a.target = "_blank";
+    a.rel = "noopener";
+    a.innerHTML = icon("book-open", { size: 14 });
+    a.append(id ? t("term.docCard", { name: id }) : t("term.docList"));
+    row.appendChild(a);
+    return row;
+  }
+
   /** entry: { command, explanation? (HTML-safe), output? (raw text), error?, warning? } */
   function print(entry = {}) {
     const block = document.createElement("div");
@@ -185,7 +201,10 @@ export function createTerminal(container, { onSubmit, suggest, placeholder, prom
       line.append(p, c);
       block.appendChild(line);
     }
-    if (entry.error) block.appendChild(status("error", "triangle-alert", "term.error", entry.error));
+    if (entry.error) {
+      block.appendChild(status("error", "triangle-alert", "term.error", entry.error));
+      if (entry.command) block.appendChild(docLink(entry.command));
+    }
     if (entry.warning) block.appendChild(status("warning", "triangle-alert", "term.warning", entry.warning));
     if (entry.explanation) {
       const row = document.createElement("div");

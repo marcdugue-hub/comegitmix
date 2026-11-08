@@ -19,6 +19,7 @@ import { startSceneFit } from './ui/fit-scene.js';
 import './ui/puzzle-panel.js';
 import './ui/mission-panel.js';
 import './ui/sandbox-panel.js';
+import './ui/docs-screen.js';
 
 /** Stand-in shown until the real screen module registers itself. */
 function placeholder(name) {
@@ -69,7 +70,7 @@ async function boot() {
     },
   });
 
-  router.onRoute((route, hash) => { if (route.name !== 'home') progress.setLast(hash); });
+  router.onRoute((route, hash) => { if (route.name !== 'home' && route.name !== 'docs') progress.setLast(hash); });
   i18n.onChange(() => { shell.update(); router.refresh(); }); // instant language switch
   startSceneFit();
   router.start(shell.main);

@@ -355,8 +355,37 @@ The "Make the AI work" button changes 1 to 3 files of the desk (or the paths giv
 - The list must contain at least one item; the two language files need not have the same number of items.
 - The same text is used as the message of the AI's commit when the button also commits.
 
+## 7 bis. Command cards (`content/docs/<id>.fr.md`, `content/docs/<id>.en.md`)
+
+The **Documentation** button of the header opens, in a new tab, one card per command written for non-developers; after an error, the terminal links to the card of the typed command (or to the list). The list of cards, their groups, the words that lead to them (`squash` → `rebase`, `ls` → `cd`…) and their official page (git-scm.com in the UI language, GitHub docs for `fork` and `mr`) are in `src/content/docs-topics.js`.
+
+```md
+---
+title: git merge
+summary: Bring the work of another lane into yours.
+syntax: git merge <branch>
+see: [rebase, switch, mr]
+---
+
+## What it does
+Plain words, real Git behaviour.
+
+## In the game
+What the four zones show. Only what the game really does.
+
+## Example
+- `git switch main`: ...
+
+## Watch out
+The trap to avoid.
+```
+
+- `title`, `summary`, `syntax` are required; `see:` lists other card ids.
+- Sections: `## What it does` and `## In the game` are required, `## Example` and `## Watch out` optional; the headings shown come from i18n (`docs.section.*`). Bodies use the mini-Markdown of §3 (paragraphs, lists, bold, italic, code).
+- The French and English cards have the same sections and the same `see:` list.
+
 ## 8. Checking content
-`npm run content:check` reads `index.md`, `ai-work.*.md` and every listed file, and reports errors **with file and line**: unknown key, section or directive (including any French token), unrecognised command, unknown `check` phrase or error code, FR/EN steps or parts not aligned (same count, same order, same `command`/`web`/`check`), `conflict` block malformed or referring to a path or branch that the setup does not create, `desk:` values not matching the replayed part, a choice list without exactly one `[x]`, a setup that fails, a solution that does not reach the goal, an id listed in `index.md` with no `.fr.md` file. A missing `.en.md` is a warning, not an error. The command exits with a non-zero code when there is at least one error.
+`npm run content:check` reads `index.md`, `ai-work.*.md` and every listed file, and reports errors **with file and line**: unknown key, section or directive (including any French token), unrecognised command, unknown `check` phrase or error code, FR/EN steps or parts not aligned (same count, same order, same `command`/`web`/`check`), `conflict` block malformed or referring to a path or branch that the setup does not create, `desk:` values not matching the replayed part, a choice list without exactly one `[x]`, a setup that fails, a solution that does not reach the goal, an id listed in `index.md` with no `.fr.md` file, a command card missing in one language or not aligned between FR and EN. A missing `.en.md` is a warning, not an error. The command exits with a non-zero code when there is at least one error.
 
 ## 9. What stays in the code
 Interface texts (buttons, zones, Git errors, generic command explanations, the conflict fallback message, labels of `desk:` chips and `web:` actions) stay in `src/i18n/*.json`. All **narrative** text (missions, puzzles, sandbox starts, generic AI texts) lives in `content/`. The `mission.*` and `puzzle.*` keys present today in `src/i18n/*.json` only serve as a source for writing the `.md` files; they will be removed during implementation.

@@ -1,10 +1,12 @@
-// Application shell: skip link, header (logo, name, mode tabs, FR|EN toggle), minimum-screen note, <main>.
+// Application shell: skip link, header (logo, name, mode tabs, docs link, FR|EN toggle), minimum-screen note, <main>.
 // Hooks for other modules:
 //   shell.main         the <main id="main"> element the router mounts screens into
 //   shell.headerSlot   an empty element in the header (e.g. mission progress dots); emptied on every route change
 //   shell.update()     re-renders the header texts, tabs targets and language toggle (after a language or progress change)
 import { t, getLang, setLang, LANGS } from '../i18n/i18n.js';
 import { buildHash } from '../router.js';
+import { icon } from './icons.js';
+import { docHash } from '../content/docs-topics.js';
 
 const TABS = ['mission', 'puzzle', 'sandbox'];
 
@@ -74,7 +76,14 @@ export function mountShell(root, { router, tabTarget = (name) => buildHash({ nam
       });
       return b;
     }));
-    header.replaceChildren(brand, tabs, el('div', { class: 'header-end' }, [headerSlot, toggle]));
+    // the command cards open in their own tab, so the game in progress stays where it is
+    const onDocs = active === 'docs';
+    const docs = el('a', {
+      class: 'docs-link', href: docHash(), target: onDocs ? false : '_blank', rel: onDocs ? false : 'noopener',
+      'aria-current': onDocs ? 'page' : false, title: t('shell.docsTitle'),
+    }, [t('shell.docs')]);
+    docs.insertAdjacentHTML('afterbegin', icon('book-open', { size: 16 }));
+    header.replaceChildren(brand, tabs, el('div', { class: 'header-end' }, [headerSlot, docs, toggle]));
     skip.textContent = t('shell.skip');
     note.textContent = t('ui.minScreen');
     document.title = t('app.name');

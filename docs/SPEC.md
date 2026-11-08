@@ -85,6 +85,9 @@ Detailed in `docs/SANDBOX.md`. In short:
 ### 3.4 Terminal and clicks, in every mode
 The terminal and clicking are both always available; whatever the trigger, the **Git command is always displayed**. There is no "no terminal" mode. The raw text output of commands (`git status`, `git log`…) is hidden by default and shown only in **More details** mode, which exists in the sandbox only (see `docs/SANDBOX.md` §8, ADR 0012).
 
+### Documentation
+A **Documentation** button next to the FR | EN toggle opens, in a new tab, one card per command written for non-developers: what it is for, what it does in the game, an example, the trap to avoid, and a link to the official documentation (in French when it exists). After an error, the terminal offers the card of the typed command, or the list when the command is unknown. Format: `docs/AUTHORING.md` §7 bis.
+
 ## 4. FR / EN toggle
 - FR | EN button in the header, immediate effect.
 - First launch: follows the browser language (French if the browser is in French, English otherwise); after that, the toggle choice is remembered.

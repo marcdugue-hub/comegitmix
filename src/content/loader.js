@@ -4,9 +4,10 @@ import { parseMission } from './mission.js';
 import { parsePuzzle } from './puzzle.js';
 import { parseSandbox } from './sandbox.js';
 import { parseSummary, parseAiWork } from './summary.js';
+import { parseDoc } from './doc.js';
 
 export const FALLBACK_LANG = 'fr';
-const DIRS = { mission: 'missions', puzzle: 'puzzles', sandbox: 'sandbox' };
+const DIRS = { mission: 'missions', puzzle: 'puzzles', sandbox: 'sandbox', doc: 'docs' };
 
 /** Default browser fetcher: resolves to the text, or null on 404 / non-OK. */
 export async function browserFetchText(path) {
@@ -17,7 +18,7 @@ export async function browserFetchText(path) {
 /**
  * createLoader({ fetchText, base }) -> {
  *   loadSummary(), loadAiWork(lang),
- *   loadFile(kind, id, lang), loadMission(id, lang), loadPuzzle(id, lang), loadSandbox(id, lang)
+ *   loadFile(kind, id, lang), loadMission(id, lang), loadPuzzle(id, lang), loadSandbox(id, lang), loadDoc(id, lang)
  * }
  * `base` is a relative path ("content/"); never starts with "/".
  * File loaders resolve to { id, lang, fallback, path, text, data } where `fallback`
@@ -39,7 +40,7 @@ export function createLoader({ fetchText = browserFetchText, base = 'content/' }
     }
     throw new Error(`content file not found: ${base}${rel}.${FALLBACK_LANG}.md`);
   }
-  const parsers = { mission: parseMission, puzzle: parsePuzzle, sandbox: parseSandbox };
+  const parsers = { mission: parseMission, puzzle: parsePuzzle, sandbox: parseSandbox, doc: parseDoc };
   async function loadFile(kind, id, lang) {
     if (!DIRS[kind]) throw new Error(`unknown content kind: ${kind}`);
     const f = await withFallback(`${DIRS[kind]}/${id}`, lang);
@@ -59,5 +60,6 @@ export function createLoader({ fetchText = browserFetchText, base = 'content/' }
     loadMission: (id, lang) => loadFile('mission', id, lang),
     loadPuzzle: (id, lang) => loadFile('puzzle', id, lang),
     loadSandbox: (id, lang) => loadFile('sandbox', id, lang),
+    loadDoc: (id, lang) => loadFile('doc', id, lang),
   };
 }

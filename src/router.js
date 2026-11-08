@@ -1,9 +1,9 @@
-// Hash router. Routes: #/  #/mission/<id>?part=B&step=3  #/puzzle/<id>  #/sandbox?start=<id>
+// Hash router. Routes: #/  #/mission/<id>?part=B&step=3  #/puzzle/<id>  #/sandbox?start=<id>  #/docs  #/docs/<id>
 // Screens plug in with registerScreen(name, mount); mount(container, params) returns an unmount function.
 // params = { name, id, part, step, start, ctx }  (ctx = shared context set by main.js: { loader, summary, progress }).
 // An unknown route goes to the home. The language is not a route: a language change calls refresh().
 
-export const SCREENS = ['home', 'mission', 'puzzle', 'sandbox'];
+export const SCREENS = ['home', 'mission', 'puzzle', 'sandbox', 'docs'];
 const ID = /^[a-z0-9][a-z0-9-]*$/;
 
 /** "#/mission/03-x?part=B&step=2" -> { name, id?, part?, step?, start? }; anything unknown -> { name: 'home' }. */
@@ -25,6 +25,10 @@ export function parseHash(hash = '') {
     }
     return route;
   }
+  if (name === 'docs' && rest.length === 0) {
+    if (!id) return { name };
+    if (ID.test(id)) return { name, id };
+  }
   if (name === 'sandbox' && !id) {
     const start = query.get('start');
     return start && ID.test(start) ? { name, start } : { name };
@@ -43,6 +47,7 @@ export function buildHash(route = { name: 'home' }) {
     return `#/mission/${id}${qs ? `?${qs}` : ''}`;
   }
   if (name === 'puzzle' && id) return `#/puzzle/${id}`;
+  if (name === 'docs') return id ? `#/docs/${id}` : '#/docs';
   if (name === 'sandbox') return start ? `#/sandbox?start=${encodeURIComponent(start)}` : '#/sandbox';
   return '#/';
 }

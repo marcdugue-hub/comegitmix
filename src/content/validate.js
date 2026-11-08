@@ -11,6 +11,8 @@ import { parseMission } from './mission.js';
 import { parsePuzzle } from './puzzle.js';
 import { parseSandbox } from './sandbox.js';
 import { parseSummary, parseAiWork } from './summary.js';
+import { parseDoc } from './doc.js';
+import { DOC_TOPICS } from './docs-topics.js';
 import { parseCheckPhrase, ERROR_CODES, DIFF_MODES } from './check-phrase.js';
 
 const KINDS = { missions: 'mission', puzzles: 'puzzle', sandbox: 'sandbox' };
@@ -242,6 +244,7 @@ export function validate(files, options = {}) {
   // classify files
   const parsed = { index: null, aiWork: {}, mission: {}, puzzle: {}, sandbox: {} };
   const present = { mission: {}, puzzle: {}, sandbox: {} };
+  const docs = {}; // id -> { fr, en } parsed command cards
   for (const [path, text] of Object.entries(files)) {
     if (!path.endsWith('.md')) continue;
     let m;
@@ -264,8 +267,16 @@ export function validate(files, options = {}) {
       if (kind === 'mission') validateMission(data, path, report, opts);
       else if (kind === 'puzzle') validatePuzzle(data, path, report, opts);
       else validateSandbox(data, path, report);
+    } else if ((m = /^docs\/([a-z0-9][a-z0-9-]*)\.([a-z]{2})\.md$/.exec(path))) {
+      const [, id, lang] = m;
+      if (!LANGS.includes(lang)) { report(path, 1, `unknown language "${lang}" (expected fr or en)`); continue; }
+      if (!DOC_TOPICS.includes(id)) report(path, 1, `"${id}" is not a command card listed in src/content/docs-topics.js`, 'warning');
+      const d = parseDoc(text);
+      for (const e of d.errors) report(path, e.line, e.message);
+      for (const id2 of d.see) if (!DOC_TOPICS.includes(id2)) report(path, 1, `"see:" refers to "${id2}", which is not a command card`);
+      (docs[id] = docs[id] || {})[lang] = d;
     } else {
-      report(path, 1, 'unexpected file name (expected <id>.fr.md or <id>.en.md in missions/, puzzles/ or sandbox/)', 'warning');
+      report(path, 1, 'unexpected file name (expected <id>.fr.md or <id>.en.md in missions/, puzzles/, sandbox/ or docs/)', 'warning');
     }
   }
 
@@ -312,6 +323,19 @@ export function validate(files, options = {}) {
           else if (c.desk.length !== part.steps.length) report(file, c.deskLine, `"desk:" has ${c.desk.length} values but part ${c.replays.part} has ${part.steps.length} steps`);
           else for (const v of c.desk) if (!['intact', 'stashed', 'changed', 'restored', 'removed'].includes(v)) report(file, c.deskLine, `unknown desk value "${v}" (expected intact, stashed, changed, restored, removed)`);
         }
+      }
+    }
+  }
+
+  // command cards: once there is a docs/ folder, one card per topic and language, same sections in both
+  if (Object.keys(docs).length) {
+    for (const id of DOC_TOPICS) {
+      for (const lang of LANGS) if (!docs[id] || !docs[id][lang]) addErr(`docs/${id}.${lang}.md`, 1, `command card docs/${id}.${lang}.md is missing`);
+      const d = docs[id];
+      if (d && d.fr && d.en) {
+        const keys = (x) => x.sections.map((s) => s.key).join(',');
+        if (keys(d.fr) !== keys(d.en)) addErr(`docs/${id}.en.md`, 1, `sections differ from docs/${id}.fr.md (${keys(d.en)} vs ${keys(d.fr)})`);
+        if (d.fr.see.join(',') !== d.en.see.join(',')) addErr(`docs/${id}.en.md`, 1, `"see:" differs from docs/${id}.fr.md`);
       }
     }
   }
