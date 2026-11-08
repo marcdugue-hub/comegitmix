@@ -189,3 +189,18 @@ test('events map to animations', () => {
   assert.deepEqual(plan.map((p) => p.cls), ['anim-pop', 'anim-rise', 'anim-pop', 'anim-draw', 'anim-shake']);
   assert.match(plan[0].selector, /c4/);
 });
+
+test('commit messages of one lane never overlap; the newest keeps its label', async () => {
+  const { fitMessages } = await import('../../src/render/zone-lanes.js');
+  const row = (msgs, gap) => Object.fromEntries(msgs.map((msg, i) => [`c${i}`, { id: `c${i}`, x: 100 + i * gap, y: 50, msg, msgMax: 120 }]));
+  for (const gap of [34, 50, 80, 140]) {
+    const commits = row(['init', 'graphique ventes', 'chapitre 1 mis à jour', 'intro'], gap);
+    const w = fitMessages(commits);
+    assert.ok(w.c3 > 0, `newest label shown at gap ${gap}`);
+    const shown = Object.values(commits).filter((c) => w[c.id] > 0).sort((a, b) => a.x - b.x);
+    for (let i = 1; i < shown.length; i++) {
+      const a = shown[i - 1]; const b = shown[i];
+      assert.ok(a.x + w[a.id] / 2 <= b.x - w[b.id] / 2, `labels ${a.id} and ${b.id} overlap at gap ${gap}`);
+    }
+  }
+});

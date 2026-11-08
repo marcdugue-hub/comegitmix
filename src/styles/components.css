@@ -204,6 +204,7 @@ button.chip:hover { background: var(--lin); }
 .terminal-input input {
   flex: 1; min-width: 0; border: 0; background: transparent; color: var(--creme);
   font-family: var(--font-mono); font-size: 13px;
+  text-overflow: ellipsis;
 }
 .terminal-input input::placeholder { color: var(--creme-trait); }
 .terminal :focus-visible { box-shadow: 0 0 0 2px var(--charbon), 0 0 0 4px var(--creme); }

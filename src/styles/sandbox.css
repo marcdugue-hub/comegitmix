@@ -32,8 +32,8 @@
 /* what just happened */
 .sb-happened { display: flex; flex-direction: column; gap: 6px; padding: 10px 12px; border-radius: 14px; background: var(--surface); border: 1px solid var(--trait); }
 .sb-explain { font-size: 14px; line-height: 1.45; }
-.sb-explain.is-error { color: var(--annotation); }
-.sb-ai-text { font-family: var(--font-note); font-size: 19px; line-height: 1.15; color: var(--annotation); }
+.sb-explain.is-error { color: var(--annotation-texte); }
+.sb-ai-text { font-family: var(--font-note); font-size: 19px; line-height: 1.15; color: var(--annotation-texte); }
 .sb-why-btn { align-self: flex-start; padding: 0; border: 0; background: none; font-size: 13px; font-weight: 500; text-decoration: underline; text-underline-offset: 3px; }
 .sb-why { font-size: 13px; line-height: 1.45; color: var(--texte-secondaire); }
 .sb-details { margin: 0; padding: 8px 10px; list-style: none; border-radius: 10px; background: var(--lin); font-size: 12px; line-height: 1.5; max-height: 160px; overflow-y: auto; }
@@ -103,7 +103,7 @@
 .sb-start-card strong { font-size: 15px; }
 .sb-start-text { font-size: 13px; line-height: 1.4; color: var(--texte-secondaire); }
 .sb-paste-area { width: 100%; padding: 8px 10px; border: 1.5px solid var(--charbon); border-radius: 12px; background: var(--blanc); font-size: 12.5px; resize: vertical; }
-.sb-paste-error { color: var(--annotation); font-size: 13px; }
+.sb-paste-error { color: var(--annotation-texte); font-size: 13px; }
 .sb-paste-error:empty { display: none; }
 .sb-pop-meta { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
 .sb-pop-files { color: var(--texte-secondaire); word-break: break-all; }

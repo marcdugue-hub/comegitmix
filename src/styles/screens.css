@@ -100,7 +100,7 @@
 .diff-swatch { width: 14px; height: 14px; border-radius: 3px; }
 .diff-swatch--del { background: var(--diff-del-fond); border: 1px solid var(--annotation); }
 .diff-swatch--add { background: var(--diff-add-fond); border: 1px solid var(--statut-U-texte); }
-.diff-note { margin-left: auto; font-family: var(--font-note); font-size: 22px; line-height: 1; color: var(--annotation); }
+.diff-note { margin-left: auto; font-family: var(--font-note); font-size: 22px; line-height: 1; color: var(--annotation-texte); }
 
 /* ---- Conflict screen ---- */
 .conflict-screen { display: block; padding: 0; }
@@ -126,7 +126,7 @@
 .log-item { display: flex; align-items: center; gap: 10px; min-height: 36px; padding: 4px 12px; border-radius: 10px; font-size: 14px; }
 .log-item:nth-child(odd) { background: var(--survol); }
 .log-author { display: inline-flex; align-items: center; gap: 4px; min-width: 76px; font-size: 12px; font-weight: 500; }
-.log-item--ai .log-author { color: var(--annotation); }
+.log-item--ai .log-author { color: var(--annotation-texte); }
 .log-item--human .log-author { color: var(--texte-secondaire); }
 .log-msg { min-width: 0; flex: 0 1 auto; }
 .log-branch { --lane: var(--lin); margin-left: 4px; color: var(--charbon); border: 1px solid var(--trait-fort); }

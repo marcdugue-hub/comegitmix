@@ -103,7 +103,7 @@ function lockedCard(name, mission, box) {
 }
 
 function localCard(state, box, stats) {
-  const stat = (n, key) => `<div class="repo-stat"><b>${n}</b><span>${esc(t(key))}</span></div>`;
+  const stat = (n, key) => `<div class="repo-stat"><b>${n}</b><span>${esc(t(key, { n }))}</span></div>`;
   return (
     `<section class="repo-card repo-card--local" style="left:${box.x}px;width:${box.w}px" data-repo="local" aria-label="${esc(t('repo.local'))}">` +
     `<div class="repo-title"><span>${esc(t('repo.local'))}</span></div>` +

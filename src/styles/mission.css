@@ -22,7 +22,7 @@
 /* ---- Head ---- */
 .mission-eyebrow { display: flex; align-items: center; gap: 6px; }
 .mission-title { margin: 0; font-family: var(--font-titre); font-weight: 300; font-size: 30px; line-height: 1.05; }
-.mission-title em { font-weight: 500; color: var(--orange); }
+.mission-title em { font-weight: 500; color: var(--annotation); }
 
 /* ---- Duo ---- */
 .mission-duo { display: flex; gap: 10px; align-items: flex-start; }
@@ -36,7 +36,7 @@
 }
 .mission-work-state { margin-left: auto; font-weight: 700; border-radius: var(--rayon-pastille); padding: 2px 10px; }
 .mission-work-state.is-visible { background: var(--sauge-clair); color: var(--charbon); }
-.mission-work-state.is-stashed { background: var(--statut-M-fond); color: var(--annotation); }
+.mission-work-state.is-stashed { background: var(--statut-M-fond); color: var(--annotation-texte); }
 
 /* ---- Steps ---- */
 .mission-steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 1px; }
@@ -93,7 +93,7 @@
   border-left: 4px solid var(--orange); border-radius: 4px 12px 12px 4px; padding: 9px 12px;
 }
 .mission-happened .eyebrow { font-size: 11px; margin-bottom: 3px; }
-.mission-happened-error { color: var(--annotation); }
+.mission-happened-error { color: var(--annotation-texte); }
 .mission-controls { display: flex; flex-wrap: wrap; gap: 6px; }
 .mission-details { max-height: 140px; }
 
@@ -143,7 +143,7 @@
 .compare-step code { font-family: var(--font-mono); font-size: 12.5px; color: var(--texte-secondaire); }
 .compare-chip { justify-self: end; font-size: 12px; font-weight: 700; border-radius: var(--rayon-pastille); padding: 3px 10px; white-space: nowrap; }
 .compare-chip.is-ok { background: var(--sauge-clair); color: var(--charbon); }
-.compare-chip.is-bad { background: var(--statut-M-fond); color: var(--annotation); }
+.compare-chip.is-bad { background: var(--statut-M-fond); color: var(--annotation-texte); }
 .compare-chip.is-back { background: var(--statut-A-fond); color: var(--statut-A-texte); }
 .compare-boxes { display: grid; grid-template-columns: 1fr 1fr 0.6fr; gap: 16px; }
 .compare-box { padding: 16px 20px; font-size: 14px; line-height: 1.5; }
@@ -151,7 +151,7 @@
 .compare-box p { margin: 0 0 6px; }
 .compare-box--0 { background: var(--lin); }
 .compare-box--1 { background: var(--blanc); border: 2px dashed var(--annotation); }
-.compare-box--1 h3 { color: var(--annotation); }
+.compare-box--1 h3 { color: var(--annotation-texte); }
 .compare-box--2 { background: var(--sauge-clair); }
 .compare-code { font-size: 12.5px; }
 .compare-actions { display: flex; gap: 10px; justify-content: flex-end; }

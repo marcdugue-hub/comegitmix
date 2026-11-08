@@ -15,6 +15,15 @@ The milestones below keep their content; the order above takes precedence.
 
 After each finished step: run `npm test`, `npm run content:check` and `npm run test:e2e` locally; if all three pass, commit and push to `main`. Never push with a failing test.
 
+## Status (2026-11-08)
+v1 is complete; the three suites pass (`npm test`: 268 unit tests, `npm run content:check`: 57 files, `npm run test:e2e`: 22 scenarios).
+- Done: steps 1 to 5 above and milestones 1 to 6, including the additions below (file tree, diff screen, MR, mission 6 in two parts with its summary).
+- Milestone 6 finishing: plural forms (`t()` picks `<key>.one` when `n` is a number), text contrast ([ADR 0011](adr/0011-text-contrast-within-palette.md)), commit labels that never overlap, e2e tests of the home, the FR/EN toggle and accessibility (keyboard path, accessible names, `prefers-reduced-motion`).
+- Checked in the browser: every screen in FR and EN with no console error and only same-origin requests, at the root and under a sub-path (`/comegitmix/`); "plays best on a large screen" message below 1100 px.
+- `npm start` runs `scripts/serve.py` (Python static server with a larger connection queue, so parallel e2e browsers do not lose connections).
+- GitHub Pages is live at https://marcdugue-hub.github.io/comegitmix/ (root of `main`).
+- Open: the inactive desks at 60 % opacity stay below 4.5:1 by design (ADR 0011).
+
 ## Milestone 1 — Engine (`src/engine/`)
 Deliverables: `state.js`, `parse.js`, `apply.js`, `predicates.js`, `conflicts.js`, `tests/unit/engine.test.js`.
 Criteria: `npm test` passes; every command in `docs/GIT-MODEL.md` §4 has a test; the input is never mutated; errors of §6 played, including the conflict rule (§6.1).

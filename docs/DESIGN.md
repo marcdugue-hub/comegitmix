@@ -13,7 +13,8 @@ Reference: `design-system/` (brand "Le Sens de l'IA", read its `SKILL.md`; priva
 | Linen (cards) | `#ede5d6` |
 | Sage / light sage | `#CDD0AB` / `#DFE2C5` |
 | Secondary text | `#5f544c` (the brand grey `#7a6e65` is too pale for text) |
-| Annotation | `#c4551a` |
+| Annotation | `#c4551a` (large text ≥ 24 px, borders, icons) |
+| Annotation as text (`--annotation-texte`) | `#8a3510` (same value as the diff "removed" text; for annotation-coloured text under 24 px and the M letter, [ADR 0011](adr/0011-text-contrast-within-palette.md)) |
 
 **Colours added for the lanes** (as in the mockups): dark sage `#8A9456`, sage `#C9D08F`. Lane colour cycle, excluding `main`: orange `#E9722D`, sky `#4aadcc`, dark sage `#8A9456`, sage `#C9D08F`, then repeat. Never use `#84D0E4` for text on a light background. No colour outside this document.
 
@@ -48,7 +49,7 @@ Header, language toggle, mode tabs, home cards, mission panel, command card, com
 
 ## 9. File tree and status letters (zone ④, zone ③)
 - File row: 26 px high, chevron (folders only), icon, name in DM Mono 13 px, letter badge on the right (20×20, radius 5, DM Mono 12 px 500). Square `+` button of 20 px on folder rows; tile header: `+` 22 px.
-- Colours: tokens `--statut-M-*`, `--statut-U-*`, `--statut-A-*` (see `tokens.css`). Secondary text ≥ 4.5:1: check `#1a6a88` on `#dff1f7`, `#55612a` on `#DFE2C5`, `#c4551a` on 16 % orange background.
+- Colours: tokens `--statut-M-*`, `--statut-U-*`, `--statut-A-*` (see `tokens.css`). Secondary text ≥ 4.5:1: check `#1a6a88` on `#dff1f7`, `#55612a` on `#DFE2C5`, `#8a3510` (M letter) on 16 % orange background — `#c4551a` gives only 3.8:1 there ([ADR 0011](adr/0011-text-contrast-within-palette.md)).
 - Conflict letter **!**: terracotta, built from existing colours only (e.g. the "removed" colours of §10), see `docs/SANDBOX.md` §7.1.
 - Active tile: 2 px border in the lane colour, "here" label in the lane colour. Inactive tile: 1 px border, 60 % opacity. Tile "to be created": dashed sky, 55 % opacity, not interactive.
 - Fixed-height list (116 px) with vertical scrolling for open folders; tile 250×184 px.

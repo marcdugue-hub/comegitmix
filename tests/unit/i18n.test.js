@@ -150,3 +150,23 @@ test("tn picks the singular form by language plural rules", async () => {
   i18n.setDictionary("en", { "g": "{n} things" });
   assert.equal(i18n.tn("g", 1), "1 things");
 });
+
+test("t picks the plural variant when params.n is a number (engine explanations)", async () => {
+  setup({ nav: "fr-FR" });
+  i18n.setDictionary("fr", { "s": "{n} fichiers ont changé", "s.one": "{n} fichier a changé", "step": "Étape {n}" });
+  assert.equal(i18n.t("s", { n: 1 }), "1 fichier a changé");
+  assert.equal(i18n.t("s", { n: 2 }), "2 fichiers ont changé");
+  assert.equal(i18n.t("s", { n: "1" }), "1 fichiers ont changé"); // only numbers select a variant
+  assert.equal(i18n.t("step", { n: 1 }), "Étape 1");
+});
+
+test("real dictionaries: singular variants exist in both languages for counted messages", () => {
+  for (const key of ["explain.status", "explain.add.many", "explain.stash.list", "explain.log", "explain.ls", "home.puzzle.stars"]) {
+    assert.equal(typeof fr[`${key}.one`], "string", key);
+    assert.equal(typeof en[`${key}.one`], "string", key);
+  }
+
+  for (const [k, v] of Object.entries(fr)) assert.ok(!/\(s\)/.test(v), `"(s)" in fr ${k}`);
+  for (const [k, v] of Object.entries(en)) assert.ok(!/\(s\)/.test(v), `"(s)" in en ${k}`);
+
+});

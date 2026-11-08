@@ -5,7 +5,7 @@
 .puzzle-eyebrow-row .eyebrow { margin-right: auto; }
 .puzzle-title { font-size: 32px; line-height: 1.05; }
 .puzzle-timer { display: inline-flex; align-items: center; font-size: 14px; }
-.puzzle-timer.is-over { color: var(--annotation); }
+.puzzle-timer.is-over { color: var(--annotation-texte); }
 .puzzle-body { display: flex; flex-direction: column; gap: 12px; flex: 1; min-height: 0; overflow-y: auto; margin-right: -8px; padding-right: 8px; }
 
 .puzzle-progress { display: flex; gap: 6px; align-items: center; }
@@ -40,7 +40,7 @@
 .puzzle-terminal { min-height: 60px; }
 .puzzle-hint, .puzzle-note { font-size: 13.5px; line-height: 1.4; }
 .puzzle-hint { font-family: var(--font-mono); padding: 8px 12px; border-radius: 12px; background: var(--lin); }
-.puzzle-note { color: var(--annotation); }
+.puzzle-note { color: var(--annotation-texte); }
 
 .puzzle-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
 .puzzle-actions .puzzle-stars { margin-left: auto; }
@@ -49,7 +49,7 @@
 .puzzle-stars .ic.is-on { fill: var(--orange); stroke: var(--charbon); }
 
 .puzzle-feedback { display: grid; gap: 6px; padding: 12px 16px; border-radius: 14px; font-size: 14px; line-height: 1.4; border-left: 4px solid; }
-.puzzle-feedback.is-wrong { background: var(--diff-del-fond); border-color: var(--annotation); }
+.puzzle-feedback.is-wrong { background: var(--diff-del-fond); border-color: var(--annotation-texte); }
 .puzzle-feedback.is-right { background: var(--blanc); border-color: var(--sauge-fonce); border-top: 1px solid var(--trait); border-right: 1px solid var(--trait); border-bottom: 1px solid var(--trait); }
 .puzzle-feedback-title { display: flex; align-items: center; gap: 6px; font-weight: 700; }
 .puzzle-result { display: flex; align-items: center; gap: 10px; }

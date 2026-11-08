@@ -17,3 +17,4 @@ Rules that follow from these decisions are listed, without rationale, in [`../CO
 | [0008](0008-local-playwright-e2e.md) | Local Playwright end-to-end tests, no CI | Accepted |
 | [0009](0009-private-design-system.md) | `design-system/` stays private | Accepted |
 | [0010](0010-product-defaults.md) | Product defaults (home, unlocking, details, language) | Accepted |
+| [0011](0011-text-contrast-within-palette.md) | Text contrast within the palette | Accepted |

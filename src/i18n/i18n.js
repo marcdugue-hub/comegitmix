@@ -115,11 +115,32 @@ function interpolate(text, params) {
   return text.replace(/\{(\w+)\}/g, (m, name) => (name in params ? String(params[name]) : m));
 }
 
-/** Translates a key. Falls back to French, then to the key itself. */
+function lookup(key) {
+  const text = dictionaries[getLang()]?.[key] ?? dictionaries[FALLBACK]?.[key];
+  return typeof text === "string" ? text : null;
+}
+
+/** "<key>.<category>" when the language's plural rule picks a category other than "other" and that key exists. */
+function pluralKey(key, n) {
+  let cat = "other";
+  try {
+    cat = new Intl.PluralRules(getLang()).select(Number(n));
+  } catch {
+    cat = Number(n) === 1 ? "one" : "other";
+  }
+  const variant = `${key}.${cat}`;
+  return cat !== "other" && lookup(variant) !== null ? variant : key;
+}
+
+/**
+ * Translates a key. Falls back to French, then to the key itself.
+ * When params.n is a number, the plural variant "<key>.one" (etc.) is used if it exists (see tn).
+ */
 export function t(key, params) {
-  const lang = getLang();
-  const text = dictionaries[lang]?.[key] ?? dictionaries[FALLBACK]?.[key];
-  return typeof text === "string" ? interpolate(text, params) : key;
+  const n = params ? params.n : undefined;
+  const k = typeof n === "number" && Number.isFinite(n) ? pluralKey(key, n) : key;
+  const text = lookup(k);
+  return text !== null ? interpolate(text, params) : key;
 }
 
 /**
@@ -128,16 +149,7 @@ export function t(key, params) {
  * French counts 0 and 1 as "one", English only 1.
  */
 export function tn(key, n, params = {}) {
-  let cat = "other";
-  try {
-    cat = new Intl.PluralRules(getLang()).select(Number(n));
-  } catch {
-    cat = Number(n) === 1 ? "one" : "other";
-  }
-  const lang = getLang();
-  const variant = `${key}.${cat}`;
-  const has = cat !== "other" && typeof (dictionaries[lang]?.[variant] ?? dictionaries[FALLBACK]?.[variant]) === "string";
-  return t(has ? variant : key, { ...params, n });
+  return t(key, { ...params, n: Number(n) });
 }
 
 /**

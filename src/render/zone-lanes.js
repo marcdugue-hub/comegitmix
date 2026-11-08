@@ -100,6 +100,37 @@ function layoutTight(opts) {
   return !!(opts.layout && opts.layout.tight);
 }
 
+const MSG_CHAR = 7.2; // approximate width of one 12px mono character
+const MSG_PAD = 12;
+const MSG_MIN = 40; // below this width a message is left out rather than unreadable
+
+/**
+ * Width given to each commit message so that the centred labels of one lane never overlap.
+ * Fitted from the newest commit (the most useful label) to the oldest; a label without room is left out (0).
+ * Returns { [commitId]: maxWidth }.
+ */
+export function fitMessages(commits) {
+  const byLane = {};
+  for (const c of Object.values(commits)) (byLane[c.y] ||= []).push(c);
+  const widths = {};
+  for (const row of Object.values(byLane)) {
+    row.sort((a, b) => b.x - a.x);
+    let leftEdge = Infinity; // left edge of the nearest label on the right
+    for (const c of row) {
+      const msg = commitMessage(c);
+      if (!msg) { widths[c.id] = 0; continue; }
+      const prefix = c.ai && !(c.ghost || c.online) ? t('author.ai.short').length + 1 : 0;
+      const wanted = Math.min(c.msgMax || 120, Math.ceil(MSG_PAD + MSG_CHAR * (msg.length + prefix)) + 1);
+      const room = Number.isFinite(leftEdge) ? 2 * (leftEdge - 3 - c.x) : Infinity;
+      const w = Math.floor(Math.min(wanted, room));
+      if (w < MSG_MIN) { widths[c.id] = 0; continue; }
+      widths[c.id] = w;
+      leftEdge = c.x - w / 2;
+    }
+  }
+  return widths;
+}
+
 /** HTML overlay of zone ②: lane labels, chips, commit buttons and messages. */
 export function lanesOverlayHtml(layout, state, opts = {}) {
   const o = { ...opts, layout, mainLane: layout.mainLane };
@@ -119,21 +150,23 @@ export function lanesOverlayHtml(layout, state, opts = {}) {
   }
   for (const c of layout.chips) out.push(chipHtml(c, state, o));
   const showMsg = layout.spacing >= 44;
+  const widths = fitMessages(layout.commits);
   for (const c of Object.values(layout.commits)) {
-    const msg = commitMessage(c);
+    const msg = widths[c.id] ? commitMessage(c) : '';
     const author = t(c.ai ? 'author.ai' : 'author.human');
+    const maxW = widths[c.id];
     if (c.ghost || c.online) {
-      if (showMsg && msg) out.push(`<div class="commit-msg is-ghost" style="left:${px(c.x)}px;top:${px(c.y + c.r + 5)}px;max-width:${c.msgMax}px">${esc(msg)}</div>`);
+      if (showMsg && msg) out.push(`<div class="commit-msg is-ghost" style="left:${px(c.x)}px;top:${px(c.y + c.r + 5)}px;max-width:${maxW}px">${esc(msg)}</div>`);
       continue;
     }
-    const aria = t('a11y.commit', { id: c.id, msg, author });
+    const aria = t('a11y.commit', { id: c.id, msg: commitMessage(c), author });
     const size = c.r * 2 + 4;
     out.push(
       `<button type="button" class="commit-hit" data-action="commit" data-commit="${esc(c.id)}" style="left:${px(c.x - size / 2)}px;top:${px(c.y - size / 2)}px;width:${size}px;height:${size}px" aria-label="${esc(aria)}"></button>`,
     );
     if (showMsg && msg) {
       const ai = c.ai ? `<b class="commit-msg-ai">${esc(t('author.ai.short'))}</b>` : '';
-      out.push(`<div class="commit-msg" style="left:${px(c.x)}px;top:${px(c.y + c.r + 5)}px;max-width:${c.msgMax}px" title="${esc(msg)}">${ai}${esc(msg)}</div>`);
+      out.push(`<div class="commit-msg" style="left:${px(c.x)}px;top:${px(c.y + c.r + 5)}px;max-width:${maxW}px" title="${esc(msg)}">${ai}${esc(msg)}</div>`);
     }
   }
   if (layout.folded > 0) {

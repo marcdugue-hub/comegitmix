@@ -74,7 +74,8 @@ h1, h2, h3, .titre {
 h1 { font-size: 44px; }
 h2 { font-size: 32px; }
 h3 { font-size: 22px; }
-h1 em, h2 em, h3 em, .titre em { font-style: normal; font-weight: 500; color: var(--orange); }
+h1 em, h2 em, .titre em { font-style: normal; font-weight: 500; color: var(--annotation); } /* large text: 3.9:1 on cream (ADR 0011) */
+h3 em { font-style: normal; font-weight: 500; color: var(--annotation-texte); }
 em { font-style: italic; }
 code, kbd, samp, .mono { font-family: var(--font-mono); }
 .eyebrow, .gl {
@@ -86,7 +87,7 @@ code, kbd, samp, .mono { font-family: var(--font-mono); }
   color: var(--texte-secondaire);
 }
 .secondary { color: var(--texte-secondaire); }
-.note { font-family: var(--font-note); font-weight: 500; font-size: 20px; line-height: 1.1; color: var(--annotation); }
+.note { font-family: var(--font-note); font-weight: 500; font-size: 20px; line-height: 1.1; color: var(--annotation-texte); }
 .small { font-size: 13px; line-height: 1.4; }
 
 /* ---- Page frame ---- */

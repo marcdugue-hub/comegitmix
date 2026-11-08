@@ -10,6 +10,7 @@
   --sauge-clair: #DFE2C5;
   --texte-secondaire: #5f544c;
   --annotation: #c4551a;
+  --annotation-texte: #8a3510; /* annotation colour for text: #c4551a is below 4.5:1 on cream (ADR 0011) */
 
   /* À valider par Marc */
   --sauge-fonce: #8A9456;
@@ -33,7 +34,7 @@
 
 /* Lettres de statut de fichier (comme dans un IDE) */
 :root {
-  --statut-M-texte: #c4551a;  --statut-M-fond: rgba(233,114,45,.16);   /* modifié */
+  --statut-M-texte: #8a3510;  --statut-M-fond: rgba(233,114,45,.16);   /* modifié */
   --statut-U-texte: #55612a;  --statut-U-fond: #DFE2C5;                /* nouveau, non suivi */
   --statut-A-texte: #1a6a88;  --statut-A-fond: #dff1f7;                /* préparé (index) */
   /* Diff */
