@@ -15,6 +15,8 @@ In a few minutes, understand visually what each Git command does, and why these 
 ```
 Reference measurements: `maquettes/Main.dc.html` (inside the scene: ① y0–176, ② y192–484, ③ y500–560, ④ y576–796). They are indicative: rendering adapts to the width (see `docs/DESIGN.md`).
 
+**Fit to the window.** The layout is centred and follows the window (`src/ui/fit-scene.js`): the scene keeps its 1012×796 coordinate frame and is zoomed as a whole to fill the room below the header (scale 0.8–2, exactly 1 at the reference size); the panel widens up to 1.2× and always matches the scene height. Below scale 0.8 the page scrolls.
+
 ### Home
 Three cards — Mission, Puzzle, Sandbox — in the order of the mockup, plus a **Resume** card when saved progress exists.
 

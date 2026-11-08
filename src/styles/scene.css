@@ -2,8 +2,11 @@
    Detailed lane / tile / index-strip rendering styles are appended below by the render layer. */
 
 /* Reference layout (1440x900): panel 368px on the left, scene 1012x796 on the right. */
-.layout { display: flex; gap: 20px; padding: 0 20px 20px; align-items: flex-start; }
-.layout > .panel { flex: 0 0 368px; min-height: 796px; }
+.layout { display: flex; justify-content: safe center; gap: 20px; padding: 0 20px 20px; align-items: flex-start; }
+/* The layout follows the window (src/ui/fit-scene.js): the scene is zoomed as a whole, its inner
+   coordinates stay in the 1012x796 frame; the panel widens a little and matches the scene height. */
+.layout > .panel { flex: 0 0 calc(368px * var(--panel-scale, 1)); min-height: calc(796px * var(--scene-scale, 1)); }
+.sb-stage, .mission-stage, .puzzle-layout > .puzzle-scene { zoom: var(--scene-scale, 1); }
 .scene { position: relative; flex: 0 0 1012px; width: 1012px; height: 796px; }
 
 .zone {

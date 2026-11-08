@@ -10,6 +10,7 @@ import { progress } from './progress.js';
 import { mountShell } from './ui/shell.js';
 import { mountHome, nextId } from './ui/home.js';
 import { buildHash } from './router.js';
+import { startSceneFit } from './ui/fit-scene.js';
 
 // ---- Screen modules (one line each) ----
 // import './ui/sandbox-screen.js';
@@ -70,6 +71,7 @@ async function boot() {
 
   router.onRoute((route, hash) => { if (route.name !== 'home') progress.setLast(hash); });
   i18n.onChange(() => { shell.update(); router.refresh(); }); // instant language switch
+  startSceneFit();
   router.start(shell.main);
 }
 

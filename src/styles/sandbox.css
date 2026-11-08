@@ -4,7 +4,7 @@
 
 .sandbox { padding-top: 20px; }
 .sb-panel {
-  max-height: 796px; overflow-y: auto; overflow-x: hidden; scrollbar-width: thin;
+  max-height: calc(796px * var(--scene-scale, 1)); overflow-y: auto; overflow-x: hidden; scrollbar-width: thin;
   gap: 12px;
 }
 .sb-title { font-size: 32px; line-height: 1.05; margin: 0; }
