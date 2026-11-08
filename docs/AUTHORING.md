@@ -229,7 +229,7 @@ check:
 | `file <folder>/<path> <status>` | status `M`, `U`, `A`, `staged`, `clean`, `conflict` |
 | `resolved <folder>/<path> <side>` | the conflict on this file was resolved by keeping `<side>`: a branch name from the `conflict` block, or `both` |
 | `index <folder> empty` / `index <folder> contains <path>` | state of the desk's index |
-| `stash <folder> = <n>` | number of entries in the stash |
+| `stash = <n>` | number of entries in the stash (one stash per repository, shared by every folder, as in Git) |
 | `commits <branch> since <base> = <n>` | number of commits that belong only to the branch |
 | `remote <branch> fetched` | `origin/<branch>` exists locally |
 | `mr <num> <status>` | `open`, `approved`, `merged` |

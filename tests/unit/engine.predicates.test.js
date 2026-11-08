@@ -64,7 +64,8 @@ test('files, index, stash, work-intact', () => {
   assert.ok(check('work-intact rpt-client', c2), 'staging keeps the content');
   assert.ok(!check('work-intact rpt-client', { state: play(initial, [{ name: 'touch', args: ['plan.md'] }]).state, initial }));
   const stashed = play(initial, ['git stash']).state;
-  assert.ok(check('stash rpt-client = 1', { state: stashed }));
+  assert.ok(check('stash = 1', { state: stashed }));
+  assert.ok(check('stash = 0', { state: play(stashed, ['git stash pop']).state }));
   assert.ok(!check('work-intact rpt-client', { state: stashed, initial }));
   assert.ok(workIntact(initial, play(stashed, ['git stash pop']).state, 'rpt-client'));
 });

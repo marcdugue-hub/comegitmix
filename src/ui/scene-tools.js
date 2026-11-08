@@ -11,7 +11,7 @@ import { deskFolderFor, outputLines } from './sandbox-model.js';
 /**
  * Popovers of the scene.
  * deps: { getState: () => state, run: (command text | object) => void, activate?: (deskId) => void }
- * Returns { commit(id, anchor), branch(name, remote, anchor), mr(id, anchor), stash(deskId, anchor) }.
+ * Returns { commit(id, anchor), branch(name, remote, anchor), mr(id, anchor), stash(anchor) }.
  */
 export function createScenePopovers({ getState, run, activate = () => {} }) {
   function commit(id, anchor) {
@@ -81,16 +81,16 @@ export function createScenePopovers({ getState, run, activate = () => {} }) {
     });
   }
 
-  function stash(deskId, anchor) {
-    const desk = getDesk(getState(), deskId);
-    if (!desk) return;
-    const go = (cmd) => () => { activate(desk.id); run(cmd); };
+  /** The repository's stash: shared by every desk, so pop / apply act on the active desk. */
+  function stash(anchor) {
+    const n = (getState().stash || []).length;
+    const go = (cmd) => () => run(cmd);
     openPopover(anchor, {
-      title: t('stash.label', { folder: desk.path, n: desk.stash.length }),
+      title: t('stash.popTitle', { n }),
       items: [
-        { label: t('sandbox.stash.pop'), icon: 'archive', disabled: !desk.stash.length, onSelect: go('git stash pop') },
-        { label: t('sandbox.stash.apply'), icon: 'archive', disabled: !desk.stash.length, onSelect: go('git stash apply') },
-        { label: t('sandbox.stash.drop'), icon: 'x', disabled: !desk.stash.length, onSelect: go('git stash drop') },
+        { label: t('sandbox.stash.pop'), icon: 'archive', disabled: !n, onSelect: go('git stash pop') },
+        { label: t('sandbox.stash.apply'), icon: 'archive', disabled: !n, onSelect: go('git stash apply') },
+        { label: t('sandbox.stash.drop'), icon: 'x', disabled: !n, onSelect: go('git stash drop') },
         { label: t('sandbox.stash.list'), icon: 'list-checks', onSelect: go('git stash list') },
       ],
     });
@@ -107,7 +107,7 @@ export function handlePopoverAction(popovers, a) {
     case 'commit': popovers.commit(a.id, a.anchor); return true;
     case 'branch': popovers.branch(a.name, a.remote, a.anchor); return true;
     case 'mr': popovers.mr(a.id, a.anchor); return true;
-    case 'stash': popovers.stash(a.desk, a.anchor); return true;
+    case 'stash': popovers.stash(a.anchor); return true;
     default: return false;
   }
 }

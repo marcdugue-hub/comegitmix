@@ -77,25 +77,31 @@ test('rm: shell rm marks D; git rm stages the deletion', () => {
   assert.ok(!('intro.md' in g.commits[head(g)].tree));
 });
 
-test('stash push / list / pop / apply / drop (one stash per desk)', () => {
+test('stash push / list / pop / apply / drop (one stash per repository, as in Git)', () => {
   const s = play(baseRepo(), work('plan.md', 'intro.md')).state;
   const r = run(s, 'git stash');
   assert.equal(status(r.state, 'plan.md'), 'clean');
-  assert.equal(getDesk(r.state).stash.length, 1);
+  assert.equal(r.state.stash.length, 1);
+  assert.equal(r.state.stash[0].desk, 'w1');
   assert.ok(r.events.some((e) => e.type === 'stash.pushed'));
   assert.equal(run(r.state, 'git stash list').output.entries.length, 1);
   const p = run(r.state, 'git stash pop');
   assert.equal(status(p.state, 'plan.md'), 'M');
   assert.equal(status(p.state, 'intro.md'), 'M');
-  assert.equal(getDesk(p.state).stash.length, 0);
+  assert.equal(p.state.stash.length, 0);
   assert.equal(file(p.state, 'plan.md').work, file(s, 'plan.md').work);
   const a = run(r.state, 'git stash apply');
-  assert.equal(getDesk(a.state).stash.length, 1);
-  assert.equal(getDesk(play(r.state, ['git stash drop']).state).stash.length, 0);
+  assert.equal(a.state.stash.length, 1);
+  assert.equal(play(r.state, ['git stash drop']).state.stash.length, 0);
   assert.equal(run(baseRepo(), 'git stash').error.key, 'error.nothingToStash');
   assert.equal(run(baseRepo(), 'git stash pop').error.key, 'error.stashEmpty');
+  // another desk sees the same stash and can take the entry back
   const two = play(r.state, ['git worktree add ../other -b ia/o']).state;
-  assert.equal(getDesk(two).stash.length, 0, 'the other desk has its own stash');
+  assert.equal(two.active, 'w2');
+  assert.equal(run(two, 'git stash list').output.entries.length, 1);
+  const there = run(two, 'git stash pop');
+  assert.equal(there.state.stash.length, 0);
+  assert.equal(file(there.state, 'plan.md', 'w2').status, 'M');
 });
 
 test('branch: create, list, delete (-d refuses unmerged, -D forces)', () => {

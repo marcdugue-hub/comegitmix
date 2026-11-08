@@ -497,9 +497,9 @@
   "scene.sr.lane.one": "Voie {name} : {n} commit à elle",
   "scene.sr.desk": "Dossier {folder} sur {branch}",
   "scene.sr.deskActive": "Dossier {folder} sur {branch} (vous êtes ici)",
-  "stash.chip": "stash · {n}",
-  "stash.label": "Stash de {folder} : {n} entrées rangées",
-  "stash.label.one": "Stash de {folder} : {n} entrée rangée",
+  "stash.chip": "remise · {n}",
+  "stash.label": "Remise (stash) du dépôt : {n} entrées rangées, communes à tous les dossiers",
+  "stash.label.one": "Remise (stash) du dépôt : {n} entrée rangée, commune à tous les dossiers",
   "tree.addIn": "Ajouter un fichier dans {path}",
   "tree.openFolder": "Ouvrir le dossier {path}",
   "tree.closeFolder": "Fermer le dossier {path}",
@@ -775,7 +775,7 @@
   "sandbox.why.commit": "Un commit est une photo de tout le projet à un instant, avec un message. Elle s'ajoute à la voie du dossier courant ; les autres voies ne bougent pas.",
   "sandbox.why.restore": "restore remet la version de l'index (ou du dernier commit). C'est la façon de dire « oublie ce que j'ai fait à ce fichier ».",
   "sandbox.why.rm": "Supprimer un fichier est un changement comme un autre : Git le note (D) et l'enregistre au prochain commit.",
-  "sandbox.why.stash": "La remise est un tiroir par dossier : on y range le travail pas fini pour avoir un dossier propre (pour changer de branche, faire un pull), puis on le reprend.",
+  "sandbox.why.stash": "La remise est un tiroir rangé dans le .git, commun à tous les dossiers : on y met le travail pas fini pour avoir un dossier propre (pour changer de branche, faire un pull), puis on le reprend.",
   "sandbox.why.branch": "Une branche n'est qu'un nom qui pointe sur un commit. En créer une ne coûte rien : c'est une nouvelle voie pour essayer sans déranger main.",
   "sandbox.why.switch": "Un dossier est sur une voie à la fois. switch change les fichiers du dossier pour correspondre à l'autre voie. Git refuse si cela écraserait des changements non enregistrés.",
   "sandbox.why.checkout": "checkout faisait trop de choses à la fois (changer de branche, restaurer des fichiers). Git l'a séparé en switch et restore, plus faciles à lire.",
@@ -822,5 +822,7 @@
   "docs.section.watch": "Attention",
   "docs.see": "Voir aussi",
   "docs.official": "Documentation officielle",
-  "docs.officialNote": "Plus complète, mais écrite pour des développeurs."
+  "docs.officialNote": "Plus complète, mais écrite pour des développeurs.",
+  "stash.popTitle": "Remise du .git · {n} entrées",
+  "stash.popTitle.one": "Remise du .git · {n} entrée"
 }

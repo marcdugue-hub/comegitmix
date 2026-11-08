@@ -53,7 +53,7 @@ src/
     zone-git.js           repository cards, MR, arrows
     lanes-layout.js       pure computation of lane positions (tested) — rules of docs/DESIGN.md §5
     zone-lanes.js         SVG drawing of lanes, commits, chips, wires
-    zone-index.js         index strips and stash per desk
+    zone-index.js         index strips, one per desk (the stash is on the local .git card, zone-git.js)
     zone-disk.js          tiles, file tree, status letters
     diff-screen.js        diff screen (3 modes × 2 views)
     conflict-screen.js    conflict resolution screen (with a conflict block, or the "not detailed" message)

@@ -24,7 +24,7 @@ export function parseCheckPhrase(raw) {
   if ((m = /^resolved ([^\s/]+)\/(\S+) (\S+)$/.exec(s))) return { type: 'resolved', desk: m[1], path: m[2], side: m[3] };
   if ((m = /^index (\S+) empty$/.exec(s))) return { type: 'index-empty', desk: m[1] };
   if ((m = /^index (\S+) contains (\S+)$/.exec(s))) return { type: 'index-contains', desk: m[1], path: m[2] };
-  if ((m = /^stash (\S+) = (\d+)$/.exec(s))) return { type: 'stash', desk: m[1], count: Number(m[2]) };
+  if ((m = /^stash = (\d+)$/.exec(s))) return { type: 'stash', count: Number(m[1]) };
   if ((m = /^commits (\S+) since (\S+) = (\d+)$/.exec(s))) return { type: 'commits', branch: m[1], base: m[2], count: Number(m[3]) };
   if ((m = /^remote (\S+) fetched$/.exec(s))) return { type: 'remote-fetched', branch: m[1] };
   if ((m = /^mr (\d+) (\S+)$/.exec(s)) && MR_STATUSES.includes(m[2])) return { type: 'mr', num: Number(m[1]), status: m[2] };

@@ -13,7 +13,7 @@ Later, you take everything back out and pick up where you left off.
 
 ## In the game
 
-In the game, each folder has its own stash (in real Git, one stash is shared by all the folders of the project). It shows in **The index**, at the end of the desk's strip, with the number of entries stored.
+The stash is kept in **.git**: there is only one for the whole project, shared by every folder. It shows in **In Git**, on the local repository card, with the number of entries stored ("stash · 2"). Click it to take the work back out or throw it away.
 
 - `git stash`: puts modified and staged files aside.
 - `git stash pop`: brings them back and empties that stash entry.
@@ -34,5 +34,7 @@ Stéphane needs a fix right now on `main`, but your folder is a building site:
 New files (**U**), never added with `git add`, do not go into the stash: they stay in the folder.
 
 If the same file changed in the meantime, taking the stash back out creates a **conflict** (**!**): choose the version to keep. The entry then stays in the stash, to be safe.
+
+Since the stash is shared, a `git stash pop` run from another folder brings your work out *there*: check where you are before taking anything out.
 
 The stash is for a few minutes. For a real second piece of work, prefer a lane or a second folder (`git worktree`).

@@ -137,7 +137,7 @@ test('stash pop conflict when the lane changed the same file', () => {
   const r = run(s, 'git stash pop');
   assert.equal(r.error, null);
   assert.equal(status(r.state, 'plan.md'), 'conflict');
-  assert.equal(getDesk(r.state).stash.length, 1, 'entry kept on conflict');
+  assert.equal(r.state.stash.length, 1, 'entry kept on conflict');
   const ok = run(play(baseRepo(), [...work('plan.md'), 'git stash', ...work('intro.md'), 'git commit -am "other"']).state, 'git stash pop');
   assert.equal(status(ok.state, 'plan.md'), 'M');
 });

@@ -328,10 +328,10 @@ export function aiCommand(state, deskRef, step, message) {
   return { name: 'ai', args: [deskRef], options };
 }
 
-/** "Your work in progress": 'stashed' when the original desk has a stash entry, else 'visible'. */
+/** "Your work in progress": 'stashed' when the stash holds an entry made from the original desk, else 'visible'. */
 export function workState(state) {
   const main = state.worktrees.find((w) => w.main) || state.worktrees[0];
-  return main && main.stash && main.stash.length ? 'stashed' : 'visible';
+  return main && (state.stash || []).some((e) => e.desk === main.id) ? 'stashed' : 'visible';
 }
 
 /** Diff screen target of a diff command: { mode, a, b, threeDot } or null. */

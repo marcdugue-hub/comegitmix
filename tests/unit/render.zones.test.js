@@ -92,7 +92,7 @@ test('tree rows: folders first, closed folders hide their children, folder dot c
   assert.equal(folderDot(desk, 'chapitres'), 'M');
 });
 
-test('zone ③: one strip per desk aligned with its tile, 2 chips then +n, empty text, stash chip', () => {
+test('zone ③: one strip per desk aligned with its tile, 2 chips then +n, empty text; the stash is on the .git card', () => {
   const s = setup(M3);
   const L = computeLayout(s);
   const strips = indexItems(s, L);
@@ -102,9 +102,11 @@ test('zone ③: one strip per desk aligned with its tile, 2 chips then +n, empty
   assert.equal(count(strips[1].html, /class="index-chip/g), 2);
   assert.match(strips[1].html, /index-more[^>]*>\+1</);
   const stashed = apply(s, 'git stash').state;
-  const html = indexStripInner(stashed.worktrees[0]);
-  assert.match(html, /data-action="stash"/);
-  assert.match(html, /stash · 1/);
+  assert.doesNotMatch(indexStripInner(stashed.worktrees[0]), /data-action="stash"/);
+  const git = gitZoneHtml(stashed);
+  assert.match(git, /data-repo="local"[^]*data-action="stash"/);
+  assert.match(git, /stash · 1/);
+  assert.doesNotMatch(gitZoneHtml(s), /data-action="stash"/);
 });
 
 test('zone ②: one path per lane, commits, wires keyed by desk with the desk opacity', () => {

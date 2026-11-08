@@ -40,7 +40,7 @@ two
 command: git status
 accepts: git status -s ; git st
 check:
-- stash r = 1
+- stash = 1
 - main = origin/main
 Explain here.
 
@@ -83,7 +83,7 @@ test('mission parser', () => {
   assert.equal(s.line, 28);
   assert.equal(s.command, 'git status');
   assert.deepEqual(s.accepts, ['git status -s', 'git st']);
-  assert.deepEqual(s.check.map((c) => c.text), ['stash r = 1', 'main = origin/main']);
+  assert.deepEqual(s.check.map((c) => c.text), ['stash = 1', 'main = origin/main']);
   assert.equal(s.check[0].line, 32);
   assert.equal(s.text, 'Explain here.');
   assert.deepEqual(s.extra, ['Second paragraph.']);
@@ -192,7 +192,7 @@ test('summary and ai-work parsers', () => {
 test('check phrases', () => {
   assert.deepEqual(parseCheckPhrase('file rpt-client/a/b.md staged'), { type: 'file', desk: 'rpt-client', path: 'a/b.md', status: 'staged' });
   assert.equal(parseCheckPhrase('main = origin/main').type, 'same');
-  assert.equal(parseCheckPhrase('stash r = 2').count, 2);
+  assert.equal(parseCheckPhrase('stash = 2').count, 2);
   assert.equal(parseCheckPhrase('commits b since main = 1').base, 'main');
   assert.equal(parseCheckPhrase('no conflict').type, 'no-conflict');
   assert.equal(parseCheckPhrase('mr 42 closed'), null);

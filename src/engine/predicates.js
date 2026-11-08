@@ -113,7 +113,7 @@ export function evaluate(p, ctx) {
     }
     case 'index-empty': { const d = desk(p.desk); return Boolean(d) && stagedPaths(d).length === 0; }
     case 'index-contains': { const d = desk(p.desk); return Boolean(d) && stagedPaths(d).includes(p.path); }
-    case 'stash': { const d = desk(p.desk); return Boolean(d) && d.stash.length === p.count; }
+    case 'stash': return (state.stash || []).length === p.count;
     case 'commits': {
       const b = resolveRef(state, p.branch);
       const base = resolveRef(state, p.base);

@@ -23,7 +23,7 @@ solution: git stash pop
 check:
 - desk rpt-client on main
 - file rpt-client/intro.md M
-- stash rpt-client = 0
+- stash = 0
 
 ## Goal
 Your intro.md is modified again (M) and the drawer is empty.

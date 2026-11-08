@@ -100,9 +100,9 @@ function pruneUnreachable(state) {
   const roots = [];
   for (const b of Object.values(state.branches)) roots.push(b.tip);
   for (const r of Object.values(state.remoteRefs)) roots.push(r.tip);
+  for (const s of state.stash || []) roots.push(s.head);
   for (const w of state.worktrees) {
     roots.push(w.head);
-    for (const s of w.stash) roots.push(s.head);
     if (w.op) roots.push(w.op.origHead, w.op.theirs);
   }
   const keep = new Set();

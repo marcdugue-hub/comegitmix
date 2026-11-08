@@ -9,7 +9,7 @@ The sandbox is the heart of the software: a **simulated, visible Git** where you
 ├ Left panel (368 px) ──────────────┬ Scene (4 zones) ──────────────────────────────────────────────┤
 │ Start: "Two AI assistants" ▾      │ ① In Git      upstream · origin (MR) · local                  │
 │ ┌ terminal ─────────────────────┐ │ ② The lanes   branches, commits, chips, HEAD                  │
-│ │ rpt-client (main) $ _     │ │ ③ The index   one strip per desk (+ stash)                    │
+│ │ rpt-client (main) $ _     │ │ ③ The index   one strip per desk                              │
 │ └───────────────────────────────┘ │ ④ On your machine  one folder per worktree, file tree         │
 │ What just happened                │                                                               │
 │ Palette (6 groups)                │                                                               │
@@ -52,7 +52,7 @@ Every action, however it is triggered, **displays the equivalent Git command** i
 | Branch chip | menu: open here (switch), merge into the current branch, rebase onto…, compare (diff), open in a new desk, delete | matching command |
 | MR card (zone ①) | approve, merge, see the diff | "site" action |
 | Index chip | remove from the index | `git restore --staged <f>` |
-| Stash chip | bring back / delete | `git stash pop` / `git stash drop` |
+| Stash chip (local .git card) | bring back into the active desk / delete | `git stash pop` / `git stash drop` |
 
 ## 4. Making an AI work (the game's theme)
 - On every tile whose branch starts with `ia/`: a **"Make the AI work"** button. The AI modifies 1 to 3 files (M, animation) then makes a commit marked AI. A "without commit" option leaves the files in M (you can then review them with `git diff`). The "what the AI did" text is picked from a small list of generic texts kept in `content/` (never hard-coded), unless a mission provides its own text.
@@ -115,7 +115,7 @@ Branch already open in another desk; rejected `push` (behind); `worktree remove`
 
 ## 11. Sandbox acceptance criteria
 1. Every command in §6 works from the terminal, the palette and (when it exists) direct manipulation, and shows the same command.
-2. The four zones update on every command; a single `.git`; one index and one stash per desk.
+2. The four zones update on every command; a single `.git`; one index per desk; one stash for the whole repository, shown on the local `.git` card (as in Git, every desk shares it).
 3. "Make the AI work", "New assistant", "A colleague pushes" and the MR work.
 4. Conflict → resolution → commit playable end to end (including the "Conflict ready to resolve" start).
 5. Undo/Redo/Reset without inconsistency (test: replaying the history gives the same state).

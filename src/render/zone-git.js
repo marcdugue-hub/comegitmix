@@ -1,4 +1,4 @@
-// Zone ① "In Git": repository cards (upstream, origin with its merge requests, local .git).
+// Zone ① "In Git": repository cards (upstream, origin with its merge requests, local .git with its stash).
 // Pure string builder: no DOM.
 import { t } from '../i18n/i18n.js';
 import { icon } from '../ui/icons.js';
@@ -102,11 +102,18 @@ function lockedCard(name, mission, box) {
   );
 }
 
+/** The repository's stash (one for every desk, as in Git): a chip in the title row of the local card. */
+function stashChip(state) {
+  const n = (state.stash || []).length;
+  if (!n) return '';
+  return `<button type="button" class="stash-chip" data-action="stash" data-stash-chip="repo" aria-label="${esc(t('stash.label', { n }))}" title="${esc(t('stash.label', { n }))}">${icon('archive')}<span>${esc(t('stash.chip', { n }))}</span></button>`;
+}
+
 function localCard(state, box, stats) {
   const stat = (n, key) => `<div class="repo-stat"><b>${n}</b><span>${esc(t(key, { n }))}</span></div>`;
   return (
     `<section class="repo-card repo-card--local" style="left:${box.x}px;width:${box.w}px" data-repo="local" aria-label="${esc(t('repo.local'))}">` +
-    `<div class="repo-title"><span>${esc(t('repo.local'))}</span></div>` +
+    `<div class="repo-title"><span>${esc(t('repo.local'))}</span>${stashChip(state)}</div>` +
     `<div class="repo-stats">${stat(stats.commits, 'repo.stats.commits')}${stat(stats.branches, 'repo.stats.branches')}${stat(stats.desks, 'repo.stats.desks')}</div>` +
     `<div class="repo-foot">${icon('layers')}<span>${esc(t('repo.singleGit'))}</span></div></section>`
   );

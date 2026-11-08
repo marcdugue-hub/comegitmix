@@ -13,7 +13,7 @@ Plus tard, vous ressortez le tout et reprenez là où vous en étiez.
 
 ## In the game
 
-Dans le jeu, chaque dossier a sa remise (dans le vrai Git, une seule remise est partagée par tous les dossiers du projet). Elle apparaît dans la zone **L'index**, au bout de la bande du bureau, avec le nombre d'entrées rangées.
+La remise est rangée dans le **.git** : il n'y en a qu'une pour tout le projet, partagée par tous les dossiers. Elle apparaît dans la zone **Dans Git**, sur la carte du dépôt local, avec le nombre d'entrées rangées (« remise · 2 »). Un clic dessus propose de la ressortir ou de la jeter.
 
 - `git stash` : met de côté les fichiers modifiés et préparés.
 - `git stash pop` : les ressort et vide l'entrée de la remise.
@@ -34,5 +34,7 @@ Stéphane a besoin d'une correction immédiate sur `main`, mais votre dossier es
 Les fichiers nouveaux (**U**), jamais ajoutés avec `git add`, ne partent pas dans la remise : ils restent dans le dossier.
 
 Si le même fichier a changé entre-temps, ressortir la remise crée un **conflit** (**!**) : choisissez la version à garder. L'entrée reste alors dans la remise, par sécurité.
+
+Comme la remise est commune, un `git stash pop` lancé depuis un autre dossier y ressort votre travail : vérifiez où vous êtes avant de ressortir quoi que ce soit.
 
 La remise, c'est pour quelques minutes. Pour un vrai second chantier, préférez une voie ou un deuxième dossier (`git worktree`).

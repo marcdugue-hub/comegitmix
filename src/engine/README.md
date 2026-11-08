@@ -74,8 +74,8 @@ Derivation (`refreshFile`): unresolved conflict → `conflict`; `base === null` 
 The **index of a desk** is `stagedPaths(desk)` (files with `staged: true`); each desk has its own.
 Generated content is language-neutral (`# plan.md`, `plan.md · 1`…); each `touch` changes one line (`· r<n>`).
 
-### Stash entries (per desk)
-`{ id: "s1", branch, head, msg, files: [{ path, base, index, work }] }` — `desk.stash[desk.stash.length - 1]` is `stash@{0}`.
+### Stash entries (`state.stash`, one per repository)
+`{ id: "s1", desk, branch, head, msg, files: [{ path, base, index, work }] }` — `state.stash[state.stash.length - 1]` is `stash@{0}`. As in Git, the stash lives in `.git`: every desk sees the same entries and can pop one made in another desk; `desk` only records where it was made.
 
 ### Operations in progress (`desk.op`)
 - merge: `{ type: 'merge', theirs, theirsLabel, oursLabel, origHead }`

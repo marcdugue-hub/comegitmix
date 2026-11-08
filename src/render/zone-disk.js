@@ -134,7 +134,7 @@ export function tileItems(state, layout, opts = {}) {
   return layout.tiles.map((tile) => {
     const real = desks.find((w) => w.id === tile.desk);
     const ghost = !real;
-    const desk = real || ghostDesks.find((w) => w.path === tile.path) || { id: tile.desk, path: tile.path, files: [], stash: [] };
+    const desk = real || ghostDesks.find((w) => w.path === tile.path) || { id: tile.desk, path: tile.path, files: [] };
     const active = !ghost && desk.id === state.active;
     const aiWork = !ghost && opts.aiWork !== false && !!desk.branch && desk.branch.startsWith('ia/');
     const cls = ['tile', ghost ? 'is-ghost' : active ? 'is-active' : 'is-inactive', tile.w < 250 ? 'is-narrow' : '', hlDesks.includes(tile.desk) ? 'is-highlight' : '']

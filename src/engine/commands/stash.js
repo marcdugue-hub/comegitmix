@@ -1,16 +1,18 @@
-// git stash [push] | stash list | stash pop | stash apply | stash drop  (one stash per desk)
+// git stash [push] | stash list | stash pop | stash apply | stash drop
+// One stash per repository, as in Git: it lives in .git, so every desk sees the same entries.
 import { deskFiles, setFile, removeFile, commitTree, findFile, deskLabel } from '../state.js';
 import { findBlock } from '../conflicts.js';
 import { fail, conflictWarning } from './_shared.js';
 
-function pickEntry(ctx, desk) {
-  if (!desk.stash.length) fail('error.stashEmpty', {});
+function pickEntry(ctx) {
+  const stash = ctx.state.stash;
+  if (!stash.length) fail('error.stashEmpty', {});
   const ref = ctx.args[1];
-  let i = desk.stash.length - 1;
+  let i = stash.length - 1;
   if (ref) {
     const m = /^stash@\{(\d+)\}$/.exec(ref) || /^(\d+)$/.exec(ref);
-    if (!m || Number(m[1]) >= desk.stash.length) fail('error.unknownStash', { ref });
-    i = desk.stash.length - 1 - Number(m[1]);
+    if (!m || Number(m[1]) >= stash.length) fail('error.unknownStash', { ref });
+    i = stash.length - 1 - Number(m[1]);
   }
   return i;
 }
@@ -23,12 +25,13 @@ function push(ctx, desk) {
   ctx.state.seq.stash += 1;
   const entry = {
     id: `s${ctx.state.seq.stash}`,
+    desk: desk.id,
     branch: desk.branch,
     head: desk.head,
     msg: typeof ctx.options.m === 'string' ? ctx.options.m : null,
     files: changes.map((f) => ({ path: f.path, base: f.base, index: f.index, work: f.work })),
   };
-  desk.stash.push(entry);
+  ctx.state.stash.push(entry);
   for (const f of changes) {
     if (f.base === null) removeFile(desk, f.path);
     else setFile(desk, f.path, { index: f.base, work: f.base });
@@ -38,8 +41,8 @@ function push(ctx, desk) {
 }
 
 function bringBack(ctx, desk, drop) {
-  const i = pickEntry(ctx, desk);
-  const entry = desk.stash[i];
+  const i = pickEntry(ctx);
+  const entry = ctx.state.stash[i];
   const blocked = entry.files.filter((ef) => {
     const f = findFile(desk, ef.path);
     return f && f.status !== 'clean';
@@ -66,7 +69,7 @@ function bringBack(ctx, desk, drop) {
     ctx.explain('explain.stash.conflict', { file: conflicts[0].path });
     return;
   }
-  if (drop) desk.stash.splice(i, 1);
+  if (drop) ctx.state.stash.splice(i, 1);
   ctx.emit(drop ? 'stash.popped' : 'stash.applied', { desk: desk.id, id: entry.id, paths: entry.files.map((f) => f.path) });
   ctx.explain(drop ? 'explain.stash.pop' : 'explain.stash.apply', { n: entry.files.length, files: entry.files.map((f) => f.path).join(', ') });
 }
@@ -80,15 +83,15 @@ export default {
     if (sub === 'pop') return bringBack(ctx, desk, true);
     if (sub === 'apply') return bringBack(ctx, desk, false);
     if (sub === 'drop') {
-      const i = pickEntry(ctx, desk);
-      const [entry] = desk.stash.splice(i, 1);
+      const i = pickEntry(ctx);
+      const [entry] = ctx.state.stash.splice(i, 1);
       ctx.emit('stash.dropped', { desk: desk.id, id: entry.id });
       return ctx.explain('explain.stash.drop', { n: entry.files.length });
     }
     if (sub === 'list') {
       ctx.markReadOnly();
-      ctx.output({ kind: 'stash', desk: desk.id, entries: [...desk.stash].reverse().map((e, n) => ({ ref: `stash@{${n}}`, ...e })) });
-      return ctx.explain('explain.stash.list', { n: desk.stash.length });
+      ctx.output({ kind: 'stash', desk: desk.id, entries: [...ctx.state.stash].reverse().map((e, n) => ({ ref: `stash@{${n}}`, ...e })) });
+      return ctx.explain('explain.stash.list', { n: ctx.state.stash.length });
     }
     return fail('error.unknownSubcommand', { command: 'git stash', sub });
   },

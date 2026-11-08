@@ -1,6 +1,6 @@
 // Shape comparison of two states (typed-answer puzzles, docs/AUTHORING.md §5).
 // Two states are equivalent when they have the same branches pointing to the same-shaped history, the same desks
-// (folder, branch, file statuses, index, stash size) and the same remote refs / MR statuses — ignoring commit ids,
+// (folder, branch, file statuses, index; stash size) and the same remote refs / MR statuses — ignoring commit ids,
 // commit messages and generated file contents.
 
 import { deskFiles } from './state.js';
@@ -32,13 +32,13 @@ export function shape(state) {
       const r = state.remotes[n];
       return [n, sorted(r.branches).map((b) => [b, sig(r.branches[b].tip)]), (r.mrs || []).map((m) => [m.id, m.source, m.target, m.status])];
     }),
+    stash: (state.stash || []).length,
     desks: state.worktrees.map((w) => ({
       path: w.path,
       branch: w.branch,
       head: sig(w.head),
       active: state.active === w.id,
       op: w.op ? w.op.type : null,
-      stash: w.stash.length,
       files: deskFiles(w).map((f) => [f.path, f.status, f.staged]),
     })),
   };

@@ -39,9 +39,9 @@ after: Deux fichiers modifiés (M) : votre travail n’est pas encore enregistr�
 
 ### 2. Ranger son travail
 command: git stash
-check: stash rpt-client = 1
+check: stash = 1
 Le stash est un tiroir : on y range le travail en cours pour changer de branche sans l’emporter ni le perdre.
-after: Vos M ont disparu du dossier : ils sont rangés dans le tiroir (le stash), en zone ③.
+after: Vos M ont disparu du dossier : ils sont rangés dans le tiroir (le stash), dans le .git : voyez la pastille « remise » en zone ①.
 note: Votre travail est caché, pas perdu.
 
 ### 3. Récupérer la branche de la MR
@@ -74,7 +74,7 @@ after: La MR est approuvée. Elle pourra être fusionnée dans main.
 command: git switch main && git stash pop
 check:
 - desk rpt-client on main
-- stash rpt-client = 0
+- stash = 0
 Retour sur main, puis on ressort le travail du tiroir.
 after: Vous êtes revenu sur main et vos deux M sont de retour. Sans stash pop, ils dormiraient encore dans le tiroir.
 

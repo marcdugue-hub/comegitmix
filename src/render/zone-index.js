@@ -1,4 +1,5 @@
-// Zone ③ "The index": one strip per desk, aligned with its tile (2 chips max, then "+n"), plus the desk's stash.
+// Zone ③ "The index": one strip per desk, aligned with its tile (2 chips max, then "+n").
+// The stash is not here: it belongs to the repository and is drawn on the local .git card (zone ①).
 // Pure string builders: no DOM.
 import { t } from '../i18n/i18n.js';
 import { icon } from '../ui/icons.js';
@@ -17,8 +18,7 @@ function baseName(path) {
 /** Inner HTML of one index strip. */
 export function indexStripInner(desk, { ghost = false, highlight = [] } = {}) {
   const staged = ghost ? [] : stagedFiles(desk);
-  const stash = ghost ? [] : desk.stash || [];
-  const max = stash.length ? 1 : 2;
+  const max = 2;
   const parts = [];
   for (const f of staged.slice(0, max)) {
     const l = fileLetter(f) || { letter: 'A', cls: 'A' };
@@ -30,13 +30,7 @@ export function indexStripInner(desk, { ghost = false, highlight = [] } = {}) {
     );
   }
   if (staged.length > max) parts.push(`<span class="index-more" title="${esc(staged.slice(max).map((f) => f.path).join(', '))}">+${staged.length - max}</span>`);
-  if (!staged.length && !stash.length) parts.push(`<span class="index-empty">${esc(t('index.empty'))}</span>`);
-  if (stash.length) {
-    const aria = t('stash.label', { folder: desk.path, n: stash.length });
-    parts.push(
-      `<button type="button" class="stash-chip" data-action="stash" data-desk="${esc(desk.id)}" data-stash-chip="${esc(desk.id)}" aria-label="${esc(aria)}">${icon('archive')}<span>${esc(t('stash.chip', { n: stash.length }))}</span></button>`,
-    );
-  }
+  if (!staged.length) parts.push(`<span class="index-empty">${esc(t('index.empty'))}</span>`);
   return parts.join('');
 }
 
@@ -48,7 +42,7 @@ export function indexItems(state, layout, opts = {}) {
     const desk = desks.find((w) => w.id === tile.desk);
     const ghost = !desk;
     const cls = ['index-strip', ghost ? 'is-ghost' : tile.desk === state.active ? 'is-active' : 'is-inactive'].join(' ');
-    const d = desk || { id: tile.desk, path: tile.path, files: [], stash: [] };
+    const d = desk || { id: tile.desk, path: tile.path, files: [] };
     return {
       key: tile.desk,
       cls,

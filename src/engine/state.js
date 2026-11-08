@@ -40,13 +40,14 @@ export function createState({ folder = 'rpt-client', branch = 'main', author = '
     worktrees: [makeDesk('w1', folderName(folder), true, branch, null)],
     active: 'w1',
     visibleRepos: [...visibleRepos],
+    stash: [], // one stash per repository, shared by every desk (it lives in .git), newest last
     conflictBlocks: [],
     rebasePlan: null,
   };
 }
 
 export function makeDesk(id, path, main, branch, head) {
-  return { id, path, main, branch, head, files: [], stash: [], op: null, resolutions: [] };
+  return { id, path, main, branch, head, files: [], op: null, resolutions: [] };
 }
 
 /** Deep copy (the state is plain JSON). */
@@ -167,9 +168,9 @@ export function reachableCommits(state) {
   const roots = [];
   for (const b of Object.values(state.branches)) roots.push(b.tip);
   for (const r of Object.values(state.remoteRefs || {})) roots.push(r.tip);
+  for (const s of state.stash || []) roots.push(s.head);
   for (const w of state.worktrees) {
     roots.push(w.head);
-    for (const s of w.stash) roots.push(s.head);
     if (w.op) roots.push(w.op.origHead, w.op.theirs);
   }
   const seen = new Set();

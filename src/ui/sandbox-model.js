@@ -80,7 +80,7 @@ export function planCommand(id, state) {
       return { steps: [{ kind: 'text', labelKey: 'sandbox.ask.message', value: t('sandbox.ask.defaultMessage') }], build: (v) => `git commit -m "${String(v[0]).replace(/\u0022/g, '\u0027')}"` };
     case 'stash': {
       const opts = [{ value: '', label: 'git stash', hint: t('sandbox.stash.push') }]; // i18n-ok: Git command text
-      if (desk.stash.length) {
+      if ((state.stash || []).length) {
         opts.push({ value: 'pop', label: 'git stash pop', hint: t('sandbox.stash.pop') }); // i18n-ok: Git command text
         opts.push({ value: 'apply', label: 'git stash apply', hint: t('sandbox.stash.apply') }); // i18n-ok: Git command text
         opts.push({ value: 'drop', label: 'git stash drop', hint: t('sandbox.stash.drop') }); // i18n-ok: Git command text

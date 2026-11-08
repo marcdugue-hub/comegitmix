@@ -39,9 +39,9 @@ after: Two modified files (M): your work is not saved yet.
 
 ### 2. Put your work away
 command: git stash
-check: stash rpt-client = 1
+check: stash = 1
 The stash is a drawer: you put your work in progress in it so you can switch branches without carrying it along or losing it.
-after: Your M files are gone from the folder: they are in the drawer (the stash), in zone ③.
+after: Your M files are gone from the folder: they are in the drawer (the stash), inside .git: see the “stash” chip in zone ①.
 note: Your work is hidden, not lost.
 
 ### 3. Fetch the MR’s branch
@@ -74,7 +74,7 @@ after: The MR is approved. It can be merged into main.
 command: git switch main && git stash pop
 check:
 - desk rpt-client on main
-- stash rpt-client = 0
+- stash = 0
 Back to main, then take your work out of the drawer.
 after: You are back on main and your two M files are back. Without stash pop, they would still be asleep in the drawer.
 

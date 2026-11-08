@@ -78,7 +78,7 @@ export function planAnimations(events = []) {
         add(`[data-index-chip="${cssEscape(e.desk)}|${cssEscape(e.path)}"]`, 'anim-rise');
         break;
       case 'stash.pushed':
-        add(`[data-stash-chip="${cssEscape(e.desk)}"]`, 'anim-rise');
+        add('[data-stash-chip]', 'anim-rise');
         break;
       case 'desk.activated':
         add(`.tile[data-desk="${cssEscape(e.id)}"]`, 'anim-flash');

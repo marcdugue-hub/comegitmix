@@ -498,8 +498,8 @@
   "scene.sr.desk": "Folder {folder} on {branch}",
   "scene.sr.deskActive": "Folder {folder} on {branch} (you are here)",
   "stash.chip": "stash · {n}",
-  "stash.label": "Stash of {folder}: {n} entries put away",
-  "stash.label.one": "Stash of {folder}: {n} entry put away",
+  "stash.label": "The repository’s stash: {n} entries put away, shared by every folder",
+  "stash.label.one": "The repository’s stash: {n} entry put away, shared by every folder",
   "tree.addIn": "Add a file in {path}",
   "tree.openFolder": "Open folder {path}",
   "tree.closeFolder": "Close folder {path}",
@@ -775,7 +775,7 @@
   "sandbox.why.commit": "A commit is a photo of the whole project at a moment, with a message. It is added to the lane of the current folder; the other lanes do not move.",
   "sandbox.why.restore": "restore puts back the version of the index (or of the last commit). It is the way to say “forget what I did to this file”.",
   "sandbox.why.rm": "Deleting a file is a change like any other: Git notes it (D) and records it at the next commit.",
-  "sandbox.why.stash": "The stash is a drawer per folder: you put your unfinished work in it to have a clean folder (to change branch, to pull), then you take it back.",
+  "sandbox.why.stash": "The stash is a drawer kept in .git, shared by every folder: you put your unfinished work in it to have a clean folder (to change branch, to pull), then you take it back.",
   "sandbox.why.branch": "A branch is just a name that points to a commit. Creating one costs nothing: it is a new lane where you can try without disturbing main.",
   "sandbox.why.switch": "A folder is on one lane at a time. switch changes the files of the folder to match the other lane. Git refuses if that would overwrite changes not saved.",
   "sandbox.why.checkout": "checkout did too many things at once (change branch, restore files). Git split it into switch and restore, which are easier to read.",
@@ -822,5 +822,7 @@
   "docs.section.watch": "Watch out",
   "docs.see": "See also",
   "docs.official": "Official documentation",
-  "docs.officialNote": "More complete, but written for developers."
+  "docs.officialNote": "More complete, but written for developers.",
+  "stash.popTitle": "Stash in .git · {n} entries",
+  "stash.popTitle.one": "Stash in .git · {n} entry"
 }

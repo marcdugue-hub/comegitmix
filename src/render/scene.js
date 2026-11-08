@@ -17,7 +17,7 @@
 //   { type: 'branch',  name, remote, anchor }  lane chip
 //   { type: 'mr',      id, anchor }      merge request card
 //   { type: 'unstage', desk, path }      index chip
-//   { type: 'stash',   desk, anchor }    stash chip
+//   { type: 'stash',   anchor }          stash chip (local .git card)
 // Folder open / close is UI state kept here (no action).
 import { t, onChange } from '../i18n/i18n.js';
 import { esc } from './html.js';
@@ -56,7 +56,7 @@ export function actionFromElement(el) {
     case 'mr':
       return { type: 'mr', id: Number(d.mr), anchor: el };
     case 'stash':
-      return { type: 'stash', desk: d.desk, anchor: el };
+      return { type: 'stash', anchor: el };
     default:
       return null;
   }
