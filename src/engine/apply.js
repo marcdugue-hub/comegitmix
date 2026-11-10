@@ -124,10 +124,18 @@ function makeCtx(draft, command, opts, shared) {
   return ctx;
 }
 
+/** Before `git init` (state.noGit) the folder is not a repository: only init, the shell, scene actions and gh work. */
+const NO_GIT_OK = new Set(['init', 'gh', 'cd', 'ls', 'help', 'clear', 'touch', 'create', 'click']);
+function worksWithoutGit(command) {
+  if (NO_GIT_OK.has(command.name)) return true;
+  return command.name === 'rm' && command.git === false;
+}
+
 function applyOne(state, command, opts) {
   if (command && command.error) return failure(state, command.error);
   if (!command || !command.name) return failure(state, { key: 'error.emptyCommand', params: {} });
   if (command.name === 'sequence') return applySequence(state, command.commands || [], opts);
+  if (state.noGit && !worksWithoutGit(command)) return failure(state, { key: 'error.notARepo', params: { path: getDesk(state, command.desk || null)?.path || '' } });
   const handler = registry.get(command.name);
   if (!handler) {
     const key = ['fetch', 'pull', 'push', 'remote', 'fork'].includes(command.name) ? 'error.notAvailable' : 'error.unknownCommand';

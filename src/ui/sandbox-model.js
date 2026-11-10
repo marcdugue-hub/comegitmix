@@ -5,6 +5,13 @@ import { parse } from '../engine/parse.js';
 import { activeDesk, deskFiles, firstParentChain, ancestors, getDesk, folderName } from '../engine/state.js';
 import { commandText } from '../engine/to-setup.js';
 import { commitText } from '../render/screens-util.js';
+import { remoteUrl } from '../engine/remote.js';
+
+/** Folder name of the original desk (the one holding .git): the default name of a GitHub repository. */
+function mainFolder(state) {
+  const main = state.worktrees.find((w) => w.main) || state.worktrees[0];
+  return folderName(main.path);
+}
 
 // ---------------------------------------------------------------------------
 // Palette
@@ -14,13 +21,14 @@ import { commitText } from '../render/screens-util.js';
 export function paletteLabel(id, def = {}) {
   if (def.web) return t(`sandbox.cmd.${id}`);
   if (id.startsWith('mr-')) return `glab ${id.replace('-', ' ')}`;
-  return id.startsWith('worktree-') ? id.replace('-', ' ') : id;
+  if (id.startsWith('gh-')) return id.replace(/-/g, ' ');
+  return id.startsWith('worktree-') || id.startsWith('remote-') ? id.replace('-', ' ') : id;
 }
 
 /** The command a palette button starts with: `git <word>`, or the word alone (fork, glab mr …). */
 export function paletteCommand(id, def = {}) {
   if (def.web) return paletteLabel(id, def);
-  return id === 'fork' || id.startsWith('mr-') ? paletteLabel(id, def) : `git ${paletteLabel(id, def)}`;
+  return id === 'fork' || id.startsWith('mr-') || id.startsWith('gh-') ? paletteLabel(id, def) : `git ${paletteLabel(id, def)}`;
 }
 
 /** data/commands.json -> [{ id, labelKey, commands: [{ id, icon, web, readOnly }] }]. */
@@ -77,6 +85,9 @@ export function planCommand(id, state) {
   const own = head ? firstParentChain(state, head) : [];
   switch (id) {
     case 'status': return { steps: [], build: () => 'git status' };
+    case 'init': return { steps: [], build: () => 'git init' };
+    case 'remote-add': return { steps: [], build: () => `git remote add origin ${remoteUrl(mainFolder(state))}` };
+    case 'gh-repo-create': return { steps: [], build: () => `gh repo create ${mainFolder(state)} --public --source=. --push` };
     case 'add': {
       const files = unstagedFiles(desk);
       const opts = files.map((f) => ({ value: f.path, label: f.path, hint: fileHint(f) }));
@@ -202,8 +213,8 @@ export function nextBranchName(state, prefix = 'feature/') {
 // Terminal suggestions (Tab completion): whole lines
 // ---------------------------------------------------------------------------
 
-export const GIT_WORDS = ['status', 'add', 'commit', 'restore', 'rm', 'stash', 'branch', 'switch', 'checkout', 'merge', 'rebase', 'cherry-pick', 'reset', 'revert', 'worktree', 'diff', 'log', 'blame', 'show', 'fetch', 'pull', 'push', 'remote'];
-export const SHELL_WORDS = ['cd', 'ls', 'clear', 'help', 'fork', 'rm', 'glab'];
+export const GIT_WORDS = ['init', 'status', 'add', 'commit', 'restore', 'rm', 'stash', 'branch', 'switch', 'checkout', 'merge', 'rebase', 'cherry-pick', 'reset', 'revert', 'worktree', 'diff', 'log', 'blame', 'show', 'fetch', 'pull', 'push', 'remote'];
+export const SHELL_WORDS = ['cd', 'ls', 'clear', 'help', 'fork', 'rm', 'glab', 'gh'];
 export const GLAB_WORDS = ['create', 'list', 'view', 'approve', 'merge', 'close'];
 const OPTIONS = {
   commit: ['-m', '-am', '--amend'], add: ['.', '-A'], restore: ['--staged'], branch: ['-d', '-D'], switch: ['-c', '--detach'],
@@ -375,7 +386,7 @@ export function outputLines(output, state) {
       for (const e of output.entries) line(e.kind === 'dir' ? `${e.path}/` : e.path);
       break;
     case 'remotes':
-      for (const r of output.remotes) line(`${r.name}  ${r.branches.join(', ')}`);
+      for (const r of output.remotes) line(output.verbose && r.url ? `${r.name}  ${r.url}` : `${r.name}  ${r.branches.join(', ')}`);
       break;
     case 'diff':
       for (const f of output.files) line(`${f.letter}  ${f.path}  +${f.adds} -${f.dels}`);

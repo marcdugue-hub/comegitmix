@@ -15,7 +15,8 @@ export default {
     if (!f) fail('error.unknownFile', { file: path });
     const extra = { desk: desk.id };
     if (f.status === 'conflict') fail('error.conflictChooseFirst', { file: path });
-    if (f.status === 'clean') {
+    if (ctx.state.noGit || f.status === 'clean') {
+      // before git init there is no index: a click only means "I worked on it"
       ctx.run('touch', [path], {}, extra);
       return ctx.equivalent({ key: 'equiv.edit', params: { file: path } });
     }

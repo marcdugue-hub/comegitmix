@@ -19,7 +19,7 @@ test('the header link opens the documentation in a new tab', async ({ page, cont
   await expect(link).toHaveAttribute('target', '_blank');
   const [tab] = await Promise.all([context.waitForEvent('page'), link.click()]);
   await tab.waitForLoadState();
-  await expect(tab.locator('.docs-card')).toHaveCount(26);
+  await expect(tab.locator('.docs-card')).toHaveCount(28);
   await expect(tab.locator('.docs-head h1')).toHaveText('Les commandes, en clair');
 });
 

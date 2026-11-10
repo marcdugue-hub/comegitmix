@@ -49,6 +49,7 @@ apply(state, command) -> { state, events, explanation, error }
 ## 4. Commands and visible effects
 | Command | Effect on the state | Visual effect |
 |---|---|---|
+| `init` | before: `noGit` (setup `@no-git`, every other git command fails with `error.notARepo`); after: a repository, files U, `main` unborn | the "No Git repository yet" card becomes the `.git` card |
 | `status` | read | highlights modified / staged files |
 | `diff` | read | highlights the changed lines of the file |
 | `log` | read | walks the commits of the active desk's lane |
@@ -66,6 +67,9 @@ apply(state, command) -> { state, events, explanation, error }
 | `reset [--soft/--hard]` | moves the branch (and index/files) | the tip moves back; orphan commits fade |
 | `revert <c>` | new commit that undoes | "inverse" circle added |
 | `fork` | creates `origin` (copy of `upstream`) | `origin` card activates, `fork` arrow |
+| `gh repo create <name>` | creates an empty `origin` on GitHub, not linked (`pending`: push/fetch fail with `error.noRemote`) | `origin` card "Created on GitHub, empty" |
+| `remote add origin <url>` | links a `pending` origin (refused if nothing was created) | card "Linked, but still empty" |
+| `gh repo create --source=. --push` | creates, links and pushes the current branch (`-u`) | `origin/main` chip appears |
 | `fetch` | updates `origin/*` without touching local branches | remote chips move ahead |
 | `pull` | `fetch` + merge/ff | chips and lane move ahead |
 | `push` | moves the remote branch ahead (rejected if behind) | animated arrow local → origin |
@@ -103,7 +107,7 @@ This section **replaces** the `files: { "chiffres.md": "modified" }` shape of §
 ]
 ```
 - `status`: `clean` | `M` (modified) | `U` (new, untracked) | `D` (deleted, planned) | `conflict`. A staged file has `staged: true`; the display shows the letter **A** if `status = U`, otherwise **M**.
-- `base` / `index` / `work`: the three versions of the content (last commit, index, folder). **The diff is computed from them** (see below). Scenarios may provide short contents; otherwise the engine generates stable dummy content (same base lines, one line changed on each "work").
+- `base` / `index` / `work`: the three versions of the content (last commit, index, folder). **The diff is computed from them** (see below). Scenarios may provide exact contents (`@content`); otherwise contents come from the file content library `content/files.<lang>.md` (`src/engine/library.js`, set by the UI for the current language; edits replace prose lines in order, replace or append table/CSV rows by key, then write a numbered fallback line so two edits never collide), and, for a file without entry or without a library, from a stable generic generator (one line changed on each "work"). See [ADR 0013](adr/0013-init-github-and-file-contents.md).
 - Each desk has **its own** `files` and `index`: a desk's commit only includes its own index.
 
 ### New simulation commands (not real Git commands)

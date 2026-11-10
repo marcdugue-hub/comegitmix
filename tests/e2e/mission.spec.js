@@ -135,3 +135,28 @@ test('the scene popovers work in a mission', async ({ page }) => {
   await expect(page.locator('[role="menu"]')).toBeVisible();
   await page.keyboard.press('Escape');
 });
+
+test('mission 8: from a plain folder to a first commit, then to GitHub', async ({ page }) => {
+  await freshStart(page);
+  await page.goto('/#/mission/08-votre-propre-depot');
+  await expect(page.locator('.mission-part')).toHaveCount(2);
+  // a plain folder: no .git card, no status letter
+  await expect(page.locator('.git-layer .repo-card--nogit')).toBeVisible();
+  await expect(page.locator('.tiles-layer .badge')).toHaveCount(0);
+  await type(page, 'git status');
+  await expect(done(page)).toHaveCount(1);
+  await type(page, 'git init');
+  await expect(page.locator('.git-layer .repo-card--nogit')).toHaveCount(0);
+  await expect(page.locator('.tiles-layer .badge--U')).toHaveCount(3);
+  await type(page, 'git add .');
+  await type(page, 'git commit -m "Premier commit"');
+  const partEnd = page.locator('[data-end="part"]');
+  await expect(partEnd).toBeVisible();
+  await partEnd.locator('[data-act="part"]').click();
+  await expect(page).toHaveURL(/part=B&step=1/);
+  await type(page, 'gh repo create atelier-ia --public');
+  await expect(page.locator('.git-layer .repo-card--origin')).toContainText('GitHub');
+  await type(page, 'git remote add origin https://github.com/demo/atelier-ia.git');
+  await type(page, 'git push -u origin main');
+  await expect(page.locator('[data-end="mission"]')).toBeVisible();
+});

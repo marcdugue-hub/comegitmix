@@ -54,6 +54,7 @@ function directive(text) {
       if (arrow !== '->') return { error: { key: 'error.setupSyntax', params: { text } } };
       return [{ name: 'mr', args: ['open', Number(num)], options: { source, target, title: title || '', comments: Number(opt('comments') || 0) } }];
     }
+    case '@no-git': return { transform: (s) => ({ ...s, noGit: true }) };
     case '@author': return { transform: (s) => ({ ...s, author: rest[0] === 'ai' ? 'ai' : 'human' }) };
     case '@rebase-plan': return { transform: (s) => ({ ...s, rebasePlan: (rest[0] || '').split(',').filter(Boolean) }) };
     default: return { error: { key: 'error.setupUnknownDirective', params: { name } } };

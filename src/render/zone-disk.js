@@ -63,13 +63,13 @@ export function treeRows(desk, open = new Set()) {
   return rows;
 }
 
-function rowHtml(desk, row, { ghost, highlight }) {
+function rowHtml(desk, row, { ghost, highlight, noGit = false }) {
   const d = esc(desk.id);
   const p = esc(row.path);
   const indent = `style="--depth:${row.depth}"`;
   const hl = highlight.includes(row.path) ? ' is-highlight' : '';
   if (row.dir) {
-    const dot = ghost ? null : folderDot(desk, row.path);
+    const dot = ghost || noGit ? null : folderDot(desk, row.path);
     const chev = `<span class="tree-chev${row.open ? ' is-open' : ''}">${icon('chevron-right', { size: 14 })}</span>`;
     const ic = icon(row.open ? 'folder-open' : 'folder');
     if (ghost) return `<li class="tree-row is-dir" ${indent}><span class="tree-main">${chev}${ic}<span class="tree-name">${esc(row.name)}</span></span></li>`;
@@ -85,10 +85,11 @@ function rowHtml(desk, row, { ghost, highlight }) {
   const f = row.file;
   const ic = `<span class="tree-chev is-empty"></span>${icon('file')}`;
   if (ghost) return `<li class="tree-row" ${indent}><span class="tree-main">${ic}<span class="tree-name">${esc(row.name)}</span></span></li>`;
-  const l = fileLetter(f);
-  const state = l ? t(l.key) : t('status.clean');
+  // before git init, Git follows nothing: no letter, no diff
+  const l = noGit ? null : fileLetter(f);
+  const state = noGit ? t('status.noGit') : l ? t(l.key) : t('status.clean');
   const aria = t('tree.fileAction', { path: row.path, status: state });
-  const showDiff = f.status === 'M' || f.status === 'conflict';
+  const showDiff = !noGit && (f.status === 'M' || f.status === 'conflict');
   const canDelete = f.status !== 'D' && f.status !== 'conflict';
   return (
     `<li class="tree-row${f.status === 'D' ? ' is-deleted' : ''}${hl}" ${indent} data-row="${d}|${p}">` +
@@ -101,7 +102,7 @@ function rowHtml(desk, row, { ghost, highlight }) {
 }
 
 /** Inner HTML of a tile. */
-export function tileInner(desk, tile, { active = false, ghost = false, open = new Set(), aiWork = false, highlight = [] } = {}) {
+export function tileInner(desk, tile, { active = false, ghost = false, open = new Set(), aiWork = false, highlight = [], noGit = false } = {}) {
   const d = esc(desk.id);
   const band = `<span class="tile-band" aria-hidden="true"></span>`;
   const name = `${esc(desk.path)}/`;
@@ -117,10 +118,12 @@ export function tileInner(desk, tile, { active = false, ghost = false, open = ne
   const unborn = !ghost && desk.branch && !desk.head ? ` · ${esc(t('desk.unborn'))}` : '';
   const descText = `${desk.branch || t('desk.detached')} · ${note}`;
   const here = active ? `<span class="tile-here">${esc(t('tree.here'))}</span>` : '';
-  const desc = `<div class="tile-desc" title="${esc(descText)}"><span class="mono tile-branch">${branch}</span><span class="tile-note">· ${esc(note)}${unborn}</span>${here}</div>`;
+  const desc = noGit
+    ? `<div class="tile-desc" title="${esc(t('desk.noGit'))}"><span class="tile-note">${esc(t('desk.noGit'))}</span>${here}</div>`
+    : `<div class="tile-desc" title="${esc(descText)}"><span class="mono tile-branch">${branch}</span><span class="tile-note">· ${esc(note)}${unborn}</span>${here}</div>`;
   const rows = treeRows(desk, open);
   const list = rows.length
-    ? `<ul class="tree-list" role="list" data-tree="${d}">${rows.map((r) => rowHtml(desk, r, { ghost, highlight })).join('')}</ul>`
+    ? `<ul class="tree-list" role="list" data-tree="${d}">${rows.map((r) => rowHtml(desk, r, { ghost, highlight, noGit })).join('')}</ul>`
     : `<div class="tree-list tree-empty" data-tree="${d}">${esc(t('tree.empty'))}</div>`;
   return band + head + desc + list;
 }
@@ -148,7 +151,7 @@ export function tileItems(state, layout, opts = {}) {
       style: `left:${tile.x}px;width:${tile.w}px;--lane:${tile.color}`,
       attrs,
       html: tileInner({ ...desk, id: tile.desk }, tile, {
-        active, ghost, aiWork,
+        active, ghost, aiWork, noGit: Boolean(state.noGit),
         open: (opts.openDirs && opts.openDirs.get(tile.desk)) || new Set(),
         highlight: hlFiles.filter((f) => f.desk === tile.desk).map((f) => f.path),
       }),

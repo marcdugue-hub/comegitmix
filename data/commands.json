@@ -4,6 +4,7 @@
       "id": "prepare",
       "label": "group.prepare",
       "commands": [
+        "init",
         "status",
         "add",
         "commit",
@@ -35,6 +36,8 @@
       "id": "share",
       "label": "group.share",
       "commands": [
+        "gh-repo-create",
+        "remote-add",
         "fork",
         "fetch",
         "pull",
@@ -198,6 +201,21 @@
       "syntax": "glab mr merge <numéro>",
       "icon": "git-merge",
       "unlock": 6
+    },
+    "init": {
+      "syntax": "git init",
+      "icon": "folder-plus",
+      "unlock": 8
+    },
+    "remote-add": {
+      "syntax": "git remote add origin <adresse>",
+      "icon": "share-2",
+      "unlock": 8
+    },
+    "gh-repo-create": {
+      "syntax": "gh repo create <nom> --public --source=. --push",
+      "icon": "rocket",
+      "unlock": 8
     }
   },
   "notes": "label, explain.* et error.* sont des clés i18n (src/i18n). unlock = numéro de mission qui débloque la commande ; le bac à sable débloque tout. Icônes : noms Lucide. web = action sur le site d'hébergement (GitLab/GitHub), pas une commande Git. mr-* = demandes de fusion avec glab, l'outil en ligne de commande de GitLab."

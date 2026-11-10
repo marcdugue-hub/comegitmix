@@ -30,6 +30,8 @@ import fetch from './fetch.js';
 import pull from './pull.js';
 import push from './push.js';
 import remote from './remote.js';
+import init from './init.js';
+import gh from './gh.js';
 import fork from './fork.js';
 import mr from './mr.js';
 import colleague from './colleague.js';
@@ -40,5 +42,5 @@ export const COMMANDS = [
   status, add, commit, restore, rm, stash, branch, switchCmd, checkout, merge, rebase, cherryPick,
   reset, revert, worktree, diff, log, blame, show, touch, create, resolve, click, cd, ls, help, clear,
   // remote.js / ai.js layer
-  fetch, pull, push, remote, fork, mr, colleague, publish, onlineOnlyCmd, aiCommand, assistantCommand, aiMrCommand,
+  init, gh, fetch, pull, push, remote, fork, mr, colleague, publish, onlineOnlyCmd, aiCommand, assistantCommand, aiMrCommand,
 ];

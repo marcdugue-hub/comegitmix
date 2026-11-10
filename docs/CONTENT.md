@@ -4,7 +4,7 @@
 
 Common thread: a human and their AI assistant (the brand's duo) prepare a **client report**. The AI must work on several topics without overwriting the human's work. Tone: clear, no needless jargon, one idea per sentence. Narrative text is written in `content/`, one file per language (`.fr.md` / `.en.md`, French fallback); FR first, then EN.
 
-## Missions (≈ 2 minutes each, 7 missions)
+## Missions (≈ 2 minutes each, 8 missions)
 All missions are open; the order below is the **recommended** order, shown in the game, never enforced.
 
 | # | Title | Idea to get across | Commands |
@@ -16,6 +16,7 @@ All missions are open; the order below is the **recommended** order, shown in th
 | 5 | Share with the team | The local repository, your online copy (fork) and the original project. | `fork`, `push`, `fetch`, `pull` |
 | 6 | Review an MR | Review an assistant's work proposed online (MR), first by switching branch, then in a worktree, and compare. | `fetch`, `stash`, `switch`, `diff A...B`, `glab mr approve` / `glab mr merge`, `worktree add <path> <branch>`, `worktree remove`, `pull` |
 | 7 | A readable history | Clean up before sharing, propose it as an MR, tidy up, remove a finished desk. | `rebase -i`, squash, `glab mr create`, `cherry-pick`, `stash`, `worktree remove` |
+| 8 | Your own repository | Two parts. A: an ordinary folder (no `.git`) becomes a repository with a first commit. B: create the repository on GitHub, link it, push. | `git init`, `add .`, `commit`, `gh repo create`, `git remote add origin`, `git push -u origin main` |
 
 Mission 3 is the one in `maquettes/Main.dc.html`: "Two assistants, one project", shown there as mission 3/6 (the mockup predates mission 6), command `git worktree add ../rpt-ia-stats -b ia/chiffres`.
 
@@ -43,6 +44,10 @@ Each challenge: start state, goal state, 4 proposals, one "remember" sentence. W
 
 Challenge 15 (typed): propose the AI's finished lane for review with `glab mr create --fill` (the lane is not online yet; `--fill` pushes it).
 
+Challenges 16 to 19 (after mission 8): 16 `git init` (not `clone`), 17 `git add .` for the first snapshot, 18 `git remote add origin <url>` to link the empty GitHub repository, 19 (typed) `gh repo create atelier-ia --public --source=. --push`.
+
+File contents: the files of the Maison Pivert report and of the workshop folder have real text, Markdown tables and CSV data (`content/files.<lang>.md`, `docs/AUTHORING.md` §7 ter).
+
 ## Progression table (palette and zone ①)
 This table is not a lock: every mission is playable at any time. It says which commands each mission introduces; within a mission, the palette shows the commands of that row and the rows above, and zone ① shows the listed repositories.
 
@@ -55,6 +60,7 @@ This table is not a lock: every mission is playable at any time. It says which c
 | fork, push, fetch, pull | mission 5 | local + origin + upstream |
 | stash, worktree remove, approve / merge an MR | mission 6 | local + origin (MR card) |
 | rebase, squash, cherry-pick, glab mr create | mission 7 | everything |
+| init, gh repo create, remote add | mission 8 | local, then origin once created |
 Sandbox: everything is available, zone ① is shown in full (but `origin`/`upstream` can be hidden with a toggle).
 
 ## Diff in missions and challenges (addition)

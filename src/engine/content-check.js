@@ -21,6 +21,7 @@ import { checkAll, fileMatches } from './predicates.js';
 import { parseWebAction } from './remote.js';
 import { equivalent } from './equivalence.js';
 import { parseCheckPhrase } from '../content/check-phrase.js';
+import { setFileLibrary, getFileLibrary } from './library.js';
 
 const DIRS = { mission: 'missions', puzzle: 'puzzles', sandbox: 'sandbox' };
 
@@ -322,10 +323,16 @@ export function checkContent({ parsed, report }) {
     for (const [id, langs] of Object.entries(parsed[kind] || {})) {
       for (const [lang, data] of Object.entries(langs)) {
         const file = `${DIRS[kind]}/${id}.${lang}.md`;
+        // play with the file contents of that language, as the game does (content/files.<lang>.md)
+        const files = (parsed.files || {})[lang] || (parsed.files || {}).fr || null;
+        const previous = getFileLibrary();
+        setFileLibrary(files);
         try {
           checkers[kind](data, file, report);
         } catch (e) {
           report(file, 1, `engine check crashed: ${e && e.message ? e.message : e}`);
+        } finally {
+          setFileLibrary(previous);
         }
       }
     }

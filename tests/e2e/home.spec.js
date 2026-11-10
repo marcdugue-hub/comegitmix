@@ -14,7 +14,7 @@ test.beforeEach(async ({ page }) => {
   });
 });
 
-test('home shows the three modes, the missions 1 to 7 and the puzzles', async ({ page }) => {
+test('home shows the three modes, the missions 1 to 8 and the puzzles', async ({ page }) => {
   const errors = [];
   page.on('pageerror', (e) => errors.push(e.message));
   await page.goto('./');
@@ -25,20 +25,20 @@ test('home shows the three modes, the missions 1 to 7 and the puzzles', async ({
   await expect(cards.nth(0)).toContainText('Mission');
   await expect(cards.nth(1)).toContainText('Puzzle');
   await expect(cards.nth(2)).toContainText('Sandbox');
-  await expect(page.locator('.home-card--mission .eyebrow')).toHaveText(/^7 missions/);
-  await expect(page.locator('.home-card--puzzle .eyebrow')).toHaveText(/^15 challenges/);
+  await expect(page.locator('.home-card--mission .eyebrow')).toHaveText(/^8 missions/);
+  await expect(page.locator('.home-card--puzzle .eyebrow')).toHaveText(/^19 challenges/);
 
-  // missions: numbered 1..7 in the recommended order; the comparison screen (06b) is listed without a number
+  // missions: numbered 1..8 in the recommended order; the comparison screen (06b) is listed without a number
   const missionRows = page.locator('section[aria-labelledby="home-missions"] .home-row');
-  await expect(missionRows).toHaveCount(8);
+  await expect(missionRows).toHaveCount(9);
   const numbers = (await missionRows.locator('.home-row-n').allTextContents()).filter(Boolean);
-  expect(numbers).toEqual(['1', '2', '3', '4', '5', '6', '7']);
+  expect(numbers).toEqual(['1', '2', '3', '4', '5', '6', '7', '8']);
   await expect(missionRows.first()).toContainText('A first snapshot');
   await expect(missionRows.first()).toContainText('Up next');
-  await expect(missionRows.last()).toContainText('A readable history');
+  await expect(missionRows.last()).toContainText('Your own repository');
   await expect(missionRows.nth(6)).toHaveAttribute('href', '#/mission/06b-deux-facons');
 
-  await expect(page.locator('section[aria-labelledby="home-puzzles"] .home-row')).toHaveCount(15);
+  await expect(page.locator('section[aria-labelledby="home-puzzles"] .home-row')).toHaveCount(19);
   expect(errors).toEqual([]);
 });
 

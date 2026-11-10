@@ -11,6 +11,7 @@ import { mountShell } from './ui/shell.js';
 import { mountHome, nextId } from './ui/home.js';
 import { buildHash } from './router.js';
 import { startSceneFit } from './ui/fit-scene.js';
+import { setFileLibrary } from './engine/library.js';
 
 // ---- Screen modules (one line each) ----
 // import './ui/sandbox-screen.js';
@@ -44,6 +45,16 @@ async function boot() {
   document.documentElement.lang = i18n.getLang();
 
   const loader = createLoader();
+  // file contents of the current language (content/files.<lang>.md); without it, files get generic lines
+  const loadFileLibrary = async () => {
+    try {
+      setFileLibrary((await loader.loadFiles(i18n.getLang())).data);
+    } catch (e) {
+      console.error(e);
+      setFileLibrary(null);
+    }
+  };
+  await loadFileLibrary();
   let summary = { missions: [], puzzles: [], sandbox: [], errors: [] };
   try {
     summary = await loader.loadSummary();
@@ -71,7 +82,7 @@ async function boot() {
   });
 
   router.onRoute((route, hash) => { if (route.name !== 'home' && route.name !== 'docs') progress.setLast(hash); });
-  i18n.onChange(() => { shell.update(); router.refresh(); }); // instant language switch
+  i18n.onChange(async () => { await loadFileLibrary(); shell.update(); router.refresh(); }); // instant language switch
   startSceneFit();
   router.start(shell.main);
 }

@@ -7,10 +7,10 @@ const GITHUB = 'https://docs.github.com/{lang}/pull-requests/collaborating-with-
 
 /** Groups in display order; `label` is an i18n key. */
 export const DOC_GROUPS = [
-  { id: 'prepare', label: 'group.prepare', topics: ['status', 'add', 'commit', 'restore', 'rm', 'stash'] },
+  { id: 'prepare', label: 'group.prepare', topics: ['init', 'status', 'add', 'commit', 'restore', 'rm', 'stash'] },
   { id: 'lanes', label: 'group.lanes', topics: ['branch', 'switch', 'checkout', 'merge', 'rebase'] },
   { id: 'rewrite', label: 'group.rewrite', topics: ['cherry-pick', 'reset', 'revert'] },
-  { id: 'share', label: 'group.share', topics: ['fork', 'fetch', 'pull', 'push', 'remote', 'mr'] },
+  { id: 'share', label: 'group.share', topics: ['gh', 'remote', 'fork', 'fetch', 'pull', 'push', 'mr'] },
   { id: 'parallel', label: 'group.parallel', topics: ['worktree', 'cd'] },
   { id: 'read', label: 'group.read', topics: ['diff', 'log', 'blame', 'show'] },
 ];
@@ -21,12 +21,14 @@ export const DOC_TOPICS = DOC_GROUPS.flatMap((g) => g.topics);
 const OFFICIAL = {
   fork: { fr: `${GITHUB.replace('{lang}', 'fr')}working-with-forks/fork-a-repo`, en: `${GITHUB.replace('{lang}', 'en')}working-with-forks/fork-a-repo` },
   mr: { en: 'https://docs.gitlab.com/cli/mr/' }, // glab, GitLab's command line (English only)
+  gh: { en: 'https://cli.github.com/manual/gh_repo_create' }, // GitHub's command line (English only)
   cd: null,
 };
 
 /** Words typed in the terminal (or palette ids) that lead to another card. */
 const ALIASES = {
   squash: 'rebase', 'worktree-add': 'worktree', 'worktree-list': 'worktree', 'worktree-remove': 'worktree',
+  'remote-add': 'remote', 'gh-repo-create': 'gh', repo: 'gh',
   ls: 'cd', 'mr-create': 'mr', 'mr-approve': 'mr', 'mr-merge': 'mr', approve: 'mr', close: 'mr', open: 'mr', glab: 'mr',
 };
 

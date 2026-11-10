@@ -13,6 +13,8 @@ content/
   index.md                          order and activation of all content
   ai-work.fr.md                     generic "what the AI did" texts, French (§7)
   ai-work.en.md                     the same, English
+  files.fr.md                       contents of the simulated files, French (§7 ter)
+  files.en.md                       the same, English
   missions/06-relire-une-mr.fr.md   a mission, in French
   missions/06-relire-une-mr.en.md   the same, in English
   puzzles/04-trois-wip-en-un.fr.md
@@ -97,6 +99,7 @@ Directives:
 
 | Directive | Effect |
 |---|---|
+| `@no-git` | first line only: the folder is an ordinary folder, not a repository yet. Every git command fails with "not a git repository" until `git init` (use `@new` for its files) |
 | `@files <paths…>` | creates clean files in the active desk (folders are inferred from the paths) |
 | `@work <paths…>` | "I worked on it": the files become **M** (generated modified content) |
 | `@new <paths…>` | creates **U** files (untracked) |
@@ -193,7 +196,7 @@ Possible keys, one per line (`key: value`); the first paragraph without a key is
 
 | Key | Meaning |
 |---|---|
-| `command` | the expected command (shown on the "Your next command" card). In parentheses, it is an **interface instruction**, not a command (`(cliquez plan.md dans votre dossier)`, `(bouton « Faire travailler l'IA »)`): `check:` is then mandatory. Commands of the simulated shell (`fork`, `cd`) are accepted |
+| `command` | the expected command (shown on the "Your next command" card). In parentheses, it is an **interface instruction**, not a command (`(cliquez plan.md dans votre dossier)`, `(bouton « Faire travailler l'IA »)`): `check:` is then mandatory. Commands of the simulated shell (`fork`, `cd`) and of GitHub's command line (`gh repo create …`) are accepted |
 | `web` | instead of `command`: an action on GitLab/GitHub, shown without `$`. Values: `approve MR !<n>`, `merge MR !<n>`; several actions separated by ` ; ` (`web: approve MR !42 ; merge MR !42`). The button label shown to the player comes from `src/i18n/*.json`. Prefer a `command:` with `glab mr approve <n>` / `glab mr merge <n>` (GitLab's command line): a click on the MR card satisfies the same `check:` |
 | `accepts` | other accepted spellings, separated by `;` (`git checkout main ; git switch main`). `*` stands for any text (`git commit -m "*"`) |
 | `after` | "What just happened" text, shown after the command runs |
@@ -235,7 +238,7 @@ check:
 | `mr <num> <status>` | `open`, `approved`, `merged` |
 | `diff shown <mode>` | the diff screen was opened in this mode (`branches`, `work`, `staged`) |
 | `no conflict` | no file is in conflict any more |
-| `error <code>` | the last command failed with this error (for steps where the player **must** see Git refuse). Codes: `push-rejected`, `branch-in-use`, `worktree-dirty`, `nothing-to-commit`, `conflict` (matching the i18n keys `error.pushRejected`, `error.branchInUse`, `error.worktreeDirty`, `error.nothingToCommit`, `error.mergeConflict`) |
+| `error <code>` | the last command failed with this error (for steps where the player **must** see Git refuse). Codes: `push-rejected`, `branch-in-use`, `worktree-dirty`, `nothing-to-commit`, `conflict`, `not-a-repo` (matching the i18n keys `error.pushRejected`, `error.branchInUse`, `error.worktreeDirty`, `error.nothingToCommit`, `error.mergeConflict`, `error.notARepo`) |
 
 An unknown phrase is a content error (reported by the checker, §8).
 
@@ -354,6 +357,31 @@ The "Make the AI work" button changes 1 to 3 files of the desk (or the paths giv
 - `{files}` is replaced by the names of the changed files, joined in the UI language ("plan.md and intro.md"). It is optional.
 - The list must contain at least one item; the two language files need not have the same number of items.
 - The same text is used as the message of the AI's commit when the button also commits.
+
+## 7 ter. File contents (`content/files.fr.md`, `content/files.en.md`)
+
+Every simulated file gets a realistic content: text, Markdown tables, CSV data. Each `##` heading is a file path (`plan.md`, `chapitres/ch1.md`, `chiffres.csv`) or a default by extension (`*.md`, `*.csv`, `*.txt`); the exact path wins, then the file name, then the default.
+
+````md
+# Files
+
+## chiffres.csv
+```text
+Mois,Ventes,Coûts,Marge
+Janvier,92,64,30 %
+```
+- Janvier,95,64,33 %
+- Septembre,104,74,29 %
+fallback: Révision {n},,,
+````
+
+- The ```` ```text ```` block is the **initial content**. In a default, `{name}` is the file name without extension. Keep each paragraph on one line.
+- Each `- ` item is one **edit**, one line of the file, used in turn each time someone (the player's click, the AI, a colleague, `@work`) changes the file:
+  - in a `.csv` file, a row: it replaces the row with the same first field, otherwise it is added at the end (the header is never replaced);
+  - in a `.md` file, a line starting with `|` is a table row: same rule with the first cell, added after the last row of the last table;
+  - any other line is prose: the k-th prose edit replaces the k-th text line (not a heading, not a table row), so write them in the order of the paragraphs. To rewrite a list item, keep its dash: `- - Item`.
+- `fallback:` is written (with `{n}` = the edit number, replacing an earlier fallback line) once the edits are used up or when an edit changes nothing. It is required for defaults; a CSV fallback must have the right number of columns.
+- Both files list the same entries in the same order with the same number of edits. A file with no entry gets generic lines. `@content` in a setup still sets an exact content.
 
 ## 7 bis. Command cards (`content/docs/<id>.fr.md`, `content/docs/<id>.en.md`)
 

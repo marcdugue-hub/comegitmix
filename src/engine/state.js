@@ -2,6 +2,8 @@
 // No DOM, no language, no randomness, no clock: the same commands always give the same state.
 // The shape is documented in src/engine/README.md.
 
+import { libraryInitial, libraryEdit } from './library.js';
+
 export const STATE_VERSION = 1;
 
 /** Display limits (docs/SANDBOX.md §10). */
@@ -230,10 +232,12 @@ export function deskLabel(desk) {
 }
 
 // ---------------------------------------------------------------------------
-// Generated file content (language-neutral, deterministic)
+// Generated file content (deterministic): the content library when one is set (library.js), else generic lines
 // ---------------------------------------------------------------------------
 
 export function initialContent(path) {
+  const fromLibrary = libraryInitial(path);
+  if (fromLibrary !== null) return fromLibrary;
   const name = basename(path);
   const lines = [`# ${name}`, ''];
   for (let i = 1; i <= 6; i += 1) lines.push(`${name} · ${i}`);
@@ -242,6 +246,8 @@ export function initialContent(path) {
 
 /** Changes one line of `content`; `rev` makes each edit unique. */
 export function editedContent(content, rev, path) {
+  const fromLibrary = libraryEdit(content, rev, path);
+  if (fromLibrary !== null) return fromLibrary;
   const name = basename(path);
   const lines = (content == null || content === '' ? initialContent(path) : content).split('\n');
   const slots = Math.max(1, lines.length - 2);

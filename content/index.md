@@ -7,6 +7,7 @@
 - 06-relire-une-mr
 - 06b-deux-facons
 - 07-une-histoire-lisible
+- 08-votre-propre-depot
 
 # Puzzles
 - 01-ranger-un-fichier
@@ -24,9 +25,14 @@
 - 13-un-bureau-pour-l-ia
 - 14-tiroir-aller-retour
 - 15-proposer-une-mr
+- 16-pas-encore-un-depot
+- 17-tout-dans-la-premiere-photo
+- 18-relier-a-github
+- 19-github-en-une-commande
 
 # Sandbox
 - vide
+- sans-git
 - solo
 - deux-ia
 - equipe

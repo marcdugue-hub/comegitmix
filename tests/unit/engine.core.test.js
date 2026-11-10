@@ -117,7 +117,7 @@ test('parse: unknown commands get a suggestion (edit distance)', () => {
   assert.equal(parse('git stauts').error.params.suggestion, 'git status');
   assert.equal(parse('status').error.params.suggestion, 'git status');
   assert.equal(parse('git frobnicate').error.key, 'error.unknownCommand');
-  assert.equal(parse('git init').error.key, 'error.outOfScope.init');
+  assert.equal(parse('git clone x').error.key, 'error.outOfScope.clone');
   assert.equal(parse('').error.key, 'error.emptyCommand');
   const r = apply(baseRepo(), 'git comit -m x');
   assert.equal(r.error.key, 'error.unknownCommand.suggest');

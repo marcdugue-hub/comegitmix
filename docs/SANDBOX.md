@@ -21,6 +21,7 @@ The sandbox is the heart of the software: a **simulated, visible Git** where you
 ## 2. Choosing a starting point
 On first launch (and through the "Start ▾" menu) a dialog offers the starts listed in the Sandbox section of `content/index.md` (files `content/sandbox/*.md`, see `docs/AUTHORING.md`, sandbox start format):
 - **Empty**: one folder, a few files, no commit.
+- **No Git**: an ordinary folder without `.git` (`@no-git`): `git init`, first commit, then GitHub (`gh repo create`, `git remote add`, `git push -u`). See [ADR 0013](adr/0013-init-github-and-file-contents.md).
 - **Solo**: three commits on `main`, two modified files.
 - **Two AI assistants**: the state of mockup A3 (your folder + two AI desks).
 - **Team**: `upstream`, your fork `origin`, an open MR, a colleague who has pushed.
@@ -69,15 +70,15 @@ Every action, however it is triggered, **displays the equivalent Git command** i
 ## 6. Recognised commands (subset)
 | Group | Accepted forms |
 |---|---|
-| Prepare | `git status`, `git add <f>…`, `git add .`, `git add -A`, `git restore <f>`, `git restore --staged <f>`, `git commit -m "<msg>"`, `git commit -am "<msg>"`, `git commit --amend`, `git stash`, `git stash push`, `git stash list`, `git stash pop`, `git stash apply`, `git stash drop`, `rm <f>` |
+| Prepare | `git init`, `git status`, `git add <f>…`, `git add .`, `git add -A`, `git restore <f>`, `git restore --staged <f>`, `git commit -m "<msg>"`, `git commit -am "<msg>"`, `git commit --amend`, `git stash`, `git stash push`, `git stash list`, `git stash pop`, `git stash apply`, `git stash drop`, `rm <f>` |
 | Lanes | `git branch`, `git branch <name> [<start>]`, `git branch -d/-D <name>`, `git switch <name>`, `git switch -c <name>`, `git switch --detach <commit>`, `git checkout <name>` / `git checkout -b <name>` (accepted, with a note: "today we write `git switch`"), `git merge <name>`, `git merge --no-ff <name>`, `git merge --abort`, `git rebase <name>`, `git rebase --continue/--abort` |
 | Rewrite | `git rebase -i HEAD~<n>` (opens the interactive editor §7.2), `git cherry-pick <commit>`, `git reset [--soft|--mixed|--hard] <commit|HEAD~n>`, `git revert <commit>` |
-| Share | `git fetch [origin]`, `git pull`, `git push`, `git push -u origin <b>`, `git push --force-with-lease` (after rewriting; warning), `fork` (button) |
+| Share | `git fetch [origin]`, `git pull`, `git push`, `git push -u origin <b>`, `git push --force-with-lease` (after rewriting; warning), `fork` (button), `git remote [-v]`, `git remote add origin <url>`, `gh repo create [<name>] [--public|--private] [--source=. [--push]]` |
 | In parallel | `git worktree add <path> -b <branch>`, `git worktree add <path> <branch>`, `git worktree list`, `git worktree remove <path>`, `git worktree prune` |
 | Read | `git diff`, `git diff --staged`, `git diff <a> <b>`, `git diff <a>...<b>`, `git log`, `git log --oneline`, `git log --graph`, `git blame <f>`, `git show <commit>` |
 | Shell | `cd ../<folder>` (changes the active desk), `ls`, `clear`, `help` |
 
-Out of scope (clear message): `git init` (the repository already exists), `git clone` (explained in the Team start), tags, submodules, hooks, config.
+Out of scope (clear message): `git clone` (explained in the Team start), tags, submodules, hooks, config.
 
 ## 7. Situations to play
 ### 7.1 Conflicts

@@ -82,4 +82,4 @@ after: The tile disappeared; the ia/essai lane is still there, in case anyone mi
 ## End
 summary: A short, clear history is easier to review, for you, for Stéphane and for Maison Pivert. The report can go out. Have a good weekend.
 takeaway: squash folds together, rebase restarts, cherry-pick copies a single commit. Never rewrite a history that is already shared.
-next: sandbox deux-ia
+next: mission 08-votre-propre-depot

@@ -73,12 +73,17 @@ function remoteCard(state, name, box, opts) {
   const mrs = (remote.mrs || []).filter((m) => m.status !== 'closed');
   const compact = box.w < 300;
   const parts = [`<div class="repo-title">${icon('cloud')}<span>${esc(t(key))}</span></div>`];
-  if (mrs.length && !compact) {
+  if (remote.pending) {
+    // created on GitHub (gh repo create) but the local repository does not know it yet
+    parts.push(`<div class="repo-desc">${esc(t('repo.origin.pending'))}</div>`);
+    if (remote.url) parts.push(`<div class="repo-ref mono" title="${esc(remote.url)}">${esc(remote.url.replace(/^https:\/\//, ''))}</div>`);
+  } else if (mrs.length && !compact) {
     const shown = mrs.filter((m) => m.status !== 'merged').concat(mrs.filter((m) => m.status === 'merged')).slice(0, 1);
     for (const mr of shown) parts.push(mrCardHtml(mr, { highlight: (opts.highlight?.mrs || []).includes(mr.id) }));
     if (mrs.length > 1) parts.push(`<span class="repo-more">+${mrs.length - 1}</span>`);
   } else {
-    if (!mrs.length) parts.push(`<div class="repo-desc">${esc(t(name === 'origin' ? 'repo.origin.desc' : 'repo.upstream.desc'))}</div>`);
+    const empty = !Object.keys(remote.branches || {}).length;
+    if (!mrs.length) parts.push(`<div class="repo-desc">${esc(t(name === 'origin' ? (empty && remote.url ? 'repo.origin.empty' : 'repo.origin.desc') : 'repo.upstream.desc'))}</div>`);
     const branch = 'main';
     const main = remote.branches && remote.branches[branch];
     if (main) {
@@ -115,6 +120,14 @@ function stashChip(state) {
 }
 
 function localCard(state, box, stats) {
+  if (state.noGit) {
+    // a plain folder: no .git yet (git init creates it)
+    return (
+      `<section class="repo-card repo-card--local repo-card--nogit" style="left:${box.x}px;width:${box.w}px" data-repo="local" aria-label="${esc(t('repo.noGit'))}">` +
+      `<div class="repo-title"><span>${esc(t('repo.noGit'))}</span></div>` +
+      `<div class="repo-desc">${esc(t('repo.noGit.desc'))}</div></section>`
+    );
+  }
   const stat = (n, key) => `<div class="repo-stat"><b>${n}</b><span>${esc(t(key, { n }))}</span></div>`;
   return (
     `<section class="repo-card repo-card--local" style="left:${box.x}px;width:${box.w}px" data-repo="local" aria-label="${esc(t('repo.local'))}">` +

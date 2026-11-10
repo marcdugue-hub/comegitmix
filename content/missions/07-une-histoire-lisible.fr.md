@@ -82,4 +82,4 @@ after: La tuile a disparu, la voie ia/essai est toujours là, au cas où quelqu'
 ## End
 summary: Une histoire courte et claire est plus facile à relire, pour vous, pour Stéphane et pour Maison Pivert. Le rapport peut partir, bon week-end.
 takeaway: squash regroupe, rebase fait repartir, cherry-pick copie un seul commit. Ne réécrivez pas une histoire déjà partagée.
-next: sandbox deux-ia
+next: mission 08-votre-propre-depot

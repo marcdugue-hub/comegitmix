@@ -4,7 +4,7 @@
 export const FILE_STATUSES = ['M', 'U', 'A', 'staged', 'clean', 'conflict'];
 export const MR_STATUSES = ['open', 'approved', 'merged'];
 export const DIFF_MODES = ['branches', 'work', 'staged'];
-export const ERROR_CODES = ['push-rejected', 'branch-in-use', 'worktree-dirty', 'nothing-to-commit', 'conflict'];
+export const ERROR_CODES = ['push-rejected', 'branch-in-use', 'worktree-dirty', 'nothing-to-commit', 'conflict', 'not-a-repo'];
 
 const REF = '[^\\s=]+';
 

@@ -10,7 +10,7 @@
 import { parseMission } from './mission.js';
 import { parsePuzzle } from './puzzle.js';
 import { parseSandbox } from './sandbox.js';
-import { parseSummary, parseAiWork } from './summary.js';
+import { parseSummary, parseAiWork, parseFiles } from './summary.js';
 import { parseDoc } from './doc.js';
 import { DOC_TOPICS } from './docs-topics.js';
 import { parseCheckPhrase, ERROR_CODES, DIFF_MODES } from './check-phrase.js';
@@ -19,7 +19,7 @@ const KINDS = { missions: 'mission', puzzles: 'puzzle', sandbox: 'sandbox' };
 const LANGS = ['fr', 'en'];
 const OPENS = ['diff', 'log', 'conflict'];
 const REBASE_ACTIONS = ['pick', 'squash', 'drop', 'reword', 'edit', 'fixup'];
-const SHELL_COMMANDS = ['git', 'cd', 'fork', 'glab'];
+const SHELL_COMMANDS = ['git', 'cd', 'fork', 'glab', 'gh'];
 
 function balancedQuotes(s) {
   return (s.match(/"/g) || []).length % 2 === 0;
@@ -48,6 +48,8 @@ export function checkSetupLine(text, { allowContent = true } = {}) {
       return rest.length === 1 ? null : '@content needs exactly one path';
     case '@author':
       return rest.length === 1 && ['ai', 'human'].includes(rest[0]) ? null : '@author must be "ai" or "human"';
+    case '@no-git':
+      return rest.length ? '@no-git takes no argument' : null;
     case '@cd': case '@online-only':
       return rest.length === 1 ? null : `${name} needs exactly one argument`;
     case '@remote':
@@ -102,7 +104,7 @@ function validateStep(step, file, report, opts) {
       if (!balancedQuotes(step.command)) report(file, L('command'), 'unbalanced quote in command');
       for (const part of step.command.split('&&')) {
         const word = part.trim().split(/\s+/)[0];
-        if (!SHELL_COMMANDS.includes(word)) report(file, L('command'), `unrecognised command "${part.trim()}" (expected a git, cd, fork or glab command)`);
+        if (!SHELL_COMMANDS.includes(word)) report(file, L('command'), `unrecognised command "${part.trim()}" (expected a git, cd, fork, glab or gh command)`);
       }
     }
   }
@@ -242,7 +244,7 @@ export function validate(files, options = {}) {
   const opts = { commandIds: options.commandIds || null };
 
   // classify files
-  const parsed = { index: null, aiWork: {}, mission: {}, puzzle: {}, sandbox: {} };
+  const parsed = { index: null, aiWork: {}, files: {}, mission: {}, puzzle: {}, sandbox: {} };
   const present = { mission: {}, puzzle: {}, sandbox: {} };
   const docs = {}; // id -> { fr, en } parsed command cards
   for (const [path, text] of Object.entries(files)) {
@@ -254,6 +256,11 @@ export function validate(files, options = {}) {
     } else if ((m = /^ai-work\.([a-z]{2})\.md$/.exec(path))) {
       const r = parseAiWork(text);
       parsed.aiWork[m[1]] = r;
+      for (const e of r.errors) report(path, e.line, e.message);
+      if (!LANGS.includes(m[1])) report(path, 1, `unknown language "${m[1]}"`);
+    } else if ((m = /^files\.([a-z]{2})\.md$/.exec(path))) {
+      const r = parseFiles(text);
+      parsed.files[m[1]] = r;
       for (const e of r.errors) report(path, e.line, e.message);
       if (!LANGS.includes(m[1])) report(path, 1, `unknown language "${m[1]}"`);
     } else if ((m = /^(missions|puzzles|sandbox)\/([a-z0-9][a-z0-9-]*)\.([a-z]{2})\.md$/.exec(path))) {
@@ -297,6 +304,14 @@ export function validate(files, options = {}) {
     }
     for (const lang of LANGS) if (!parsed.aiWork[lang] && lang === 'fr') addErr('ai-work.fr.md', 1, 'content/ai-work.fr.md is missing');
     if (!parsed.aiWork.en) addWarn('ai-work.en.md', 1, 'no ai-work.en.md file: the French texts will be used');
+    const { fr: filesFr, en: filesEn } = parsed.files;
+    if (filesFr && filesEn) {
+      // same entries, same order, same number of edits (FR/EN alignment, like steps)
+      if (filesFr.order.join('|') !== filesEn.order.join('|')) addErr('files.en.md', 1, 'files.en.md must list the same files as files.fr.md, in the same order');
+      else for (const key of filesFr.order) {
+        if (filesFr.entries[key].edits.length !== filesEn.entries[key].edits.length) addErr('files.en.md', filesEn.entries[key].line, `"${key}" has ${filesEn.entries[key].edits.length} edits in English but ${filesFr.entries[key].edits.length} in French`);
+      }
+    } else if (filesFr && !filesEn) addWarn('files.en.md', 1, 'no files.en.md file: the French file contents will be used');
 
     // references: next, replays
     const listedIds = (kind) => listed[kind].map((x) => x.id);

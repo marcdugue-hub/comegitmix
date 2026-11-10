@@ -146,10 +146,11 @@ function buildGraph(state, ghost) {
   const ordered = [mainName, ...names.filter((n) => n !== mainName)];
   for (const n of ordered) {
     if (branches[n]) refs.push({ key: `b:${n}`, name: n, kind: 'branch', tip: branches[n].tip || null });
-    else if (n === mainName && desks.some((w) => w.branch === n)) refs.push({ key: `b:${n}`, name: n, kind: 'branch', tip: null });
+    else if (n === mainName && !state.noGit && desks.some((w) => w.branch === n)) refs.push({ key: `b:${n}`, name: n, kind: 'branch', tip: null });
   }
-  // unborn desk branches (no commit yet)
+  // unborn desk branches (no commit yet); before git init (state.noGit) there is no lane at all
   for (const w of desks) {
+    if (state.noGit) break;
     if (w.branch && !branches[w.branch] && !refs.some((r) => r.name === w.branch)) refs.push({ key: `b:${w.branch}`, name: w.branch, kind: 'branch', tip: null });
   }
   for (const r of refs) visit(local, r.tip, {});

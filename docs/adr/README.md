@@ -19,3 +19,4 @@ Rules that follow from these decisions are listed, without rationale, in [`../CO
 | [0010](0010-product-defaults.md) | Product defaults (home, unlocking, details, language) | Accepted |
 | [0011](0011-text-contrast-within-palette.md) | Text contrast within the palette | Accepted |
 | [0012](0012-more-details-sandbox-only.md) | "More details" in the sandbox only | Accepted |
+| [0013](0013-init-github-and-file-contents.md) | From a folder to GitHub, and real file contents | Accepted |

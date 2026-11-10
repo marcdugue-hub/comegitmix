@@ -5,11 +5,11 @@
 const GIT_COMMANDS = new Set([
   'status', 'add', 'commit', 'restore', 'stash', 'branch', 'switch', 'checkout', 'merge', 'rebase',
   'cherry-pick', 'reset', 'revert', 'worktree', 'diff', 'log', 'blame', 'show', 'rm',
-  'fetch', 'pull', 'push', 'remote',
+  'fetch', 'pull', 'push', 'remote', 'init',
 ]);
 
 /** Real Git commands the game deliberately does not simulate (clear message). */
-const OUT_OF_SCOPE = new Set(['init', 'clone', 'tag', 'submodule', 'config', 'gc', 'reflog', 'bisect', 'mv', 'clean']);
+const OUT_OF_SCOPE = new Set(['clone', 'tag', 'submodule', 'config', 'gc', 'reflog', 'bisect', 'mv', 'clean']);
 
 /** `glab mr <action>` (GitLab's command line): actions the game simulates. */
 const GLAB_MR_ACTIONS = new Set(['create', 'list', 'view', 'approve', 'merge', 'close']);
@@ -181,6 +181,36 @@ function parseGlab(rest, tokens, text) {
   return { name: 'mr', args, options, git: false, cli: 'glab', raw: tokens, text };
 }
 
+/** gh options -> option names of the `gh` command. Value options take the next word. */
+const GH_OPTIONS = {
+  s: 'source', source: 'source', public: 'public', private: 'private', internal: 'internal', push: 'push',
+  r: 'remote', remote: 'remote', d: 'description', description: 'description',
+};
+const GH_VALUES = new Set(['source', 'remote', 'description']);
+
+/** `gh repo create [name] --public --source=. --push` (GitHub's command line) -> { name: 'gh', args, options, cli: 'gh' }. */
+function parseGh(rest, tokens, text) {
+  const [sub, action, ...more] = rest;
+  if (!sub || String(sub).toLowerCase() !== 'repo' || !action || String(action).toLowerCase() !== 'create') {
+    return { error: { key: 'error.ghOnlyRepoCreate', params: {} } };
+  }
+  const args = ['repo', 'create'];
+  const options = {};
+  for (let i = 0; i < more.length; i += 1) {
+    const tok = more[i];
+    const m = /^--?([a-z-]+)(?:=(.*))?$/.exec(tok);
+    if (!m) { args.push(tok); continue; }
+    const key = GH_OPTIONS[m[1]];
+    if (!key) return { error: { key: 'error.ghOption', params: { option: tok } } };
+    if (GH_VALUES.has(key)) {
+      if (m[2] !== undefined) options[key] = m[2];
+      else if (i + 1 < more.length) { options[key] = more[i + 1]; i += 1; }
+      else options[key] = '';
+    } else options[key] = true;
+  }
+  return { name: 'gh', args, options, git: false, cli: 'gh', raw: tokens, text };
+}
+
 function unknown(input, suggestion) {
   return {
     error: {
@@ -206,6 +236,7 @@ function parseTokens(tokens, text) {
     return { name: sub, args, options, git: true, raw: tokens, text };
   }
   if (word === 'glab') return parseGlab(rest, tokens, text);
+  if (word === 'gh') return parseGh(rest, tokens, text);
   if (SHELL_COMMANDS.has(word)) {
     const { args, options } = parseOptions(rest);
     return { name: word === '?' ? 'help' : word, args, options, git: false, raw: tokens, text };

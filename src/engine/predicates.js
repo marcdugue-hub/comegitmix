@@ -20,6 +20,7 @@ export const ERROR_KEYS = {
   'worktree-dirty': 'error.worktreeDirty',
   'nothing-to-commit': 'error.nothingToCommit',
   conflict: 'error.mergeConflict',
+  'not-a-repo': 'error.notARepo',
 };
 
 /**
@@ -36,6 +37,8 @@ export function commandIds(command) {
     case 'mr': return ['list', 'view'].includes(a0) ? [] : a0 ? [`mr-${a0 === 'open' ? 'create' : a0}`] : [];
     case 'rebase': return c.options && (c.options.i || c.options.interactive) ? ['squash', 'rebase'] : ['rebase'];
     case 'checkout': return ['switch', 'checkout'];
+    case 'remote': return a0 === 'add' ? ['remote-add', 'remote'] : ['remote'];
+    case 'gh': return ['gh-repo-create'];
     case 'ai': case 'assistant': return ['ai'];
     default: return [c.name];
   }

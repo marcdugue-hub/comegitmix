@@ -3,7 +3,7 @@
 import { parseMission } from './mission.js';
 import { parsePuzzle } from './puzzle.js';
 import { parseSandbox } from './sandbox.js';
-import { parseSummary, parseAiWork } from './summary.js';
+import { parseSummary, parseAiWork, parseFiles } from './summary.js';
 import { parseDoc } from './doc.js';
 
 export const FALLBACK_LANG = 'fr';
@@ -17,7 +17,7 @@ export async function browserFetchText(path) {
 
 /**
  * createLoader({ fetchText, base }) -> {
- *   loadSummary(), loadAiWork(lang),
+ *   loadSummary(), loadAiWork(lang), loadFiles(lang),
  *   loadFile(kind, id, lang), loadMission(id, lang), loadPuzzle(id, lang), loadSandbox(id, lang), loadDoc(id, lang)
  * }
  * `base` is a relative path ("content/"); never starts with "/".
@@ -55,6 +55,10 @@ export function createLoader({ fetchText = browserFetchText, base = 'content/' }
     async loadAiWork(lang) {
       const f = await withFallback('ai-work', lang);
       return { ...f, data: parseAiWork(f.text) };
+    },
+    async loadFiles(lang) {
+      const f = await withFallback('files', lang);
+      return { ...f, data: parseFiles(f.text) };
     },
     loadFile,
     loadMission: (id, lang) => loadFile('mission', id, lang),

@@ -22,8 +22,18 @@ export function makeRemote(name, forkOf = null) {
   return { name, commits: {}, branches: {}, forkOf, mrs: [] };
 }
 
+/** Address shown for a repository created on GitHub (gh repo create), an identifier like a branch name. */
+export function remoteUrl(repo) {
+  return `https://github.com/demo/${repo}.git`;
+}
+
+/**
+ * The online repository `name` as the local repository knows it. A repository created on GitHub but not
+ * linked yet (`pending`, see commands/gh.js) is unknown locally: `git remote add` links it.
+ */
 export function getRemote(state, name, { required = true } = {}) {
-  const r = (state.remotes || {})[name] || null;
+  let r = (state.remotes || {})[name] || null;
+  if (r && r.pending) r = null;
   if (!r && required) fail('error.noRemote', { name });
   return r;
 }
@@ -72,6 +82,7 @@ export function publishBranch(state, remoteName, branch) {
 export function publishAll(state, name) {
   if (!REMOTE_NAMES.includes(name)) fail('error.unknownRemote', { name });
   if (!state.remotes[name]) state.remotes[name] = makeRemote(name);
+  delete state.remotes[name].pending;
   for (const b of Object.keys(state.branches).sort()) publishBranch(state, name, b);
   return state.remotes[name];
 }
