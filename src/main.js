@@ -85,10 +85,12 @@ async function boot() {
   i18n.onChange(async () => { await loadFileLibrary(); shell.update(); router.refresh(); }); // instant language switch
   startSceneFit();
   router.start(shell.main);
+  globalThis.comegitmixBoot?.ready(); // src/boot-guard.js: the game is on screen
 }
 
 boot().catch((e) => {
   console.error(e);
+  if (globalThis.comegitmixBoot) return globalThis.comegitmixBoot.fail(e); // explained panel, FR/EN
   const root = document.getElementById('app');
   if (root) root.textContent = String(e && e.message ? e.message : e);
 });

@@ -22,6 +22,9 @@ data/
   scenarios/*.json        OLD format (reference for the state shape) — replaced by content/
 src/
   main.js                 startup: loads i18n + content, mounts the interface, starts the router
+  boot-guard.js           classic script (not a module): replaces the blank page with an explained FR/EN
+                          panel when the game cannot start (file://, blocked file, old browser, timeout);
+                          its strings are in i18n/boot-strings.js
   router.js               hash routes (§3)
   store.js                application state, history (undo/redo), local save
   engine/                 PURE ENGINE (no DOM) — tested with node --test
@@ -107,6 +110,7 @@ The language is a global setting (FR | EN button), not a route. Hash routes need
 - A `.nojekyll` file at the root makes Pages serve the `.md` files of `content/` as they are.
 - Pages is enabled manually once the sandbox is playable. Whatever is pushed to `main` is then live.
 - `maquettes/` are published with the repository; `design-system/` is not (git-ignored).
+- If the modules cannot run (page opened from `file://`, company proxy blocking a file, old browser), `src/boot-guard.js` shows the likely causes instead of a blank page; `main.js` calls `comegitmixBoot.ready()` once the game is on screen.
 
 ## 6. Tests
 Three suites, all run locally (no CI for now):
